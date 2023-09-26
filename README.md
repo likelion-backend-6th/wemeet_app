@@ -1,4 +1,4 @@
-# wemeet_app
+# meet_app
 
 ### 작업 방법
 

@@ -1,23 +1,55 @@
 version: '3'
 
 services:
-  db:
-    image: postgres:13-alpine
-    restart: always
-    environment:
-      POSTGRES_USRE: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: wemeet
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: wemeet-web
-    restart: always
     depends_on:
       - db
+    container_name: meet-app
+    build:
+      context: meet
+      dockerfile: Dockerfile
+    image: web
     ports:
       - 8000:8000
-    environment:
-      DB_HOST: db
-      ...:
+    volumes:
+      - ./meet:/app
+      - "meet_static:/var/www/html/static"
+    command:
+      - "/start"
+    env_file:
+      - ./.env/local
+
+  db:
+    image: postgres:13-alpine
+    container_name: meet-db
+    ports:
+      - 5432:5432
+    volumes:
+      - meet_data:/var/lib/postgresql/data
+
+    env_file:
+      - ./.env/local
+
+  nginx:
+    restart: always
+    depends_on:
+      - web
+    container_name: web-nginx
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    image: web-nginx
+    ports:
+      - 8888:80
+    volumes:
+      - "meet_static:/var/www/html/static"
+    env_file:
+      - ./.env/local
+
+volumes:
+  meet_data:
+  meet_static:
+
+
+  
+      
