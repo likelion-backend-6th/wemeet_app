@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:latest
+
+  wemeet:
+    depends_on:
+      - db
+    image: wemeet:latest
+
+    container_name: wemeet-dc
+    build:
+      context: wemeet
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
