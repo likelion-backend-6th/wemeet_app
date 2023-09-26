@@ -1,2 +1,6 @@
 LOCAL_IP=localhost
-
+POSTGRES_DB=postgres
+POSTGRES_USER=postgres  
+POSTGRES_PASSWORD=postgres
+DB_HOST=db
+POSTGRES_PORT=5432
