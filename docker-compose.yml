@@ -25,7 +25,7 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - meet_data:/var/lib/postgresql/data
+      - "meet_data:/var/lib/postgresql/data"
 
     env_file:
       - ./.env/local
@@ -34,11 +34,11 @@ services:
     restart: always
     depends_on:
       - web
-    container_name: web-nginx
+    container_name: meet-nginx
     build:
       context: .
       dockerfile: Dockerfile.nginx
-    image: web-nginx
+    image: meet-nginx
     ports:
       - 8888:80
     volumes:
@@ -49,7 +49,3 @@ services:
 volumes:
   meet_data:
   meet_static:
-
-
-  
-      
