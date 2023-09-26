@@ -2,6 +2,7 @@ import uuid
 from django.conf import settings
 from django.db import models
 
+
 # Create your models here.
 class Plan(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -16,7 +17,8 @@ class Plan(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'owner: {self.owner} , title: {self.title}'
+        return f"owner: {self.owner} , title: {self.title}"
+
 
 class Group(models.Model):
     plan = models.ForeignKey(Plan, on_delete=models.CASCADE)
