@@ -16,8 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from . import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("account/", include("account.urls")),
+    path("plans/", views.PlanViewSet.as_view()),
+    path("groups/", views.GroupViewSet.as_view()),
 ]
