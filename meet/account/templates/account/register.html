@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}계정 만들기{% endblock %}
+{% block content %}
+<h1>계정 만들기</h1>
+<p>다음 폼을 사용하여 가입하세요:</p>
+<form method="post">
+    {{ user_form.as_p }}
+    {% csrf_token %}
+    <p><input type="submit" value="내 계정 만들기"></p>
+</form>
+{% endblock %}

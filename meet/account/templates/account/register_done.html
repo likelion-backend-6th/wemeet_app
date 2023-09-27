@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}환영합니다{% endblock %}
+{% block content %}
+<h1>{{ new_user.first_name }}님, 환영합니다!</h1>
+<p>계정이 성공적으로 생성되었습니다. 이제 <a href="{% url 'login' %}">로그인</a> 하실 수 있습니다.</p>
+{% endblock %}
