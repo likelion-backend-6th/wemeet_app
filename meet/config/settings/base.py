@@ -53,6 +53,7 @@ INSTALLED_APPS += [
 INSTALLED_APPS += [
     'rest_framework',
     'rest_framework_simplejwt',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -161,4 +162,4 @@ SIMPLE_JWT = {
     'UPDATE_LAST_LOGIN': True
 }
 
-LOGIN_REDIRECT_URL = 'dashboard' #auth.user로 로그인후 페이지
+LOGIN_REDIRECT_URL = 'dashboard' #auth.user로 로그인후
