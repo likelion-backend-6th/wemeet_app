@@ -8,4 +8,4 @@ class UserLocation(models.Model):
     create_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user.email}의 위치정보"
+        return f"{self.user.username}의 위치정보"
