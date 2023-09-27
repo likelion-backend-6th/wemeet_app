@@ -36,9 +36,9 @@ schema_view = get_schema_view(
 )
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("account/", include("account.urls")),
     path('plan/',include('plan.urls')),
-    path("api/", include("routers")),
+    path("auth/", include("auth.urls")),
+
 
     ## API 문서 url
     path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
