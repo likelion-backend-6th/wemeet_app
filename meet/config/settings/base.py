@@ -52,6 +52,7 @@ INSTALLED_APPS += [
 # Third party apps
 INSTALLED_APPS += [
     'rest_framework',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
