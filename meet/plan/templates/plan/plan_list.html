@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %} plan {% endblock %}
+{% block content %}
+<h1>plan</h1>
+{% for q in qs %}
+<a href="{% url 'plan_detail' q.id %}">{{q.id}}</a>
+{{q.title}}
+{{q.owner}}
+{% endfor %}
+{% endblock %}
