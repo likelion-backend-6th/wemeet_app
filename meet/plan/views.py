@@ -5,9 +5,9 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from django.template.response import TemplateResponse
-from django.views.generic import  ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 
-
+from .forms import PlanForm
 from .models import Plan, Group
 from .serializers import PlanSerializer, GroupSerializer
 
@@ -33,9 +33,13 @@ class PlanList(ListView):
     #template_name = 'plan/plan_list.html'
     context_object_name = 'plans'
 
-
 class PlanDetail(DetailView):
     model = Plan
     context_object_name = 'plan'
 
+class PlanCreate(CreateView):
+    model = Plan
+    form_class = PlanForm
+    template_name = 'plan/plan_form.html'
+    success_url = '/plan/'
 

@@ -2,7 +2,7 @@
 {% block title %} plan {% endblock %}
 {% block content %}
 <h1>plan</h1>
-
+<a href="{% url 'plan_create' %}">약속 만들기</a>
 <div class="row">
     {% for plan in plans %}
     <div class="col-md-4">

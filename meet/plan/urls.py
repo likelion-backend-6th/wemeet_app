@@ -11,5 +11,7 @@ from . import views
 urlpatterns = [
   # path('<uuid:pk>/',views.PlanViewSet.as_view({'get':'retrieve'}), name='plan_detail'),
     path('', views.PlanList.as_view(), name='plan'),
+    path('create/', views.PlanCreate.as_view(),name='plan_create'),
     path('<uuid:pk>/', views.PlanDetail.as_view(), name='plan_detail'),
+
 ]
