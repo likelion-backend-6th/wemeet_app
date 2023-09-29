@@ -40,6 +40,15 @@ class PlanDetail(DetailView):
     model = Plan
     context_object_name = 'plan'
 
+    def get_context_data(self, **kwargs):
+        context =super().get_context_data(**kwargs)
+        #해당 아이템의 id값
+        plan_id = self.kwargs['pk']
+        #해당 Plan에 참여한 유저 리스트
+        context['group'] = Group.objects.filter(plan=plan_id)
+        return context
+
+
 class PlanCreate(LoginRequiredMixin,CreateView):
     model = Plan
     form_class = PlanForm

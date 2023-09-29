@@ -3,5 +3,9 @@
 {% block content %}
 <h1>plan 상세</h1>
 {{plan.title}}
-
+<p>초대코드:http://localhost:8000/plan/{{plan.id}}</p>
+<p>방장: {{ plan.owner }}</p>
+<p>참여자: {% for g in group %}
+    {{g.user}}
+{% endfor %}</p>
 {% endblock %}
