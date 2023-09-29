@@ -1,5 +1,8 @@
+import json
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+import requests
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from drf_yasg import openapi
@@ -49,16 +52,55 @@ class PlanDetail(DetailView):
         context['is_member'] = Group.objects.filter(plan=plan_id, user=self.request.user).exists()
         return context
 
+@login_required()
+def plan_create(request):
+    if request.method == 'POST':
+        form = PlanForm(request.POST)
+        if form.is_valid():
+            plan = form.save(commit=False)
+            plan.owner = request.user
 
-class PlanCreate(LoginRequiredMixin,CreateView):
-    model = Plan
-    form_class = PlanForm
-    template_name = 'plan/plan_form.html'
-    def form_valid(self, form):
-        form.instance.owner = self.request.user
-        return super().form_valid(form)
-    def get_success_url(self):
-        return reverse('plan')
+            ## kakao map -> 주소지에서 위도 경도 추출해서 저장하기 ##
+            url = 'https://dapi.kakao.com/v2/local/search/address.json?query={address}'.format(address=plan.address)
+            headers = {"Authorization": "KakaoAK " + '33e22754a9930e9cb1e0ab6f691bd8d0'}
+            response = json.loads(str(requests.get(url, headers=headers).text))
+            geodata = response.json() if isinstance(response, requests.models.Response) else response
+            #print(geodata)
+            if geodata:
+                plan.latitude = geodata['documents'][0]['y']
+                plan.longitude = geodata['documents'][0]['x']
+
+            plan.save()
+            return redirect('plan')
+
+    else:
+        form=PlanForm()
+        return render(request, 'plan/plan_form.html',{'form':form})
+
+
+
+    # model = Plan
+    # form_class = PlanForm
+    # template_name = 'plan/plan_form.html'
+    # def form_valid(self, form):
+    #     form.instance.owner = self.request.user
+    #
+    #     # Use the Kakao Maps Geocoding API to convert the address to latitude and longitude.
+    #     response = requests.get('https://dapi.kakao.com/v2/local/search/address.json',
+    #                             params={'query': form.instance.address}, headers={'Authorization': '717b45c4557cde712f061696cae0de82'})
+    #     geodata = response.json()
+    #
+    #     if geodata['documents']:
+    #         form.instance.latitude = float(geodata['documents'][0]['y'])
+    #         form.instance.longitude = float(geodata['documents'][0]['x'])
+    #     else:
+    #         # Set default values or handle the error appropriately.
+    #         form.instance.latitude = None
+    #         form.instance.longitude = None
+    #
+    #     return super().form_valid(form)
+    # def get_success_url(self):
+    #     return reverse('plan')
 
 class  PlanUpdate(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
     model = Plan

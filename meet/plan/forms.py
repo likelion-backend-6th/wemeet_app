@@ -4,5 +4,5 @@ from .models import Plan
 class PlanForm(forms.ModelForm):
     class Meta:
         model = Plan
-        fields = ['title','time','latitude','longitude','memo']
+        fields = ['title','time','address','memo']
 
