@@ -11,8 +11,11 @@
         <div class="card-body">
           <h5 class="card-title"><a href="{% url 'plan_detail' plan.id %}">{{ plan.title }}</a></h5>
           <p class="card-text">{{ plan.memo }}</p>
+
+            {% if plan.owner == request.user %}
             <a href="{% url 'plan_edit' plan.id  %}">수정</a>
             <a href="{% url 'plan_delete' plan.id %}">삭제</a>
+            {% endif %}
           <!-- 기타 필요한 내용 -->
         </div>
       </div>

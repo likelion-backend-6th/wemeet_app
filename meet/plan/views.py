@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from drf_yasg import openapi
@@ -38,7 +40,7 @@ class PlanDetail(DetailView):
     model = Plan
     context_object_name = 'plan'
 
-class PlanCreate(CreateView):
+class PlanCreate(LoginRequiredMixin,CreateView):
     model = Plan
     form_class = PlanForm
     template_name = 'plan/plan_form.html'
@@ -47,15 +49,28 @@ class PlanCreate(CreateView):
         return super().form_valid(form)
     def get_success_url(self):
         return reverse('plan')
-class  PlanUpdate(UpdateView):
+
+class  PlanUpdate(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
     model = Plan
     form_class = PlanForm
     template_name = 'plan/plan_form.html'
+
+    # 작성자만 수정 가능하도록
+    def test_func(self):
+        plan = self.get_object()
+        if self.request.user == plan.owner:
+            return True
+        return False
+
     def get_success_url(self):
         return reverse('plan')
 
+@login_required
 def plan_delete(request,pk):
     plan = get_object_or_404(Plan, pk=pk)
-    plan.delete()
+    if plan.owner == request.user:
+        plan.delete()
+    else:
+        return reverse('plan')
 
     return redirect('plan')

@@ -9,6 +9,27 @@
     <title>{% block title %} {% endblock %}</title>
 </head>
 <body>
+<nav class="navbar bg-light">
+    <div class="container">
+        <a class='navbar-brand' href="{% url 'plan' %}">
+            <img src="https://cdn-icons-png.flaticon.com/512/5773/5773749.png" alt="" width="30" height="30">
+            wemeet
+        </a>
+    </div>
+    <div>
+
+        {% if request.user.is_authenticated %}
+
+        {{request.user|title}}님,
+        <a href="#">마이페이지</a> |
+    <a href="#">로그아웃</a>
+    {% else %}
+
+    <a href="#"> 로그인 </a>
+    {% endif %}
+    </div>
+
+</nav>
 <div class="container">
 
 {% block content %}
