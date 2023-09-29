@@ -78,30 +78,6 @@ def plan_create(request):
         return render(request, 'plan/plan_form.html',{'form':form})
 
 
-
-    # model = Plan
-    # form_class = PlanForm
-    # template_name = 'plan/plan_form.html'
-    # def form_valid(self, form):
-    #     form.instance.owner = self.request.user
-    #
-    #     # Use the Kakao Maps Geocoding API to convert the address to latitude and longitude.
-    #     response = requests.get('https://dapi.kakao.com/v2/local/search/address.json',
-    #                             params={'query': form.instance.address}, headers={'Authorization': '717b45c4557cde712f061696cae0de82'})
-    #     geodata = response.json()
-    #
-    #     if geodata['documents']:
-    #         form.instance.latitude = float(geodata['documents'][0]['y'])
-    #         form.instance.longitude = float(geodata['documents'][0]['x'])
-    #     else:
-    #         # Set default values or handle the error appropriately.
-    #         form.instance.latitude = None
-    #         form.instance.longitude = None
-    #
-    #     return super().form_valid(form)
-    # def get_success_url(self):
-    #     return reverse('plan')
-
 class  PlanUpdate(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
     model = Plan
     form_class = PlanForm
@@ -146,7 +122,6 @@ def group_delete(request, pk):
         # Create a new group and add the current user to it.
         group = get_object_or_404(Group, plan=plan, user=request.user)
         group.delete()
-
 
     # Redirect to a success page (or wherever you want).
     return redirect('plan')
