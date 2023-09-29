@@ -44,8 +44,9 @@ class PlanDetail(DetailView):
         context =super().get_context_data(**kwargs)
         #해당 아이템의 id값
         plan_id = self.kwargs['pk']
-        #해당 Plan에 참여한 유저 리스트
+        #해당 Plan에 참여한 유저 리스
         context['group'] = Group.objects.filter(plan=plan_id)
+        context['is_member'] = Group.objects.filter(plan=plan_id, user=self.request.user).exists()
         return context
 
 
@@ -82,4 +83,28 @@ def plan_delete(request,pk):
     else:
         return reverse('plan')
 
+    return redirect('plan')
+
+@login_required()
+def group_create(request, pk):
+    plan = get_object_or_404(Plan, pk=pk)
+    # Check if the user is already a member of the group.
+    if not Group.objects.filter(plan=plan,user=request.user).exists():
+        # Create a new group and add the current user to it.
+        Group.objects.create(plan=plan,user=request.user)
+
+    # Redirect to a success page (or wherever you want).
+    return redirect('plan')
+
+@login_required()
+def group_delete(request, pk):
+    plan = get_object_or_404(Plan, pk=pk)
+    # Check if the user is already a member of the group.
+    if Group.objects.filter(plan=plan,user=request.user).exists():
+        # Create a new group and add the current user to it.
+        group = get_object_or_404(Group, plan=plan, user=request.user)
+        group.delete()
+
+
+    # Redirect to a success page (or wherever you want).
     return redirect('plan')

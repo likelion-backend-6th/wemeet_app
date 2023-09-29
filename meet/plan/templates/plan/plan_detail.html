@@ -8,4 +8,13 @@
 <p>참여자: {% for g in group %}
     {{g.user}}
 {% endfor %}</p>
+{% if plan.owner == request.user %}
+<a href="{% url 'plan_delete' plan.id %}">방장: 약속 삭제</a>
+<a href="{% url 'plan_edit' plan.id %}">방장: 약속 수정</a>
+{% elif is_member %}
+<p>참여중</p>
+<a href="{% url 'group_delete' plan.id %}">나가기</a>
+{% else %}
+<a href="{% url 'group_create' plan.id %}">참여하기</a>
+{% endif %}
 {% endblock %}
