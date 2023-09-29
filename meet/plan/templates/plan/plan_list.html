@@ -2,9 +2,19 @@
 {% block title %} plan {% endblock %}
 {% block content %}
 <h1>plan</h1>
-{% for q in qs %}
-<a href="{% url 'plan_detail' q.id %}">{{q.id}}</a>
-{{q.title}}
-{{q.owner}}
-{% endfor %}
+
+<div class="row">
+    {% for plan in plans %}
+    <div class="col-md-4">
+      <div class="card mb-4">
+<!--        <img src="{{ plan.image.url }}" class="card-img-top" alt="{{ plan.title }}">-->
+        <div class="card-body">
+          <h5 class="card-title"><a href="{% url 'plan_detail' plan.id %}">{{ plan.title }}</a></h5>
+          <p class="card-text">{{ plan.memo }}</p>
+          <!-- 기타 필요한 내용 -->
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
 {% endblock %}
