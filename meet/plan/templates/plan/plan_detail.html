@@ -3,6 +3,8 @@
 {% block content %}
 <h1>plan 상세</h1>
 {{plan.title}}
+<p>장소: {{plan.address}}</p>
+
 <p>초대코드:http://localhost:8000/plan/{{plan.id}}</p>
 <p>방장: {{ plan.owner }}</p>
 <p>참여자: {% for g in group %}
@@ -17,4 +19,12 @@
 {% else %}
 <a href="{% url 'group_create' plan.id %}">참여하기</a>
 {% endif %}
+
+<!-- kakao map -->
+{% if plan.latitude %}
+<div>
+    {% include 'plan/kakaomap.html' %}
+</div>
+{% endif %}
+
 {% endblock %}
