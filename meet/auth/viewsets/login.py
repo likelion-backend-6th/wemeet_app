@@ -11,7 +11,7 @@ from auth.serializers import LoginSerializer
 class LoginViewSet(ViewSet):
     serializer_class = LoginSerializer
     permission_classes = (AllowAny,)
-    http_method_names = ['post']
+    http_method_names = ["post"]
 
     def create(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)

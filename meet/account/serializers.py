@@ -8,7 +8,12 @@ class UserSerializer(serializers.ModelSerializer):
         if User.objects.filter(email=value).exists():
             raise serializers.ValidationError("이미 등록된 이메일입니다.")
         return value
+
     class Meta:
         model = User
-        fields = ['id', 'username', 'email',]
-        read_only_field = ['is_active']
+        fields = [
+            "id",
+            "username",
+            "email",
+        ]
+        read_only_field = ["is_active"]
