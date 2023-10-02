@@ -14,7 +14,8 @@ services:
     command:
       - "/start"
     env_file:
-      - ./.envs/local
+      - ./.envs/local/django
+      - ./.envs/local/db
 
   nginx:
     restart: always
@@ -30,7 +31,8 @@ services:
     volumes:
       - "meet_static:/var/www/html/static"
     env_file:
-      - ./.envs/local
+      - ./.envs/local/django
+      - ./.envs/local/db
 
   db:
     image: postgres:13-alpine
@@ -41,7 +43,7 @@ services:
       - "meet_data:/var/lib/postgresql/data"
 
     env_file:
-      - ./.envs/local
+      - ./.envs/local/db
 
 volumes:
   meet_data:
