@@ -14,10 +14,10 @@
 .git/
 .sass-cache
 .vagrant/
-__pycache__
+**/__pycache__
 dist
 docs
-envs
+envs/
 logs
 src/{{ project_name }}/settings/local.py
 src/node_modules
