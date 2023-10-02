@@ -9,26 +9,12 @@ services:
       context: meet
       dockerfile: Dockerfile
     image: web
-    ports:
-      - 8000:8000
     volumes:
-      - ./meet:/app
       - "meet_static:/var/www/html/static"
     command:
       - "/start"
     env_file:
-      - ./.env/local
-
-  db:
-    image: postgres:13-alpine
-    container_name: meet-db
-    ports:
-      - 5432:5432
-    volumes:
-      - "meet_data:/var/lib/postgresql/data"
-
-    env_file:
-      - ./.env/local
+      - ./.envs/local
 
   nginx:
     restart: always
@@ -38,13 +24,24 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.nginx
-    image: meet-nginx
+    image: lion-nginx
     ports:
-      - 8888:80
+      - "8888:80"
     volumes:
       - "meet_static:/var/www/html/static"
     env_file:
-      - ./.env/local
+      - ./.envs/local
+
+  db:
+    image: postgres:13-alpine
+    container_name: meet-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - "meet_data:/var/lib/postgresql/data"
+
+    env_file:
+      - ./.envs/local
 
 volumes:
   meet_data:
