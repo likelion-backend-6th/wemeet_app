@@ -6,6 +6,7 @@ ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
 
 RUN mkdir ${APP_HOME}
+WORKDIR ${APP_HOME}
 
 COPY ./requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
@@ -19,8 +20,6 @@ RUN chmod +x /start
 COPY ./scripts/entrypoint /entrypoint
 RUN sed -i 's/\r$//g' /entrypoint
 RUN chmod +x /entrypoint
-
-WORKDIR ${APP_HOME}
 
 ENTRYPOINT [ "/entrypoint" ]
 CMD [ "/start" ]

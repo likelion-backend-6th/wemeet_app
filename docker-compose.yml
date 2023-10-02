@@ -9,27 +9,13 @@ services:
       context: meet
       dockerfile: Dockerfile
     image: web
+    ports:
+      - "8000:8000"
     volumes:
+      - ./meet:/app
       - "meet_static:/var/www/html/static"
     command:
       - "/start"
-    env_file:
-      - ./.envs/local/django
-      - ./.envs/local/db
-
-  nginx:
-    restart: always
-    depends_on:
-      - web
-    container_name: meet-nginx
-    build:
-      context: .
-      dockerfile: Dockerfile.nginx
-    image: lion-nginx
-    ports:
-      - "8888:80"
-    volumes:
-      - "meet_static:/var/www/html/static"
     env_file:
       - ./.envs/local/django
       - ./.envs/local/db
@@ -41,7 +27,6 @@ services:
       - "5432:5432"
     volumes:
       - "meet_data:/var/lib/postgresql/data"
-
     env_file:
       - ./.envs/local/db
 

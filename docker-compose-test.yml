@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  web:
+    container_name: meet-test
+    build:
+      context: meet
+      dockerfile: Dockerfile
+    command: /start
+    env_file:
+      - ./.envs/local/db
+      - ./.envs/local/django
+
+  db:
+    image: postgres:13-alpine
+    container_name: db-test
+    ports:
+      - "54321:5432"
+    env_file:
+      - ./.envs/local/db
