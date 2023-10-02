@@ -1,0 +1,2 @@
+# django
+DJANGO_SETTINGS_MODULE=config.settings.local
