@@ -163,4 +163,7 @@ SIMPLE_JWT = {
     'UPDATE_LAST_LOGIN': True
 }
 
-LOGIN_REDIRECT_URL = 'dashboard' #auth.user로 로그인후
+LOGIN_REDIRECT_URL = 'account:dashboard'
+LOGIN_URL = 'account:login'
+LOGOUT_URL = 'account:logout'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
