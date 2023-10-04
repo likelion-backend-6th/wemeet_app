@@ -13,9 +13,10 @@ urlpatterns = [
     path('', views.PlanList.as_view(), name='plan'),
     path('create/', views.plan_create  ,name='plan_create'),
     path('<uuid:pk>/', views.PlanDetail.as_view(), name='plan_detail'),
-    path('<uuid:pk>/edit',  views.PlanUpdate.as_view(),name='plan_edit'),
+    path('<uuid:pk>/edit',  views.plan_edit, name='plan_edit'),
     path('<uuid:pk>/delete', views.plan_delete, name='plan_delete' ),
     path('<uuid:pk>/group', views.group_create, name='group_create'),
     path('<uuid:pk>/group/delete', views.group_delete, name='group_delete'),
+    path('<uuid:pk>/map', views.plan_map, name='plan_map'),
 
 ]
