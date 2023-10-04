@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load bootstrap4 %}
 {% block title %} plan {% endblock %}
 {% block content %}
 <h1>plan</h1>
@@ -21,5 +22,9 @@
       </div>
     </div>
     {% endfor %}
+
+    {% if is_paginated %}
+        {% bootstrap_pagination page_obj justify_content="center" %}
+    {% endif %}
   </div>
 {% endblock %}

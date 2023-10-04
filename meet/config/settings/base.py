@@ -45,12 +45,16 @@ INSTALLED_APPS = [
 
 # Application definition
 INSTALLED_APPS += [
-    "plan",
-    "account",
+    "plan.apps.PlanConfig",
+    "account.apps.AccountConfig",
 ]
 
 # Third party apps
-INSTALLED_APPS += []
+INSTALLED_APPS += [
+    "rest_framework",
+    "rest_framework_simplejwt",
+    "drf_yasg",
+]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

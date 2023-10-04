@@ -49,6 +49,7 @@ class PlanList(ListView):
     model = Plan
     # template_name = 'plan/plan_list.html'
     context_object_name = "plans"
+    paginate_by = "6"
 
 
 class PlanDetail(DetailView):

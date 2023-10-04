@@ -2,10 +2,13 @@ import os
 
 from .base import *
 
-# SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
-
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    "localhost",
     "*",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:8888",
 ]

@@ -1,4 +1,5 @@
-LOCAL_IP=localhost
+## db
+LOCAL_IP=""
 POSTGRES_DB=postgres
 POSTGRES_USER=postgres  
 POSTGRES_PASSWORD=postgres
