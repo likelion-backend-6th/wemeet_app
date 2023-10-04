@@ -23,7 +23,7 @@ from django.views.generic import (
 from .forms import PlanForm
 from .models import Plan, Group
 from .serializers import PlanSerializer, GroupSerializer
-from account.models import UserLocation
+from accountapp.models import UserLocation
 
 
 class PlanViewSet(ModelViewSet):

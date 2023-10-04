@@ -46,7 +46,7 @@ INSTALLED_APPS = [
 # Application definition
 INSTALLED_APPS += [
     "plan.apps.PlanConfig",
-    "account.apps.AccountConfig",
+    "accountapp.apps.AccountappConfig",
 ]
 
 # Third party apps
