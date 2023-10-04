@@ -21,7 +21,7 @@
         {% if request.user.is_authenticated %}
 
         {{request.user|title}}님,
-        <a href="#">마이페이지</a> |
+        <a href="{% url 'account:dashboard' %}">마이페이지</a> |
     <a href="{% url 'account:logout' %}">로그아웃</a>
     {% else %}
 
