@@ -1,0 +1,18 @@
+apiVersion: ncloud.com/v1
+kind: LbTargetGroup
+metadata:
+  name: {{ .Values.ncloud_cluster_name }}-target-group
+spec:
+  vpcNo: {{ .Values.vpc_id }}
+  protocol: "PROXY_TCP"
+  targetType: "VSVR"
+  port: 8000
+  healthCheck:
+    protocol: "TCP"
+    httpMethod: "GET"
+    port: 8000
+    urlPath: "/admin"
+    cycle: 30
+    upThreshold: 2
+    downThreshold: 2
+  algorithmType: "RR"

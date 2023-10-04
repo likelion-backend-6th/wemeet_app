@@ -1,0 +1,7 @@
+apiVersion: ncloud.com/v1
+kind: AccessControlGroup
+metadata:
+  name: {{ .Values.name }}-acg-{{ .Values.env }}
+spec:
+  name: {{ .Values.name }}-acg-{{ .Values.env }}
+  vpcNo: {{ .Values.vpc_id }}

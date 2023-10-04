@@ -1,0 +1,22 @@
+server:
+  name: my-server
+  env: dev
+  vpc_id: ""
+  subnet_id: ""
+  server_image_code: ""
+  product_code: ""
+  init_script_path: init.sh
+  init_script_vars:
+    - name: MY_ENV
+      value: {{ .Values.server.env }}
+  port_range: 80-80
+  ncloud_cluster_name: ncp-k8s-cluster
+  kube_network_plugin: cilium
+
+load_balancer:
+  name: my-lb
+  env: dev
+  vpc_id: ""
+  instance_no: ""
+  ncloud_cluster_name: ncp-k8s-cluster
+  kube_network_plugin: cilium
