@@ -122,7 +122,7 @@ def plan_delete(request, pk):
     if plan.owner == request.user:
         plan.delete()
     else:
-        return reverse("plan")
+        return redirect("plan")
 
     return redirect("plan")
 

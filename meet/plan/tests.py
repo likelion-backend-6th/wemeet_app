@@ -29,14 +29,24 @@ class PlanViewTestCase(TestCase):
     def test_update_plan(self):
         self.client.force_login(self.user)
         response = self.client.post(
-            reverse("plan_detail", args=[self.plan.id]),
-            {"title": "new title"},
-            format="json",
+            reverse("plan_edit", args=[self.plan.id]),
+            {
+                "title": "new title",
+            },
         )
-        self.assertEqual(Plan.objects.get(id=self.plan.id).title, "new title")
+        print(response.status_code)
+        self.plan.refresh_from_db()
+        expected_url = reverse('plan_edit')
 
-    # plan 삭제 후 개수 0
+        self.assertEqual(self.plan.title, "new title")
+
     def test_delete_plan(self):
+        # 권한 없는 유저가 삭제 시 실패
         self.client.force_login(self.user2)
         response = self.client.post(reverse("plan_delete", args=[self.plan.id]))
         self.assertEqual(Plan.objects.filter(owner=self.user).count(), 1)
+
+        # 자신 plan 삭제
+        self.client.force_login(self.user)
+        response = self.client.post(reverse("plan_delete", args=[self.plan.id]))
+        self.assertEqual(Plan.objects.filter(owner=self.user).count(), 0)
