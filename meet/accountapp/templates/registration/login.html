@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load socialaccount %}
 {% block title %}login{% endblock %}
 
 {% block content %}
@@ -8,15 +8,18 @@
   {% if form.errors %}
     <p>아이디와 비밀번호가 일치하지 않습니다. 다시 시도해주세요</p>
   {% else %}
-    <p>다음 폼을 사용하여 로그인하세요. 계정이 없다면 <a href="{% url 'account:register' %}">회원가입</a> 해주세요</p>
+    <p>다음 폼을 사용하여 로그인하세요. 계정이 없다면 <a href="{% url 'accountapp:register' %}">회원가입</a> 해주세요</p>
   {% endif %}
 
   <div class="login-form">
-    <form action="{% url 'account:login' %}" method="post">
+    <form action="{% url 'accountapp:login' %}" method="post">
       {{ form.as_p }}
       {% csrf_token %}
       <input type="hidden" name="next" value="{{ next }}" />
       <p><input type="submit" value="Log-in" /></p>
+<button type="button" onclick="location.href = '{% provider_login_url kakao %}'">
+    <img class = "kakao" src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" alt="" >
+</button>
     </form>
 
   </div>

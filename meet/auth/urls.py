@@ -1,6 +1,6 @@
 from rest_framework_nested import routers
 from .viewsets import RefreshViewSet, LoginViewSet, RegisterViewSet
-from account.viewsets import UserViewSet
+from accountapp.viewsets import UserViewSet
 
 router = routers.SimpleRouter()
 router.register(r"user", UserViewSet, basename="user")
