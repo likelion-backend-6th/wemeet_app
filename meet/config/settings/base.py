@@ -165,5 +165,5 @@ SIMPLE_JWT = {
 
 LOGIN_REDIRECT_URL = 'account:dashboard'
 LOGIN_URL = 'account:login'
-LOGOUT_URL = 'account:logout'
+LOGOUT_URL = 'account:logged_out'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

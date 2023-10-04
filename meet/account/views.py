@@ -15,7 +15,9 @@ def register(request):
     else:
         user_form = UserRegistrationForm()
     return render(request, "account/register.html", {"user_form": user_form})
-
+def logged_out(request):
+    logout(request)
+    return redirect('account:dashboard')
 
 def dashboard(request):
     return render(request, "account/dashboard.html", {"section": "dashboard"})
