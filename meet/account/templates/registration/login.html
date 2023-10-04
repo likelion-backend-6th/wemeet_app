@@ -8,11 +8,11 @@
   {% if form.errors %}
     <p>아이디와 비밀번호가 일치하지 않습니다. 다시 시도해주세요</p>
   {% else %}
-    <p>다음 폼을 사용하여 로그인하세요. 계정이 없다면 <a href="{% url 'register' %}">여기에서 등록하세요</a>.</p>
+    <p>다음 폼을 사용하여 로그인하세요. 계정이 없다면 <a href="{% url 'account:register' %}">회원가입</a> 해주세요</p>
   {% endif %}
 
   <div class="login-form">
-    <form action="{% url 'login' %}" method="post">
+    <form action="{% url 'account:login' %}" method="post">
       {{ form.as_p }}
       {% csrf_token %}
       <input type="hidden" name="next" value="{{ next }}" />
