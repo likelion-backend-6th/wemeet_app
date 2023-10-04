@@ -73,7 +73,7 @@ jobs:
                 tags: ${{ env.IMAGE_TAG }},"${{ env.IMAGE }}:${{ steps.version.outputs.VERSION }}"
                 push: true
 
-            - name: post test
-              if: ${{ always() }}
-              run: |
-                docker-compose -f docker-compose.test.yml down
+            # - name: post test
+            #   if: ${{ always() }}
+            #   run: |
+            #     docker-compose -f docker-compose.test.yml down
