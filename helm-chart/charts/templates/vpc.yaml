@@ -1,0 +1,6 @@
+apiVersion: ncloud.com/v1
+kind: Vpc
+metadata:
+  name: my-vpc
+spec:
+  ipv4CidrBlock: {{ .Values.vpc_cidr_block }}

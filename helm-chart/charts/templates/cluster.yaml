@@ -1,0 +1,14 @@
+apiVersion: ncloud.com/v1
+kind: NksCluster
+metadata:
+  name: {{ .Values.ncloud_cluster_name }}
+spec:
+  clusterType: SVR.VNKS.STAND.C002.M008.NET.SSD.B050.G002
+  kubernetesVersion: 1.25.8
+  loginKeyName: k8s-login-key
+  privateSubnetNo: {{ ncloud_subnet_lb.id }}
+  kubeNetworkPlugin: {{ .Values.kube_network_plugin }}
+  subnetNoList: [{{ ncloud_subnet.id }}]
+  publicNetwork: true
+  vpcNo: {{ ncloud_vpc.id }}
+  zone: KR-1

@@ -1,0 +1,11 @@
+apiVersion: ncloud.com/v1
+kind: Lb
+metadata:
+  name: {{ .Values.ncloud_cluster_name }}-lb
+spec:
+  name: {{ .Values.ncloud_cluster_name }}-lb
+  networkType: "PUBLIC"
+  type: "NETWORK_PROXY"
+  subnetNoList: [
+    ncloud_subnet.main.id,
+  ]

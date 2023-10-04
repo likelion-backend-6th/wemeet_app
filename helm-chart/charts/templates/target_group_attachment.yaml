@@ -1,0 +1,9 @@
+apiVersion: ncloud.com/v1
+kind: LbTargetGroupAttachment
+metadata:
+  name: {{ .Values.name }}-target-group-attachment-{{ .Values.env }}
+spec:
+  targetGroupNo: ncloud_lb_target_group.main.id
+  targetNoList: [
+    {{ .Values.instance_no }}
+  ]
