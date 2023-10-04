@@ -51,10 +51,10 @@ INSTALLED_APPS += [
 
 # Third party apps
 INSTALLED_APPS += [
-    'rest_framework',
-    'rest_framework_simplejwt',
-    'drf_yasg',
-    'bootstrap4',
+    "rest_framework",
+    "rest_framework_simplejwt",
+    "drf_yasg",
+    "bootstrap4",
 ]
 
 MIDDLEWARE = [
@@ -72,7 +72,7 @@ ROOT_URLCONF = "config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR/'templates'],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -152,18 +152,20 @@ AUTH_USER_MODEL = "auth.USER"
 
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework_simplejwt.authentication.JWTAuthentication',),
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 15,
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 15,
 }
 
 SIMPLE_JWT = {
     # 'ACCESS_TOKEN_LIFETIME': timedelta(hours=8),
-    'UPDATE_LAST_LOGIN': True
+    "UPDATE_LAST_LOGIN": True
 }
 
-LOGIN_REDIRECT_URL = 'account:dashboard'
-LOGIN_URL = 'account:login'
-LOGOUT_URL = 'account:logout'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+LOGIN_REDIRECT_URL = "account:dashboard"
+LOGIN_URL = "account:login"
+LOGOUT_URL = "account:logout"
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
