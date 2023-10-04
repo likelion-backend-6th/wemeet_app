@@ -51,15 +51,15 @@ INSTALLED_APPS += [
 
 # Third party apps
 INSTALLED_APPS += [
-    'rest_framework',
-    'rest_framework_simplejwt',
-    'drf_yasg',
-    'bootstrap4',
-    'social_django',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.kakao',
+    "rest_framework",
+    "rest_framework_simplejwt",
+    "drf_yasg",
+    "bootstrap4",
+    "social_django",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.kakao",
 ]
 
 MIDDLEWARE = [
@@ -70,7 +70,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    'allauth.account.middleware.AccountMiddleware',
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -173,14 +173,14 @@ SIMPLE_JWT = {
 
 SITE_ID = 1
 SOCIALACCOUNT_LOGIN_ON_GET = True
-ACCOUNT_LOGOUT_REDIRECT_URL = 'accountapp:dashboard'
+ACCOUNT_LOGOUT_REDIRECT_URL = "accountapp:dashboard"
 ACCOUNT_LOGOUT_ON_GET = True
-LOGIN_REDIRECT_URL = 'accountapp:dashboard'
-LOGIN_URL = 'accountapp:login'
-LOGOUT_URL = 'accountapp:logged_out'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+LOGIN_REDIRECT_URL = "accountapp:dashboard"
+LOGIN_URL = "accountapp:login"
+LOGOUT_URL = "accountapp:logged_out"
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'social_core.backends.kakao.KakaoOAuth2',
+    "django.contrib.auth.backends.ModelBackend",
+    "social_core.backends.kakao.KakaoOAuth2",
 )

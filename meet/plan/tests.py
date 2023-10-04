@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 from .models import Plan
 
+
 class PlanViewTestCase(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username="main", password="testpassword")

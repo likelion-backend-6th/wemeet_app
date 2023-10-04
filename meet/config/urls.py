@@ -37,7 +37,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("account/", include("accountapp.urls")),
-    path('accounts/', include('allauth.urls')),
+    path("accounts/", include("allauth.urls")),
     path("plan/", include("plan.urls")),
     path("auth/", include("auth.urls")),
     ## API 문서 url
