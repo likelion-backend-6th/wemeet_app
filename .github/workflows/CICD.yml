@@ -61,7 +61,7 @@ jobs:
               if: startsWith(github.ref, 'refs/heads')
               uses: docker/build-push-action@v4
               with:
-                context: lion_app
+                context: meet
                 tags: ${{ env.IMAGE_TAG }},"${{ env.IMAGE }}:${{ steps.timestamp.outputs.timestamp }}"
                 push: true
 
@@ -69,7 +69,7 @@ jobs:
               if: startsWith(github.ref, 'refs/tags')
               uses: docker/build-push-action@v4
               with:
-                context: lion_app
+                context: meet
                 tags: ${{ env.IMAGE_TAG }},"${{ env.IMAGE }}:${{ steps.version.outputs.VERSION }}"
                 push: true
 
