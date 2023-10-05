@@ -5,6 +5,7 @@ provider "registry.terraform.io/loafoe/ssh" {
   version     = "2.6.0"
   constraints = "2.6.0"
   hashes = [
+    "h1:4lHZGkQUeXzUsiiR48ot+S9vx6G+tj3t1tNiuYiQaOk=",
     "h1:t88ktB3g9wVugCTkyg17AMJ38i+nz7FwotwiDbon/GU=",
     "zh:1285448b69bd388a4a59ed170f9c07c641207a7291057860557937807d02da95",
     "zh:2472c5dee4265cb555a627aa4ecc5702d32cd7aebe85722820df7499b7d4502a",
@@ -24,6 +25,7 @@ provider "registry.terraform.io/navercloudplatform/ncloud" {
   version = "2.3.18"
   hashes = [
     "h1:6/1S9iGc1fBAVaDm/rExhZEUwA5GlKb0sFENW2UF0rs=",
+    "h1:6PFf1nPe9syvwTMup3CAOLiKjRo0bcTtbdzHC8oy/tA=",
     "zh:0f6d1510358efbac445102f17bfb2e78d1e5fdcb99cba62d7c3787e793122331",
     "zh:1c3b57b1500c5855fe1aec27f56caf3b830a96a99c6ab9c6f60841efa101c29d",
     "zh:37eece6471a9a892b2fa13ff23a99ad00b5fca433298fd992dcb4f34ff256d72",
