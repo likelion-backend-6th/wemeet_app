@@ -10,6 +10,7 @@ services:
     env_file:
       - ./.envs/local/db
       - ./.envs/local/django
+      - ./.envs/local/server
 
   db:
     image: postgres:13-alpine
