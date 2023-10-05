@@ -1,2 +1,2 @@
 # django
-DJANGO_SETTINGS_MODULE=meet.settings.staging
+DJANGO_SETTINGS_MODULE = meet.settings.staging
