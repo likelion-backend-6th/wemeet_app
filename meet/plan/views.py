@@ -57,9 +57,14 @@ class PlanList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        for plan in context["plans"]:
-            plan.time_diff = timezone.now().date() - plan.time.date()
-            plan.now = timezone.now()
+        now_date = timezone.now().date()
+
+        context['future_plans'] = list(Plan.objects.filter(time__date__gte=now_date).order_by('time'))
+        context['past_plans'] = list(Plan.objects.filter(time__date__lt=now_date).order_by('-time'))
+
+        # 다가올 약속 d-day
+        for plan in context['future_plans']:
+            plan.time_diff = (now_date - plan.time.date())
 
         return context
 
