@@ -28,6 +28,7 @@ def logged_out(request):
 def dashboard(request):
     return render(request, "accountapp/dashboard.html", {"section": "dashboard"})
 
+
 def update_location(request):
     if request.method == "POST":
         latitude = request.POST.get("latitude")

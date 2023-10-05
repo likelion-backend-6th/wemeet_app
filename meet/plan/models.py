@@ -19,8 +19,10 @@ class Plan(models.Model):
 
     def __str__(self):
         return f"owner: {self.owner} , title: {self.title}"
+
     class Meta:
-        ordering = ['time']
+        ordering = ["time"]
+
 
 class Group(models.Model):
     plan = models.ForeignKey(Plan, on_delete=models.CASCADE)
