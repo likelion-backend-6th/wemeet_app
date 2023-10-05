@@ -1,7 +1,8 @@
 from django.urls import reverse
 from django.test import TestCase
-from .models import Plan, Group
 from django.contrib.auth.models import User
+
+from .models import Plan
 
 
 class PlanViewTestCase(TestCase):

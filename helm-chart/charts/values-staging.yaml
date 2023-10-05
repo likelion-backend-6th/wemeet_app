@@ -1,0 +1,22 @@
+replicas: 3
+
+image:
+  name: lion-cr01.kr.ncr.ntruss.com/we-meet
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+imagePullSecrets:
+  - name: regcred
+db:
+  name: postgres
+  tag: 13-alpine
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  lb:
+    type: LoadBalancer
+    port: 80
+  db:
+    type: NodePort
+    port: 5432

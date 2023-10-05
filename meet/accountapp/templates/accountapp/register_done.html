@@ -2,5 +2,5 @@
 {% block title %}환영합니다{% endblock %}
 {% block content %}
 <h1>{{ new_user.username }}님, 환영합니다!</h1>
-<p>계정이 성공적으로 생성되었습니다. 이제 <a href="{% url 'account:login' %}">로그인</a> 하실 수 있습니다.</p>
+<p>계정이 성공적으로 생성되었습니다. 이제 <a href="{% url 'accountapp:login' %}">로그인</a> 하실 수 있습니다.</p>
 {% endblock %}
