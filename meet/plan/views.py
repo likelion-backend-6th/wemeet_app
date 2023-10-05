@@ -3,6 +3,7 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 import requests
+from django.core.paginator import Paginator
 from django.core.serializers import serialize
 from django.db.models import Max
 from django.shortcuts import render, get_object_or_404, redirect
@@ -53,18 +54,24 @@ class PlanList(ListView):
     model = Plan
     # template_name = 'plan/plan_list.html'
     context_object_name = "plans"
-    paginate_by = "6"
+    paginate_by = "3"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         now_date = timezone.now().date()
 
-        context["future_plans"] = list(
-            Plan.objects.filter(time__date__gte=now_date).order_by("time")
-        )
-        context["past_plans"] = list(
-            Plan.objects.filter(time__date__lt=now_date).order_by("-time")
-        )
+        future_plans_list = list(Plan.objects.filter(time__date__gte=now_date).order_by("time"))
+        past_plans_list = list(Plan.objects.filter(time__date__lt=now_date).order_by("-time"))
+
+        future_plans_paginator = Paginator(future_plans_list, self.paginate_by)
+        past_plans_paginator = Paginator(past_plans_list, self.paginate_by)
+
+        future_page_number = self.request.GET.get('future_page')
+        past_page_number = self.request.GET.get('past_page')
+
+        context["future_plans"] = future_plans_paginator.get_page(future_page_number)
+        context["past_plans"] = past_plans_paginator.get_page(past_page_number)
+
 
         # 다가올 약속 d-day
         for plan in context["future_plans"]:
