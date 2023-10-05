@@ -9,7 +9,7 @@
 <p>방장: {{ plan.owner }}</p>
 <p>참여자: {% for g in group %}
     {{g.user}}
-    {% endfor %}</p>
+{% endfor %}</p>
 {% if plan.owner == request.user %}
 <a href="{% url 'plan_delete' plan.id %}">방장: 약속 삭제</a>
 <a href="{% url 'plan_edit' plan.id %}">방장: 약속 수정</a>
