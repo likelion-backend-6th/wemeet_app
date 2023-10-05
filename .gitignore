@@ -2,6 +2,8 @@
 **/.terraform/*
 
 # .tfstate files
+set_be_server.sh
+set_db_server.sh
 *.tfstate
 *.tfstate.*
 
@@ -170,3 +172,4 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+.DS_Store
