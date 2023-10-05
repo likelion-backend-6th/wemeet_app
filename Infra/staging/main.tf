@@ -75,7 +75,7 @@ module "be_server" {
     db_password            = var.db_password
     db_port                = local.db_port
     db_host                = ncloud_public_ip.db.public_ip
-    django_settings_module = "meet.config.staging"
+    django_settings_module = "meet.settings.staging"
     django_secret_key      = var.django_secret_key
   }
   port_range = local.be_port

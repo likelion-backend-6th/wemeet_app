@@ -1,5 +1,7 @@
 #!/bin/sh
 
 python manage.py collectstatic --no-input
+python manage.py makemigrations
 python manage.py migrate
-gunicorn config.wsgi:application --config config/gunicorn_config.py
+
+gunicorn meet.wsgi:application --config meet/gunicorn_config.py
