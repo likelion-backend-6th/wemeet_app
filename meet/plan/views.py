@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 import requests
 from django.core.serializers import serialize
+from django.db.models import Max
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from drf_yasg import openapi
@@ -24,6 +25,7 @@ from .forms import PlanForm
 from .models import Plan, Group
 from .serializers import PlanSerializer, GroupSerializer
 from accountapp.models import UserLocation
+from django.utils import timezone, dateformat
 
 
 class PlanViewSet(ModelViewSet):
@@ -53,6 +55,13 @@ class PlanList(ListView):
     context_object_name = "plans"
     paginate_by = "6"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        for plan in context['plans']:
+            plan.time_diff = (timezone.now().date() - plan.time.date())
+            plan.now = timezone.now()
+
+        return context
 
 class PlanDetail(DetailView):
     model = Plan
@@ -166,7 +175,14 @@ def plan_map(request, pk):
     # group에 속한 user들의 id 리스트 생성
     user_ids = group.values_list("user", flat=True)
     # UserLocation에서 해당 user들의 위치 정보 가져오기
-    user_locations = UserLocation.objects.filter(user__in=user_ids)
+    #user_locations = UserLocation.objects.filter(user__in=user_ids)
+
+    #최신순으로 가져오기
+    latest_user_locations = UserLocation.objects.filter(user__in=user_ids).values('user').annotate(
+        latest_created_at=Max('created_at')).values_list('latest_created_at', flat=True)
+
+    # 그 결과를 이용하여 해당하는 UserLocation 객체들을 가져옵니다.
+    user_locations = UserLocation.objects.filter(created_at__in=latest_user_locations)
     user_locations_json = serialize("json", user_locations)
     # user_locations_json2 = json.dumps(user_locations_json, ensure_ascii=False)
     return render(
