@@ -57,11 +57,12 @@ class PlanList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        for plan in context['plans']:
-            plan.time_diff = (timezone.now().date() - plan.time.date())
+        for plan in context["plans"]:
+            plan.time_diff = timezone.now().date() - plan.time.date()
             plan.now = timezone.now()
 
         return context
+
 
 class PlanDetail(DetailView):
     model = Plan
@@ -175,11 +176,15 @@ def plan_map(request, pk):
     # group에 속한 user들의 id 리스트 생성
     user_ids = group.values_list("user", flat=True)
     # UserLocation에서 해당 user들의 위치 정보 가져오기
-    #user_locations = UserLocation.objects.filter(user__in=user_ids)
+    # user_locations = UserLocation.objects.filter(user__in=user_ids)
 
-    #최신순으로 가져오기
-    latest_user_locations = UserLocation.objects.filter(user__in=user_ids).values('user').annotate(
-        latest_created_at=Max('created_at')).values_list('latest_created_at', flat=True)
+    # 최신순으로 가져오기
+    latest_user_locations = (
+        UserLocation.objects.filter(user__in=user_ids)
+        .values("user")
+        .annotate(latest_created_at=Max("created_at"))
+        .values_list("latest_created_at", flat=True)
+    )
 
     # 그 결과를 이용하여 해당하는 UserLocation 객체들을 가져옵니다.
     user_locations = UserLocation.objects.filter(created_at__in=latest_user_locations)

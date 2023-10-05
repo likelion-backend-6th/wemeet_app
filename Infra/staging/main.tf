@@ -101,7 +101,7 @@ resource "ssh_resource" "init_db" {
   retry_delay = "5s"
 
   file {
-    source      = "${path.module}/set_db_server.sh"
+    content     = "${path.module}/set_db_server.sh"
     destination = "/home/lion/init.sh"
     permissions = "0700"
   }
@@ -124,12 +124,13 @@ resource "ssh_resource" "init_be" {
   retry_delay = "5s"
 
   file {
-    source      = "${path.module}/set_be_server.sh"
+    content     = "${path.module}/set_be_server.sh"
     destination = "/home/lion/init.sh"
     permissions = "0700"
   }
 
   commands = [
+    "echo 'SSH conncetion successful'",
     "/home/lion/init.sh"
   ]
 }
