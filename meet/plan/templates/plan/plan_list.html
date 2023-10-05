@@ -34,6 +34,24 @@
     </div>
     {% endfor %}
 
+    <!-- Pagination links for future plans -->
+<div class="pagination justify-content-center">
+    <span class="step-links">
+        {% if future_plans.has_previous %}
+            <a href="?future_page={{ future_plans.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ future_plans.number }} of {{ future_plans.paginator.num_pages }}.
+        </span>
+
+        {% if future_plans.has_next %}
+            <a href="?future_page={{ future_plans.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+
+<div class="row">
     <h3> 지난 약속 </h3>
     {% for plan in past_plans %}
     <div class="col-md-4">
@@ -53,6 +71,22 @@
     </div>
 
     {% endfor %}
+        <!-- Pagination links for future plans -->
+<div class="pagination justify-content-center">
+    <span class="step-links">
+        {% if past_plans.has_previous %}
+            <a href="?past_page={{ past_plans.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ past_plans.number }} of {{ past_plans.paginator.num_pages }}.
+        </span>
+
+        {% if past_plans.has_next %}
+            <a href="?past_page={{ past_plans.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
 
   </div>
 
