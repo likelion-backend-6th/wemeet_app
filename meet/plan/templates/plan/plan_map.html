@@ -2,7 +2,7 @@
 {% block title %} map {% endblock %}
 {% block content %}
 <div id="map" style="width:500px;height:400px;"></div>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2bb01d7d113d728863e714b0a3786909&libraries=services,clusterer,drawing"></script>
+{% include 'plan/kakao_api.html' %}
 <script>
         {% block domready %}
 
