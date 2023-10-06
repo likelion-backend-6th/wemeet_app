@@ -34,6 +34,7 @@ ALLOWED_HOSTS = [
     "localhost",
     "*",
     LOCAL_IP,
+    "223.130.136.172",
 ]
 
 # Application definition
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.humanize",
 ]
 
 # Application definition

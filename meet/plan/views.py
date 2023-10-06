@@ -22,7 +22,7 @@ from django.views.generic import (
     DeleteView,
 )
 
-from .forms import PlanForm
+from .forms import PlanForm, CommentForm
 from .models import Plan, Group
 from .serializers import PlanSerializer, GroupSerializer
 from accountapp.models import UserLocation
@@ -96,6 +96,7 @@ class PlanDetail(DetailView):
         context["is_member"] = Group.objects.filter(
             plan=plan_id, user=self.request.user
         ).exists()
+        context["comment_form"] = CommentForm()
         return context
 
 
@@ -212,3 +213,19 @@ def plan_map(request, pk):
     return render(
         request, "plan/plan_map.html", {"user_locations_json": user_locations_json}
     )
+
+
+@login_required
+def comment_create(request, pk):
+    plan = get_object_or_404(Plan, pk=pk)
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.plan = plan
+            comment.save()
+            return redirect("plan_detail", pk)
+    else:
+        form = CommentForm()
+    return render(request, "plan/comment_form.html", {"form": form})
