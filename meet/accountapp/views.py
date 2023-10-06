@@ -20,10 +20,12 @@ def register(request):
         user_form = UserRegistrationForm()
     return render(request, "accountapp/register.html", {"user_form": user_form})
 
+
 @login_required()
 def logged_out(request):
     logout(request)
     return redirect("accountapp:dashboard")
+
 
 @login_required()
 def dashboard(request):
