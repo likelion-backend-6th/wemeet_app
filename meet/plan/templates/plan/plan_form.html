@@ -1,12 +1,73 @@
 {% extends 'base.html' %}
 {% block title %} New Plan {% endblock %}
 {% block content %}
+<script src="https://ssl.daumcdn.net/dmaps/map_js_init/postcode.v2.js"></script>
 <div class="container">
-   <form action="" method="POST">
-    {% csrf_token %}
-    {{  form.as_p }}
-    <input class="btn btn-success" type="submit" value ="약속 만들기">
-</form>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>제목:</label>
+            {{ form.title }}
+        </div>
+        <div class="form-group">
+            <div class="input-group-append">
+                <label>주소:</label>
+                {{ form.address }}
+                <button type="button" class="btn btn-primary btn-sm"
+                        onclick="openHomeSearch()">
+                    <span class="icon text-white">
+                        <i class="fas fa-flag"></i>
+                    </span>
+                    <span class="text">주소 검색</span>
+                </button>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>시간:</label>
+            {{ form.time }}
+        </div>
+        <div class="form-group">
+            <label>메모:</label>
+            {{ form.memo }}
+        </div>
+        <div class="form-group">
+            <label>비밀방 생성: </label>
+            <input type="checkbox" id="password-checkbox">
+            {{ form.room_password }}
+        </div>
+        <div class="form-group" id="password-field" style="display: none;">
+            <label>비밀번호:</label>
+            <input type="password" name="password" id="password-input">
+        </div>
+        <div class="form-group text-left">
+            <button class="btn btn-success" type="submit">약속 만들기</button>
+        </div>
+    </form>
 </div>
+<!-- 다음 우편번호 검색 함수 추가 -->
+<script>
+    // 다음 우편번호 검색
+    function openHomeSearch() {
+        new daum.Postcode({
+            oncomplete: function (data) {
+                $('[name=address]').val(data.address);
+            }
+        }).open();
+    }
 
+    // 비밀번호 생성 체크박스 이벤트 처리
+    const passwordCheckbox = document.getElementById('password-checkbox');
+    const passwordField = document.getElementById('password-field');
+    const passwordInput = document.getElementById('password-input');
+
+    passwordCheckbox.addEventListener('change', function () {
+        if (passwordCheckbox.checked) {
+            passwordField.style.display = 'block';
+            passwordInput.required = true;
+        } else {
+            passwordField.style.display = 'none';
+            passwordInput.required = false;
+        }
+    });
+</script>
 {% endblock %}
