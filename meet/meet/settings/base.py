@@ -141,7 +141,8 @@ TIME_ZONE = "Asia/Seoul"
 
 USE_I18N = True
 
-USE_TZ = False
+# timezone
+USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)

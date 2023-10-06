@@ -74,6 +74,7 @@ module "be_server" {
     db_user                = "postgres"
     db_password            = var.db_password
     db_port                = local.db_port
+    be_host                = ncloud_public_ip.be.public_ip
     db_host                = ncloud_public_ip.db.public_ip
     django_settings_module = "meet.settings.staging"
     django_secret_key      = var.django_secret_key
@@ -101,7 +102,7 @@ resource "ssh_resource" "init_db" {
   retry_delay = "5s"
 
   file {
-    content     = "${path.module}/set_db_server.sh"
+    content     = file("${path.module}/set_db_server.sh")
     destination = "/home/lion/init.sh"
     permissions = "0700"
   }
@@ -124,7 +125,7 @@ resource "ssh_resource" "init_be" {
   retry_delay = "5s"
 
   file {
-    content     = "${path.module}/set_be_server.sh"
+    content     = file("${path.module}/set_be_server.sh")
     destination = "/home/lion/init.sh"
     permissions = "0700"
   }

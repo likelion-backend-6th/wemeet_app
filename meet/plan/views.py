@@ -60,18 +60,21 @@ class PlanList(ListView):
         context = super().get_context_data(**kwargs)
         now_date = timezone.now().date()
 
-        future_plans_list = list(Plan.objects.filter(time__date__gte=now_date).order_by("time"))
-        past_plans_list = list(Plan.objects.filter(time__date__lt=now_date).order_by("-time"))
+        future_plans_list = list(
+            Plan.objects.filter(time__date__gte=now_date).order_by("time")
+        )
+        past_plans_list = list(
+            Plan.objects.filter(time__date__lt=now_date).order_by("-time")
+        )
 
         future_plans_paginator = Paginator(future_plans_list, self.paginate_by)
         past_plans_paginator = Paginator(past_plans_list, self.paginate_by)
 
-        future_page_number = self.request.GET.get('future_page')
-        past_page_number = self.request.GET.get('past_page')
+        future_page_number = self.request.GET.get("future_page")
+        past_page_number = self.request.GET.get("past_page")
 
         context["future_plans"] = future_plans_paginator.get_page(future_page_number)
         context["past_plans"] = past_plans_paginator.get_page(past_page_number)
-
 
         # 다가올 약속 d-day
         for plan in context["future_plans"]:
