@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Plan, Group
+from .models import Plan, Group, Comment
 
 
 # Register your models here.
@@ -13,3 +13,9 @@ class PlanAdmin(admin.ModelAdmin):
 @admin.register(Group)
 class GroupAdmin(admin.ModelAdmin):
     list_display = ["plan", "user", "created_at"]
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ["message","user","plan", "created_at"]
+
