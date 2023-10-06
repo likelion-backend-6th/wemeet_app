@@ -1,9 +1,0 @@
-apiVersion: ncloud.com/v1
-kind: LbListener
-metadata:
-  name: {{ .Values.ncloud_cluster_name }}-listener
-spec:
-  loadBalancerNo: ncloud_lb.main.load_balancer_no
-  protocol: "TCP"
-  port: 80
-  targetGroupNo: ncloud_lb_target_group.main.target_group_no
