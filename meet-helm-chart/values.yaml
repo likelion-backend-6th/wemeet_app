@@ -1,0 +1,37 @@
+replicaCount: 3
+
+image:
+  repository: lion-cr01.kr.ncr.ntruss.com/we-meet
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+imagePullSecrets:
+- name: regcred
+db:
+  name: postgres
+  tag: 13-alpine
+nameOverride: ""
+fullnameOverride: ""
+
+BeService:
+  type: LoadBalancer
+  port: 80
+
+DbService:
+  type: NodePort
+  port: 5432
+
+containerPort: 8000
+
+configMap:
+  django:
+    DJANGO_SETTINGS_MODULE: "meet.settings.staging"
+
+secret:
+  db:
+    POSTGRES_DB: postgres
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: postgres
+    POSTGRES_PORT: "5432"
+  django:
+    DJANGO_SECRET_KEY: django-insecure-9)1ht#_fpvwt&(+f0i4^sf#l=z^jc=+&b!

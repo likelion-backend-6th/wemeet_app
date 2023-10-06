@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "wemeet.fullname" . }}
+  labels:
+    {{- include "wemeet.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.BeService.type }}
+  ports:
+    - port: {{ .Values.BeService.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "wemeet.selectorLabels" . | nindent 4 }}
