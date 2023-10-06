@@ -33,6 +33,7 @@ ALLOWED_HOSTS = [
     "localhost",
     "*",
     LOCAL_IP,
+    "223.130.136.172",
 ]
 
 # Application definition
