@@ -1,33 +1,59 @@
 {% extends 'base.html' %}
+{% load humanize bootstrap4 %}
 {% block title %} plan {% endblock %}
 {% block content %}
-<h1>plan 상세</h1>
-{{plan.title}}
-<p>장소: {{plan.address}}</p>
+<div class="container">
+    <h1>{{plan.title}}</h1>
+    <div class="row">
+        <div class="col">
+            <div>
+                <p>장소: {{plan.address}}</p>
+                <p>초대코드:http://localhost:8000/plan/{{plan.id}}</p>
+                <p>방장: {{ plan.owner }}</p>
+                <p>참여자: {% for g in group %}
+                        {{g.user}}
+                        {% endfor %}</p>
+                {% if plan.owner == request.user %}
+                <a href="{% url 'plan_delete' plan.id %}">방장: 약속 삭제</a>
+                <a href="{% url 'plan_edit' plan.id %}">방장: 약속 수정</a>
+                {% elif is_member %}
+                <p>참여중</p>
+                <a href="{% url 'group_delete' plan.id %}">나가기</a>
+                {% else %}
+                <a href="{% url 'group_create' plan.id %}">참여하기</a>
+                {% endif %}
+                <a href="{% url 'plan_map' plan.id %}">참여자 위치보기</a>
+            </div>
+            <div>
+                <h3> 참여자 댓글 </h3>
 
-<p>초대코드:http://localhost:8000/plan/{{plan.id}}</p>
-<p>방장: {{ plan.owner }}</p>
-<p>참여자: {% for g in group %}
-    {{g.user}}
-{% endfor %}</p>
-{% if plan.owner == request.user %}
-<a href="{% url 'plan_delete' plan.id %}">방장: 약속 삭제</a>
-<a href="{% url 'plan_edit' plan.id %}">방장: 약속 수정</a>
-{% elif is_member %}
-<p>참여중</p>
-<a href="{% url 'group_delete' plan.id %}">나가기</a>
-{% else %}
-<a href="{% url 'group_create' plan.id %}">참여하기</a>
-{% endif %}
+                {% for comment in plan.comment_set.all %}
+                <div>
+                    <strong>{{ comment.user }}</strong> {{ comment.message }}
+                    <small class="text-muted">{{ comment.created_at|naturaltime }}</small>
+                </div>
 
-<!-- kakao map -->
-{% if plan.latitude %}
-{{plan.latitude}}
-<div>
-    {% include 'plan/kakaomap.html' %}
+                {% endfor %}
+                <div>
+                    {% include 'plan/comment_form.html' %}
+                </div>
+
+            </div>
+
+
+        </div>
+        <div class="col">
+
+            <div>
+                <!-- kakao map -->
+                {% if plan.latitude %}
+                    {% include 'plan/kakaomap.html' %}
+                {% endif %}
+            </div>
+
+       </div>
+    </div>
 </div>
-{% endif %}
 
-<a href="{% url 'plan_map' plan.id %}">참여자 위치보기</a>
 
 {% endblock %}

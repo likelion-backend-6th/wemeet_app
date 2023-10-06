@@ -1,5 +1,5 @@
 from django import forms
-from .models import Plan
+from .models import Plan, Comment
 
 
 class PlanForm(forms.ModelForm):
@@ -14,3 +14,11 @@ class PlanForm(forms.ModelForm):
     class Meta:
         model = Plan
         fields = ["title", "time", "address", "memo"]
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['message']
+        widgets = {
+            "message": forms.Textarea(attrs={"rows":2}),
+        }
