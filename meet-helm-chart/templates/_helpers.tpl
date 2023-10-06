@@ -1,8 +1,8 @@
-{{- define "meet-helm-chart.name" -}}
+{{- define "wemeet.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
-{{- define "meet-helm-chart.fullname" -}}
+{{- define "wemeet.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -15,7 +15,7 @@
 {{- end }}
 {{- end }}
 
-{{- define "meet-helm-chart.db.fullname" -}}
+{{- define "wemeet.db.fullname" -}}
 {{- $name := .Chart.Name }}
 {{- if contains $name .Release.Name }}
 {{- printf "%s-%s" "db" .Release.Name | trunc 63 | trimSuffix "-" }}
@@ -24,32 +24,32 @@
 {{- end }}
 {{- end }}
 
-{{- define "meet-helm-chart.chart" -}}
+{{- define "wemeet.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
-{{- define "meet-helm-chart.labels" -}}
-helm.sh/chart: {{ include "meet-helm-chart.chart" . }}
-{{ include "meet-helm-chart.selectorLabels" . }}
+{{- define "wemeet.labels" -}}
+helm.sh/chart: {{ include "wemeet.chart" . }}
+{{ include "wemeet.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
-{{- define "meet-helm-chart.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "meet-helm-chart.name" . }}
+{{- define "wemeet.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "wemeet.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
-{{- define "meet-helm-chart.db.labels" -}}
-helm.sh/chart: {{ include "meet-helm-chart.chart" . }}
-{{ include "meet-helm-chart.db.selectorLabels" . }}
+{{- define "wemeet.db.labels" -}}
+helm.sh/chart: {{ include "wemeet.chart" . }}
+{{ include "wemeet.db.selectorLabels" . }}
 release: {{ .Release.Name }}
 app.kubernetes.io/managed-by: helm
 {{- end }}
 
-{{- define "meet-helm-chart.db.selectorLabels" -}}
+{{- define "wemeet.db.selectorLabels" -}}
 app: db-{{ .Release.Name }}
 {{- end }}
 

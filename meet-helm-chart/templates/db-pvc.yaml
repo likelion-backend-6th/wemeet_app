@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-    name: {{ include "meet-helm-chart.db.fullname" . }}
+    name: {{ include "wemeet.db.fullname" . }}
 spec:
     accessModes:
         - ReadWriteOnce

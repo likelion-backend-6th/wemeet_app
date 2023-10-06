@@ -1,20 +1,20 @@
 apiVersion: v1
 kind: Pod
 metadata:
-    name: {{ include "meet-helm-chart.db.fullname" . }}
+    name: {{ include "wemeet.db.fullname" . }}
     labels:
-        {{- include "meet-helm-chart.db.labels" .  | nindent 4 }}
+        {{- include "wemeet.db.labels" .  | nindent 4 }}
     
 spec:
     containers:
-        - name: {{ include "meet-helm-chart.db.fullname" . }}
+        - name: {{ include "wemeet.db.fullname" . }}
           image: postgres:13-alpine
           env:
             - name: PGDATA
               value: "/var/lib/postgresql/data/k8s"
           envFrom:
             - secretRef:
-                name: {{ include "meet-helm-chart.db.fullname" . }}
+                name: {{ include "wemeet.db.fullname" . }}
           ports:
             - containerPort: {{ .Values.DbService.port }}
           volumeMounts:
@@ -30,4 +30,4 @@ spec:
     volumes:
         - name: meet-data
           persistentVolumeClaim:
-            claimName: {{ include "meet-helm-chart.db.fullname" . }}
+            claimName: {{ include "wemeet.db.fullname" . }}
