@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Pod
+metadata:
+    name: {{ include "meet-helm-chart.db.fullname" . }}
+    labels:
+        {{- include "meet-helm-chart.db.labels" .  | nindent 4 }}
+    
+spec:
+    containers:
+        - name: {{ include "meet-helm-chart.db.fullname" . }}
+          image: postgres:13-alpine
+          env:
+            - name: PGDATA
+              value: "/var/lib/postgresql/data/k8s"
+          envFrom:
+            - secretRef:
+                name: {{ include "meet-helm-chart.db.fullname" . }}
+          ports:
+            - containerPort: {{ .Values.DbService.port }}
+          volumeMounts:
+            - mountPath: "/var/lib/postgresql/data"
+              name: meet-data
+          resources:
+            requests:
+                memory: "64Mi"
+                cpu: "250m"
+            limits:
+                memory: "128Mi"
+                cpu: "500m"
+    volumes:
+        - name: meet-data
+          persistentVolumeClaim:
+            claimName: {{ include "meet-helm-chart.db.fullname" . }}
