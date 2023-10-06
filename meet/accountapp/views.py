@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
@@ -19,12 +20,12 @@ def register(request):
         user_form = UserRegistrationForm()
     return render(request, "accountapp/register.html", {"user_form": user_form})
 
-
+@login_required()
 def logged_out(request):
     logout(request)
     return redirect("accountapp:dashboard")
 
-
+@login_required()
 def dashboard(request):
     return render(request, "accountapp/dashboard.html", {"section": "dashboard"})
 
