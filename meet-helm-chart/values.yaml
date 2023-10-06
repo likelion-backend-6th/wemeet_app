@@ -34,4 +34,6 @@ secret:
     POSTGRES_PASSWORD: postgres
     POSTGRES_PORT: "5432"
   django:
-    DJANGO_SECRET_KEY: django-insecure-9)1ht#_fpvwt&(+f0i4^sf#l=z^jc=+&b!
+    # base 64
+    DJANGO_SECRET_KEY: tm7(zj#@=m&v91rhrwqvdzodiwk_bwd*-vj-@=pmj74*h9(n3m
+
