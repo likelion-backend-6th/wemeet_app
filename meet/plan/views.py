@@ -96,7 +96,7 @@ class PlanDetail(DetailView):
         context["is_member"] = Group.objects.filter(
             plan=plan_id, user=self.request.user
         ).exists()
-        context['comment_form'] = CommentForm()
+        context["comment_form"] = CommentForm()
         return context
 
 
@@ -214,8 +214,9 @@ def plan_map(request, pk):
         request, "plan/plan_map.html", {"user_locations_json": user_locations_json}
     )
 
+
 @login_required
-def comment_create(request,pk):
+def comment_create(request, pk):
     plan = get_object_or_404(Plan, pk=pk)
     if request.method == "POST":
         form = CommentForm(request.POST)
@@ -224,7 +225,7 @@ def comment_create(request,pk):
             comment.user = request.user
             comment.plan = plan
             comment.save()
-            return redirect('plan_detail', pk)
+            return redirect("plan_detail", pk)
     else:
         form = CommentForm()
-    return render(request, "plan/comment_form.html", {"form":form})
+    return render(request, "plan/comment_form.html", {"form": form})

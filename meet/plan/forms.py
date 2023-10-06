@@ -15,10 +15,11 @@ class PlanForm(forms.ModelForm):
         model = Plan
         fields = ["title", "time", "address", "memo"]
 
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ['message']
+        fields = ["message"]
         widgets = {
-            "message": forms.Textarea(attrs={"rows":2}),
+            "message": forms.Textarea(attrs={"rows": 2}),
         }
