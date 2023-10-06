@@ -33,6 +33,31 @@
             image: markerImage // 마커 이미지
         });
         marker.setMap(map)
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            const lat2 = position.coords.latitude, // 위도
+                lon2 = position.coords.longitude; // 경도
 
+            // 위치 정보가 정상적으로 가져와지면 서버에 업데이트 요청을 보냄
+            $.ajax({
+                url: '/account/update_location/',  // Django view의 URL
+                type: 'POST',
+                data: {
+                    'latitude': lat2,
+                    'longitude': lon2,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'  // CSRF 토큰 추가
+                },
+                success: function(response){
+                    console.log("Location updated successfully");
+                }
+            });
+        });
+      }
+        // else {
+     //     var locPosition = new kakao.maps.LatLng(33.450701, 126.570667)
+     // }
+}
+getLocation()
         {% endblock %}
 	</script>
