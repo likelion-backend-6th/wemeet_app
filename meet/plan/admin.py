@@ -17,5 +17,4 @@ class GroupAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ["message","user","plan", "created_at"]
-
+    list_display = ["message", "user", "plan", "created_at"]

@@ -10,6 +10,6 @@ class HealthcheckMiddleware:
         if settings.VERSION == "0.3.0":
             return JsonResponse({"status": "unhealthy"}, status=500)
         if request.path == "/health/":
-            return JsonResponse({"status": "ok"})
+            return JsonResponse({"status": "ok"}, status=200)
 
         return self.get_response(request)
