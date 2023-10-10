@@ -208,22 +208,28 @@ def plan_map(request, pk):
 
     # 그 결과를 이용하여 해당하는 UserLocation 객체들을 가져옵니다.
     user_locations = UserLocation.objects.filter(created_at__in=latest_user_locations)
-    user_locations_json = json.dumps([
-        {
-            'id': location.id,
-            'latitude': location.latitude,
-            'longitude':location.longitude,
-            'user_id': location.user.id,
-            'username': location.user.username
-        }
-        for location in user_locations
-    ])
+    user_locations_json = json.dumps(
+        [
+            {
+                "id": location.id,
+                "latitude": location.latitude,
+                "longitude": location.longitude,
+                "user_id": location.user.id,
+                "username": location.user.username,
+            }
+            for location in user_locations
+        ]
+    )
     # user_locations_json2 = json.dumps(user_locations_json, ensure_ascii=False)
 
     return render(
-        request, "plan/plan_map.html", {"user_locations_json": user_locations_json,
-                                        "plan_lat":plan.latitude,
-                                        "plan_lng":plan.longitude}
+        request,
+        "plan/plan_map.html",
+        {
+            "user_locations_json": user_locations_json,
+            "plan_lat": plan.latitude,
+            "plan_lng": plan.longitude,
+        },
     )
 
 
