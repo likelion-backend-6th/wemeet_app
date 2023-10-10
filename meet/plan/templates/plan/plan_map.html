@@ -6,27 +6,41 @@
 <script>
         {% block domready %}
 
+        // 약속 장소 위치
+        var plan_lat = {{plan_lat}}
+        var plan_lng = {{plan_lng}}
         //기본 지도 틀
        var mapContainer = document.getElementById('map'), // 지도를 표시할 div
            mapOption = {
-               center: new kakao.maps.LatLng(37.508438, 127.007517), // 지도의 중심좌표
-               level: 7 // 지도의 확대 레벨
+               center: new kakao.maps.LatLng(plan_lat, plan_lng), // 지도의 중심좌표
+               level: 8 // 지도의 확대 레벨
             };
        var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+        // 마커가 표시될 위치입니다
+        var markerPosition  = new kakao.maps.LatLng(plan_lat, plan_lng);
+
+        // 마커를 생성합니다
+        var marker = new kakao.maps.Marker({
+                position: markerPosition,
+                title: "약속장소"
+        });
+
+        // 마커가 지도 위에 표시되도록 설정합니다
+        marker.setMap(map);
 
         // 참여 유저 별 위치
        var userLocations = JSON.parse("{{ user_locations_json|escapejs }}");
-        // console.log(userLocations)
+         console.log(userLocations)
         var positions = [];
         for (var i = 0; i < Object.keys(userLocations).length; i++) {
             var content = {
-                user: userLocations[i]['fields'].user,
-                latlng: new kakao.maps.LatLng(userLocations[i]['fields'].latitude, userLocations[i]['fields'].longitude),
+                user: userLocations[i].username,
+                latlng: new kakao.maps.LatLng(userLocations[i].latitude, userLocations[i].longitude),
                 detail: "디테일입니다 추후 추가예정",
             }
             positions.push(content);
         };
-        console.log(positions);
+        //console.log(positions);
 
         // 마커 이미지의 이미지 주소입니다
         var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
@@ -96,7 +110,7 @@ function displayMarker(locPosition, message) {
     // 지도 중심좌표를 접속위치로 변경합니다
     map.setCenter(locPosition);
 }
-getLocation();
+//getLocation();
         {% endblock %}
 </script>
 {% endblock %}
