@@ -14,7 +14,7 @@ class PlanForm(forms.ModelForm):
 
     class Meta:
         model = Plan
-        fields = ["title", "time", "address", "memo", "password"]
+        fields = ["title", "category" ,"time", "address", "memo", "password"]
 
 
 class CommentForm(forms.ModelForm):
