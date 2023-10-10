@@ -1,0 +1,6 @@
+{% load bootstrap4 %}
+<form method="POST" action="{% url 'comment_create' plan.id %}">
+    {% csrf_token %}
+    {% bootstrap_form comment_form %}
+    <input class="btn btn-primary btn-block"  type="submit" value = "작성"/>
+</form>

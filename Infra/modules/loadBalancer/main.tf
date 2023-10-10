@@ -34,7 +34,7 @@ resource "ncloud_subnet" "main" {
   zone           = "KR-2"
   network_acl_no = data.ncloud_vpc.main.default_network_acl_no
   subnet_type    = "PRIVATE"
-  name           = "lion-sbn-lb-${var.env}"
+  name           = "meet-sbn-lb-${var.env}"
   usage_type     = "LOADB"
 }
 
@@ -50,11 +50,12 @@ resource "ncloud_lb_target_group" "main" {
   protocol    = "PROXY_TCP"
   target_type = "VSVR"
   port        = 8000
+  name        = "meet-tg-${var.env}"
   health_check {
     protocol       = "TCP"
     http_method    = "GET"
     port           = 8000
-    url_path       = "/admin"
+    url_path       = "/health"
     cycle          = 30
     up_threshold   = 2
     down_threshold = 2

@@ -25,6 +25,6 @@ resource "ncloud_subnet" "subnet" {
   zone           = "KR-2"
   network_acl_no = ncloud_vpc.vpc.default_network_acl_no
   subnet_type    = "PUBLIC"
-  name           = "lion-subnet-${var.env}"
+  name           = "meet-subnet-${var.env}"
   usage_type     = "GEN"
 }

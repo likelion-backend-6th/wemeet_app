@@ -16,6 +16,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
+VERSION = "0.1.0"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -33,6 +34,7 @@ ALLOWED_HOSTS = [
     "localhost",
     "*",
     LOCAL_IP,
+    "223.130.136.172",
 ]
 
 # Application definition
@@ -44,6 +46,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.humanize",
 ]
 
 # Application definition
@@ -66,6 +69,7 @@ INSTALLED_APPS += [
 ]
 
 MIDDLEWARE = [
+    "common.middleware.HealthcheckMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
