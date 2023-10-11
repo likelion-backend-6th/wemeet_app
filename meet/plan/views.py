@@ -209,6 +209,41 @@ def plan_map(request, pk):
         ]
     )
 
+    ## 경로 계산
+    url = "https://apis.openapi.sk.com/transit/routes/sub"
+    headers = {
+        "accept": "application/json",
+        "content-type": "application/json",
+        "appKey": "e8wHh2tya84M88aReEpXCa5XTQf3xgo01aZG39k5"
+    }
+    user_result = []
+    for item in user_locations:
+        user_info = {}
+        if item.longitude == plan.longitude and item.latitude ==plan.latitude:
+            user_info['user'] = item.user.username
+            user_info['distance'] = 0
+            user_info['time'] = 0
+            user_result.append(user_info)
+
+        else:
+            payload = {
+                "startX": item.longitude,
+                "startY": item.latitude,
+                "endX": plan.longitude,
+                "endY": plan.latitude,
+                "format": "json",
+                "count": 1,
+                "searchDttm": "202310101200"
+            }
+            response = requests.post(url, json=payload, headers=headers)
+            data = response.json()
+
+            user_info['user'] = item.user.username
+            user_info['distance'] = data['metaData']['plan']['itineraries'][0]['totalDistance']/1000
+            user_info['time'] = data['metaData']['plan']['itineraries'][0]['totalTime']/60
+
+            user_result.append(user_info)
+
     return render(
         request,
         "plan/plan_map.html",
@@ -216,6 +251,7 @@ def plan_map(request, pk):
             "user_locations_json": user_locations_json,
             "plan_lat": plan.latitude,
             "plan_lng": plan.longitude,
+            "result":user_result,
         },
     )
 

@@ -1,7 +1,23 @@
 {% extends 'base.html' %}
 {% block title %} map {% endblock %}
 {% block content %}
-<div id="map" style="width:500px;height:400px;"></div>
+<div class="row">
+    <!--    참여자 위치 지도 뷰-->
+    <div class="col" id="map" style="width:500px;height:400px;"></div>
+
+    <!--    참여자 도착까지 남은 거리 & 시간-->
+    <div class="col">
+    {% for r in result %}
+        <p>{{r.user}}</p>
+        <p>남은 거리: {{r.distance|floatformat:2}}km</p>
+        {% if r.distance <= 0.1 %}
+        (도착)
+        {% endif %}
+        <p>남은 시간: {{r.time|floatformat:2}}분 </p>
+    {% endfor %}
+    </div>
+</div>
+
 {% include 'plan/kakao_api.html' %}
 <script>
         {% block domready %}
