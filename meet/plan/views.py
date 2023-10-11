@@ -60,9 +60,9 @@ class PlanList(ListView):
         context = super().get_context_data(**kwargs)
         now_date = timezone.now().date()
         # plan_list_filter.html 에서 전체 리스트 받아오는데 사용
-        context['categories'] = Category.objects.all()
+        context["categories"] = Category.objects.all()
         # 화면에서 사용자가 선택한 카테고리 ID 얻기
-        category_id = self.request.GET.get('category')
+        category_id = self.request.GET.get("category")
 
         future_plans_list = list(
             Plan.objects.filter(time__date__gte=now_date).order_by("time")
@@ -73,8 +73,14 @@ class PlanList(ListView):
 
         # 사용자가 카테고리 선택한 경우 filtering
         if category_id:
-            future_plans_list = [plan for plan in future_plans_list if plan.category.id == int(category_id)]
-            past_plans_list = [plan for plan in past_plans_list if plan.category.id == int(category_id)]
+            future_plans_list = [
+                plan
+                for plan in future_plans_list
+                if plan.category.id == int(category_id)
+            ]
+            past_plans_list = [
+                plan for plan in past_plans_list if plan.category.id == int(category_id)
+            ]
 
         future_plans_paginator = Paginator(future_plans_list, self.paginate_by)
         past_plans_paginator = Paginator(past_plans_list, self.paginate_by)
