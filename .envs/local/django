@@ -1,2 +1,3 @@
 # django
 DJANGO_SETTINGS_MODULE = meet.settings.staging
+DJANGO_SECRET_KEY = "nbtfzn1kf^!sbf+#t*hc+t#pvo-c*yt^xu7o+@l%fay4h^74_4"

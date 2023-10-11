@@ -1,5 +1,5 @@
 from django import forms
-from .models import Plan, Comment
+from .models import Plan, Comment, Category
 
 
 class PlanForm(forms.ModelForm):
@@ -10,10 +10,11 @@ class PlanForm(forms.ModelForm):
             format="%Y-%m-%dT%H:%M",  # ISO 8601 형식에 맞춰진 출력 포맷
         ),
     )
+    category = forms.ModelChoiceField(queryset=Category.objects.all())
 
     class Meta:
         model = Plan
-        fields = ["title", "time", "address", "memo", "password"]
+        fields = ["title", "category" ,"time", "address", "memo", "password"]
 
 
 class CommentForm(forms.ModelForm):

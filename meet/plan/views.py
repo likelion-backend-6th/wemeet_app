@@ -23,7 +23,7 @@ from django.views.generic import (
 )
 
 from .forms import PlanForm, CommentForm
-from .models import Plan, Group
+from .models import Plan, Group, Category
 from .serializers import PlanSerializer, GroupSerializer
 from accountapp.models import UserLocation
 from django.utils import timezone, dateformat
@@ -59,6 +59,10 @@ class PlanList(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         now_date = timezone.now().date()
+        # plan_list_filter.html 에서 전체 리스트 받아오는데 사용
+        context['categories'] = Category.objects.all()
+        # 화면에서 사용자가 선택한 카테고리 ID 얻기
+        category_id = self.request.GET.get('category')
 
         future_plans_list = list(
             Plan.objects.filter(time__date__gte=now_date).order_by("time")
@@ -66,6 +70,11 @@ class PlanList(ListView):
         past_plans_list = list(
             Plan.objects.filter(time__date__lt=now_date).order_by("-time")
         )
+
+        # 사용자가 카테고리 선택한 경우 filtering
+        if category_id:
+            future_plans_list = [plan for plan in future_plans_list if plan.category.id == int(category_id)]
+            past_plans_list = [plan for plan in past_plans_list if plan.category.id == int(category_id)]
 
         future_plans_paginator = Paginator(future_plans_list, self.paginate_by)
         past_plans_paginator = Paginator(past_plans_list, self.paginate_by)
@@ -208,10 +217,28 @@ def plan_map(request, pk):
 
     # 그 결과를 이용하여 해당하는 UserLocation 객체들을 가져옵니다.
     user_locations = UserLocation.objects.filter(created_at__in=latest_user_locations)
-    user_locations_json = serialize("json", user_locations)
+    user_locations_json = json.dumps(
+        [
+            {
+                "id": location.id,
+                "latitude": location.latitude,
+                "longitude": location.longitude,
+                "user_id": location.user.id,
+                "username": location.user.username,
+            }
+            for location in user_locations
+        ]
+    )
     # user_locations_json2 = json.dumps(user_locations_json, ensure_ascii=False)
+
     return render(
-        request, "plan/plan_map.html", {"user_locations_json": user_locations_json}
+        request,
+        "plan/plan_map.html",
+        {
+            "user_locations_json": user_locations_json,
+            "plan_lat": plan.latitude,
+            "plan_lng": plan.longitude,
+        },
     )
 
 
