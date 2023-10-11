@@ -1,8 +1,8 @@
-replicaCount: 3
+replicaCount: 1
 
 image:
   repository: lion-cr01.kr.ncr.ntruss.com/we-meet
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   tag: "latest"
 
 imagePullSecrets:
@@ -18,7 +18,7 @@ BeService:
   port: 80
 
 DbService:
-  type: NodePort
+  type: ClusterIP
   port: 5432
 
 containerPort: 8000
