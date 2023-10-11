@@ -29,12 +29,9 @@ DEBUG = True
 
 LOCAL_IP = os.getenv("LOCAL_IP", "localhost")
 
+# 모든 IP 허용
 ALLOWED_HOSTS = [
-    "127.0.0.1",
-    "localhost",
     "*",
-    LOCAL_IP,
-    "223.130.136.172",
 ]
 
 # Application definition
@@ -114,7 +111,7 @@ DATABASES = {
         "USER": os.getenv("POSTGRES_USER", "postgres"),
         "PASSWORD": os.getenv("POSTGRES_PASSWORD", "postgres"),
         "HOST": os.getenv("DB_HOST", "db"),
-        "PORT": os.getenv("POSTGRES_PORT", 5432),
+        "OPTIONS": {"options": "-c search_path=likelion,public"},
     }
 }
 
