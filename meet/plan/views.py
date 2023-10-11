@@ -1,81 +1,52 @@
 import json
-
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 import requests
 from django.core.paginator import Paginator
-from django.core.serializers import serialize
 from django.db.models import Max
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse
-from drf_yasg import openapi
-from drf_yasg.utils import swagger_auto_schema
-from rest_framework import viewsets
-from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet
-from django.template.response import TemplateResponse
-from django.views.generic import (
-    ListView,
-    DetailView,
-    CreateView,
-    UpdateView,
-    DeleteView,
-)
-
+from django.views.generic import ListView,DetailView
 from .forms import PlanForm, CommentForm
 from .models import Plan, Group, Category
-from .serializers import PlanSerializer, GroupSerializer
 from accountapp.models import UserLocation
-from django.utils import timezone, dateformat
-
-
-class PlanViewSet(ModelViewSet):
-    queryset = Plan.objects.all()
-    serializer_class = PlanSerializer
-
-    def list(self, request):
-        qs = self.get_queryset()
-        return TemplateResponse(request, "plan/plan_list.html", {"qs": qs})
-
-    def retrieve(self, request, pk):
-        qs = self.get_queryset().get(pk=pk)
-        return TemplateResponse(request, "plan/plan_detail.html", {"qs": qs})
-
-
-class GroupViewSet(ModelViewSet):
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
-
+from django.utils import timezone
 
 ######################## view ############################
 
+# 메인 화면 (약속 리스트)
+# url: /plan/
+# 노출 조건: 참여한 약속만 노출되며, 현재 시점 기준으로 다가올 약속과 지나간 약속 크게 두가지로 분류해서 노출
+# 정렬 조건: 다가올 약속은 빠른 날짜순, 지나간 약속은 늦은 날짜 순 정렬
+# 검색 조건: 카테고리 필터 제공
 
 class PlanList(ListView):
     model = Plan
-    # template_name = 'plan/plan_list.html'
     context_object_name = "plans"
     paginate_by = "3"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         now_date = timezone.now().date()
-        # plan_list_filter.html 에서 전체 리스트 받아오는데 사용
-        context['categories'] = Category.objects.all()
-        # 화면에서 사용자가 선택한 카테고리 ID 얻기
-        category_id = self.request.GET.get('category')
 
+        # 로그인 상태인 유저의 참여중 plan_id 리스트
+        plan_ids = Group.objects.filter(user=self.request.user).values_list('plan_id', flat=True)
+
+        # 지나간 약속, 다가올 약속 분리
         future_plans_list = list(
-            Plan.objects.filter(time__date__gte=now_date).order_by("time")
+            Plan.objects.filter(time__date__gte=now_date, id__in=plan_ids).order_by("time")
         )
         past_plans_list = list(
-            Plan.objects.filter(time__date__lt=now_date).order_by("-time")
+            Plan.objects.filter(time__date__lt=now_date, id__in=plan_ids).order_by("-time")
         )
 
-        # 사용자가 카테고리 선택한 경우 filtering
+        # 카테고리 filtering
+        context['categories'] = Category.objects.all()
+        category_id = self.request.GET.get('category')
+
         if category_id:
             future_plans_list = [plan for plan in future_plans_list if plan.category.id == int(category_id)]
             past_plans_list = [plan for plan in past_plans_list if plan.category.id == int(category_id)]
 
+        # 페이지네이션
         future_plans_paginator = Paginator(future_plans_list, self.paginate_by)
         past_plans_paginator = Paginator(past_plans_list, self.paginate_by)
 
@@ -91,24 +62,30 @@ class PlanList(ListView):
 
         return context
 
-
+# 상세 화면 (약속 상세)
+# url: /plan/<uuid:pk>/
+# 노출 항목: 약속 명, 약속 장소, 초대 코드, 방장, 참여자, 댓글
 class PlanDetail(DetailView):
     model = Plan
     context_object_name = "plan"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # 해당 아이템의 id값
+
+        # 참여자 리스트
         plan_id = self.kwargs["pk"]
-        # 해당 Plan에 참여한 유저 리스
         context["group"] = Group.objects.filter(plan=plan_id)
         context["is_member"] = Group.objects.filter(
             plan=plan_id, user=self.request.user
         ).exists()
+
+        # 댓글
         context["comment_form"] = CommentForm()
         return context
 
-
+# 약속 생성
+# url: /plan/create/
+# 작성 항목: 카테고리, 제목, 주소 (주소지 입력 시, 위도 경도로 변환하여 db저장) , 시간, 메모, 비밀방 생성
 @login_required()
 def plan_create(request):
     if request.method == "POST":
@@ -134,19 +111,22 @@ def plan_create(request):
                 plan.longitude = geodata["documents"][0]["x"]
 
             plan.save()
+
+            # 약속 생성자 group에 추가
+            group_create(request,plan.id)
             return redirect("plan")
 
     else:
         form = PlanForm()
         return render(request, "plan/plan_form.html", {"form": form})
 
-
+# 약속 수정
+# url: /plan/<uuid:pk>/edit/
 @login_required
 def plan_edit(request, pk):
-    # 수정할 plan
+
     plan = get_object_or_404(Plan, pk=pk)
 
-    # 작성자 아닌경우
     if request.user != plan.owner:
         return redirect("plan")
 
@@ -160,7 +140,8 @@ def plan_edit(request, pk):
 
     return render(request, "plan/plan_form.html", {"form": form})
 
-
+# 약속 삭제
+# url: /plan/<uuid:pk>/delete
 @login_required
 def plan_delete(request, pk):
     plan = get_object_or_404(Plan, pk=pk)
@@ -171,32 +152,32 @@ def plan_delete(request, pk):
 
     return redirect("plan")
 
-
+# 그룹 생성
+# url: /plan/<uuid:pk>/group/
+# 생성 조건: Plan 생성 시 생성한 유저 추가, 약속 상세 페이지 내 참여하기 클릭
 @login_required
 def group_create(request, pk):
     plan = get_object_or_404(Plan, pk=pk)
-    # Check if the user is already a member of the group.
+
     if not Group.objects.filter(plan=plan, user=request.user).exists():
-        # Create a new group and add the current user to it.
         Group.objects.create(plan=plan, user=request.user)
 
-    # Redirect to a success page (or wherever you want).
     return redirect("plan")
 
-
+# 그룹 삭제
+# url: /plan/<uuid:pk>/group/delete
 @login_required
 def group_delete(request, pk):
     plan = get_object_or_404(Plan, pk=pk)
-    # Check if the user is already a member of the group.
+
     if Group.objects.filter(plan=plan, user=request.user).exists():
-        # Create a new group and add the current user to it.
         group = get_object_or_404(Group, plan=plan, user=request.user)
         group.delete()
 
-    # Redirect to a success page (or wherever you want).
     return redirect("plan")
 
-
+# 참여자 위치
+# url: /plan/<uuid:pk>/map
 @login_required
 def plan_map(request, pk):
     plan = get_object_or_404(Plan, pk=pk)
@@ -204,10 +185,8 @@ def plan_map(request, pk):
 
     # group에 속한 user들의 id 리스트 생성
     user_ids = group.values_list("user", flat=True)
-    # UserLocation에서 해당 user들의 위치 정보 가져오기
-    # user_locations = UserLocation.objects.filter(user__in=user_ids)
 
-    # 최신순으로 가져오기
+    # User Location table에서 유저별 최근 위치 정보 가져오기
     latest_user_locations = (
         UserLocation.objects.filter(user__in=user_ids)
         .values("user")
@@ -229,7 +208,6 @@ def plan_map(request, pk):
             for location in user_locations
         ]
     )
-    # user_locations_json2 = json.dumps(user_locations_json, ensure_ascii=False)
 
     return render(
         request,
@@ -241,7 +219,8 @@ def plan_map(request, pk):
         },
     )
 
-
+# 댓글 작성
+# url : /plan/<uuid:pk>/comment/create
 @login_required
 def comment_create(request, pk):
     plan = get_object_or_404(Plan, pk=pk)
