@@ -3,9 +3,11 @@ from django.conf import settings
 from django.db import models
 from django.urls import reverse
 
+from django_prometheus.models import ExportModelOperationsMixin
+
 
 # Create your models here.
-class Category(models.Model):
+class Category(ExportModelOperationsMixin("category"), models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=200, unique=True, allow_unicode=True)
 
@@ -16,7 +18,7 @@ class Category(models.Model):
         return reverse("plan_list_by_category", args=[self.slug])
 
 
-class Plan(models.Model):
+class Plan(ExportModelOperationsMixin("plan"), models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     password = models.CharField(max_length=20, blank=True)
@@ -39,13 +41,13 @@ class Plan(models.Model):
         ordering = ["time"]
 
 
-class Group(models.Model):
+class Group(ExportModelOperationsMixin("group"), models.Model):
     plan = models.ForeignKey(Plan, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
-class Comment(models.Model):
+class Comment(ExportModelOperationsMixin("comment"), models.Model):
     plan = models.ForeignKey(Plan, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     message = models.TextField()

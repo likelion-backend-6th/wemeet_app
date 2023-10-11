@@ -6,7 +6,7 @@ image:
   tag: "latest"
 
 imagePullSecrets:
-- name: regcred
+  - name: regcred
 db:
   name: postgres
   tag: 13-alpine
@@ -34,6 +34,4 @@ secret:
     POSTGRES_PASSWORD: postgres
     POSTGRES_PORT: "5432"
   django:
-    # base 64
-    DJANGO_SECRET_KEY: tm7(zj#@=m&v91rhrwqvdzodiwk_bwd*-vj-@=pmj74*h9(n3m
-
+    DJANGO_SECRET_KEY: django-insecure-%1q)6f3d!g4i!siz-t9!)d@z=*5q_@5k%hz9jpt%2+$re+v+vk
