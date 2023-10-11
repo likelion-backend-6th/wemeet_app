@@ -42,6 +42,7 @@ app.kubernetes.io/name: {{ include "wemeet.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
+
 {{- define "wemeet.db.labels" -}}
 helm.sh/chart: {{ include "wemeet.chart" . }}
 {{ include "wemeet.db.selectorLabels" . }}

@@ -3,5 +3,5 @@ kind: ConfigMap
 metadata:
     name: {{ include "wemeet.fullname" . }}
 data:
-    DB_HOST: {{ include "wemeet.fullname" . }}
+    DB_HOST: {{ include "wemeet.db.fullname" . }}
     DJANGO_SETTINGS_MODULE: {{ .Values.configMap.django.DJANGO_SETTINGS_MODULE }}
