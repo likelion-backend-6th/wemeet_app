@@ -4,7 +4,7 @@ import requests
 from django.core.paginator import Paginator
 from django.db.models import Max
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import ListView,DetailView
+from django.views.generic import ListView, DetailView
 from .forms import PlanForm, CommentForm
 from .models import Plan, Group, Category
 from accountapp.models import UserLocation
@@ -18,6 +18,7 @@ from django.utils import timezone
 # 정렬 조건: 다가올 약속은 빠른 날짜순, 지나간 약속은 늦은 날짜 순 정렬
 # 검색 조건: 카테고리 필터 제공
 
+
 class PlanList(ListView):
     model = Plan
     context_object_name = "plans"
@@ -28,23 +29,35 @@ class PlanList(ListView):
         now_date = timezone.now().date()
 
         # 로그인 상태인 유저의 참여중 plan_id 리스트
-        plan_ids = Group.objects.filter(user=self.request.user).values_list('plan_id', flat=True)
+        plan_ids = Group.objects.filter(user=self.request.user).values_list(
+            "plan_id", flat=True
+        )
 
         # 지나간 약속, 다가올 약속 분리
         future_plans_list = list(
-            Plan.objects.filter(time__date__gte=now_date, id__in=plan_ids).order_by("time")
+            Plan.objects.filter(time__date__gte=now_date, id__in=plan_ids).order_by(
+                "time"
+            )
         )
         past_plans_list = list(
-            Plan.objects.filter(time__date__lt=now_date, id__in=plan_ids).order_by("-time")
+            Plan.objects.filter(time__date__lt=now_date, id__in=plan_ids).order_by(
+                "-time"
+            )
         )
 
         # 카테고리 filtering
-        context['categories'] = Category.objects.all()
-        category_id = self.request.GET.get('category')
+        context["categories"] = Category.objects.all()
+        category_id = self.request.GET.get("category")
 
         if category_id:
-            future_plans_list = [plan for plan in future_plans_list if plan.category.id == int(category_id)]
-            past_plans_list = [plan for plan in past_plans_list if plan.category.id == int(category_id)]
+            future_plans_list = [
+                plan
+                for plan in future_plans_list
+                if plan.category.id == int(category_id)
+            ]
+            past_plans_list = [
+                plan for plan in past_plans_list if plan.category.id == int(category_id)
+            ]
 
         # 페이지네이션
         future_plans_paginator = Paginator(future_plans_list, self.paginate_by)
@@ -61,6 +74,7 @@ class PlanList(ListView):
             plan.time_diff = now_date - plan.time.date()
 
         return context
+
 
 # 상세 화면 (약속 상세)
 # url: /plan/<uuid:pk>/
@@ -82,6 +96,7 @@ class PlanDetail(DetailView):
         # 댓글
         context["comment_form"] = CommentForm()
         return context
+
 
 # 약속 생성
 # url: /plan/create/
@@ -113,18 +128,18 @@ def plan_create(request):
             plan.save()
 
             # 약속 생성자 group에 추가
-            group_create(request,plan.id)
+            group_create(request, plan.id)
             return redirect("plan")
 
     else:
         form = PlanForm()
         return render(request, "plan/plan_form.html", {"form": form})
 
+
 # 약속 수정
 # url: /plan/<uuid:pk>/edit/
 @login_required
 def plan_edit(request, pk):
-
     plan = get_object_or_404(Plan, pk=pk)
 
     if request.user != plan.owner:
@@ -140,6 +155,7 @@ def plan_edit(request, pk):
 
     return render(request, "plan/plan_form.html", {"form": form})
 
+
 # 약속 삭제
 # url: /plan/<uuid:pk>/delete
 @login_required
@@ -151,6 +167,7 @@ def plan_delete(request, pk):
         return redirect("plan")
 
     return redirect("plan")
+
 
 # 그룹 생성
 # url: /plan/<uuid:pk>/group/
@@ -164,6 +181,7 @@ def group_create(request, pk):
 
     return redirect("plan")
 
+
 # 그룹 삭제
 # url: /plan/<uuid:pk>/group/delete
 @login_required
@@ -175,6 +193,7 @@ def group_delete(request, pk):
         group.delete()
 
     return redirect("plan")
+
 
 # 참여자 위치
 # url: /plan/<uuid:pk>/map
@@ -214,15 +233,15 @@ def plan_map(request, pk):
     headers = {
         "accept": "application/json",
         "content-type": "application/json",
-        "appKey": "e8wHh2tya84M88aReEpXCa5XTQf3xgo01aZG39k5"
+        "appKey": "e8wHh2tya84M88aReEpXCa5XTQf3xgo01aZG39k5",
     }
     user_result = []
     for item in user_locations:
         user_info = {}
-        if item.longitude == plan.longitude and item.latitude ==plan.latitude:
-            user_info['user'] = item.user.username
-            user_info['distance'] = 0
-            user_info['time'] = 0
+        if item.longitude == plan.longitude and item.latitude == plan.latitude:
+            user_info["user"] = item.user.username
+            user_info["distance"] = 0
+            user_info["time"] = 0
             user_result.append(user_info)
 
         else:
@@ -233,14 +252,18 @@ def plan_map(request, pk):
                 "endY": plan.latitude,
                 "format": "json",
                 "count": 1,
-                "searchDttm": "202310101200"
+                "searchDttm": "202310101200",
             }
             response = requests.post(url, json=payload, headers=headers)
             data = response.json()
 
-            user_info['user'] = item.user.username
-            user_info['distance'] = data['metaData']['plan']['itineraries'][0]['totalDistance']/1000
-            user_info['time'] = data['metaData']['plan']['itineraries'][0]['totalTime']/60
+            user_info["user"] = item.user.username
+            user_info["distance"] = (
+                data["metaData"]["plan"]["itineraries"][0]["totalDistance"] / 1000
+            )
+            user_info["time"] = (
+                data["metaData"]["plan"]["itineraries"][0]["totalTime"] / 60
+            )
 
             user_result.append(user_info)
 
@@ -251,9 +274,10 @@ def plan_map(request, pk):
             "user_locations_json": user_locations_json,
             "plan_lat": plan.latitude,
             "plan_lng": plan.longitude,
-            "result":user_result,
+            "result": user_result,
         },
     )
+
 
 # 댓글 작성
 # url : /plan/<uuid:pk>/comment/create
