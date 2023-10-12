@@ -4,10 +4,6 @@ from .base import *
 
 DEBUG = False
 
-LOCAL_IP = os.getenv("LOCAL_IP", "localhost")
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
-ALLOWED_HOSTS = [
-    "127.0.0.1",
-    "*",
-    LOCAL_IP,
-]
+LOCAL_IP = os.getenv("LOCAL_IP", "localhost")

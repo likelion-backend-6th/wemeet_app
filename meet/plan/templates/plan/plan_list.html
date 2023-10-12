@@ -3,6 +3,7 @@
 {% block content %}
 <h1>plan</h1>
 <a href="{% url 'plan_create' %}">약속 만들기</a>
+{% include 'plan/plan_list_filter.html' %}
 <div class="row">
 
     <h3> 다가올 약속 </h3>
@@ -20,7 +21,8 @@
 <!--        <img src="{{ plan.image.url }}" class="card-img-top" alt="{{ plan.title }}">-->
         <div class="card-body">
           <h5 class="card-title"><a href="{% url 'plan_detail' plan.id %}">{{ plan.title }}</a></h5>
-
+            <p class="card-text">{{ is_member }}</p>
+            <p class="card-text">{{ plan.category.name }}</p>
           <p class="card-text">{{ plan.memo }}</p>
             <p class="card-text">{{ plan.time|date:"Y-m-d h:i A" }}</p>
 

@@ -13,3 +13,19 @@ spec:
       name: http
   selector:
     {{- include "wemeet.selectorLabels" . | nindent 4 }}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "wemeet.db.fullname" . }}
+  labels:
+    {{- include "wemeet.db.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.DbService.type }}
+  ports:
+    - port: {{ .Values.DbService.port }}
+      targetPort: {{ .Values.DbService.port }}
+      protocol: TCP
+  selector:
+    {{- include "wemeet.db.selectorLabels" . | nindent 4 }}

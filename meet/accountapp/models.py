@@ -1,8 +1,10 @@
 from django.conf import settings
 from django.db import models
 
+from django_prometheus.models import ExportModelOperationsMixin
 
-class UserLocation(models.Model):
+
+class UserLocation(ExportModelOperationsMixin("location"), models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     latitude = models.CharField(blank=True, null=True, max_length=50)  # 위도
     longitude = models.CharField(blank=True, null=True, max_length=50)  # 경도

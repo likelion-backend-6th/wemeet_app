@@ -1,0 +1,12 @@
+<form method="GET" action="">
+  <select name="category">
+    <option value="">All categories</option>
+    {% for category in categories %}
+      <option value="{{ category.id }}"
+              {% if request.GET.category == category.id|stringformat:"s" %}selected{% endif %}>
+          {{ category.name }}
+      </option>
+    {% endfor %}
+  </select>
+  <input type="submit" value="Filter">
+</form>
