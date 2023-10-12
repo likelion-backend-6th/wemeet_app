@@ -6,11 +6,12 @@ on:
             - 'develop'
         tags:
             - "*.*.*"
-
 jobs:
     deploy:
         name: Deploy Image
         runs-on: ubuntu-latest
+        env:
+            IMAGE: ${{ vars.NCR_REGISTRY }}/we-meet
         steps:
             - uses: actions/checkout@v3
 
