@@ -9,11 +9,16 @@ on:
 
 jobs:
     deploy:
-        needs: CI
         name: Deploy Image
         runs-on: ubuntu-latest
+        env:
+            IMAGE: ${{ vars.NCR_REGISTRY }}/we-meet
         steps:
             - uses: actions/checkout@v3
+
+            - name: Get current timestamp
+              id: timestamp
+              run: echo "timestamp=$(date '+%s')" >> "$GITHUB_OUTPUT"
 
             - name: Login to NCR
               uses: docker/login-action@v2
