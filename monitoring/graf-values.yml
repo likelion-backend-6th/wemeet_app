@@ -1,0 +1,13 @@
+# 데이터를 영구적으로 저장하기 위해서 사용
+persistence:
+  enabled: true
+  size: 10Gi
+  accessModes:
+    - ReadWriteOnce
+
+service:
+  enabled: true
+  type: LoadBalancer
+
+adminUser: admin
+adminPassword: "admin123!@#"
