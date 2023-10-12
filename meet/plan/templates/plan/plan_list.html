@@ -1,95 +1,94 @@
 {% extends 'base.html' %}
 {% block title %} plan {% endblock %}
 {% block content %}
-<h1>plan</h1>
-<a href="{% url 'plan_create' %}">약속 만들기</a>
-{% include 'plan/plan_list_filter.html' %}
 <div class="row">
+    <div class="col col-lg-2">
+        <a class="btn btn-primary w-100" href="{% url 'plan_create' %}">약속 만들기</a>
+        {% include 'plan/plan_list_filter.html' %}
+    </div>
+    <div class="col">
+        <div class="row">
+            <h3> 다가올 약속 </h3>
+            {% for plan in future_plans %}
+            <div class="col-sm-4">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        {% if plan.time_diff.days == 0 %}
+                            Today
+                        {% else %}
+                            {{ plan.time_diff.days}} day {% endif %}
+                    </div>
+<!--        <img src="{{ plan.image.url }}" class="card-img-top" alt="{{ plan.title }}">-->
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="{% url 'plan_detail' plan.id %}">{{ plan.title }}</a></h5>
+                        <p class="card-text">{{ is_member }}</p>
+                        <p class="card-text">{{ plan.memo }}</p>
+                        <p class="card-text">{{ plan.time|date:"Y-m-d h:i A" }}</p>
+                    </div>
+                    <hr class="dark horizontal my-0">
+                    {% if plan.owner == request.user %}
+                    <div class="card-footer">
+                        <a href="{% url 'plan_edit' plan.id  %}">수정</a>
+                        <a href="{% url 'plan_delete' plan.id %}">삭제</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
 
-    <h3> 다가올 약속 </h3>
-    {% for plan in future_plans %}
+            <!-- Pagination links for future plans -->
+            <div class="pagination justify-content-center">
+                <span class="step-links">
+                    {% if future_plans.has_previous %}
+                    <a href="?future_page={{ future_plans.previous_page_number }}">previous</a>
+                    {% endif %}
 
-    <div class="col-md-4">
-      <div class="card mb-4">
-            <div class="card-header">
-                {% if plan.time_diff.days == 0 %}
-                    Today
-                {% else %}
-                    {{ plan.time_diff.days}} day
+                <span class="current">
+                    Page {{ future_plans.number }} of {{ future_plans.paginator.num_pages }}.
+                </span>
+                    {% if future_plans.has_next %}
+                    <a href="?future_page={{ future_plans.next_page_number }}">next</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+        <div class="row">
+        <h3> 지난 약속 </h3>
+        {% for plan in past_plans %}
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title"><a href="{% url 'plan_detail' plan.id %}">{{ plan.title }}</a></h5>
+                    <p class="card-text">{{ plan.memo }}</p>
+                    <p class="card-text">{{ plan.time|date:"Y-m-d h:i A" }}</p>
+                </div>
+                <hr class="dark horizontal my-0">
+                {% if plan.owner == request.user %}
+                <div class="card-footer">
+                        <a href="{% url 'plan_edit' plan.id  %}">수정</a>
+                        <a href="{% url 'plan_delete' plan.id %}">삭제</a>
+                </div>
                 {% endif %}
             </div>
-<!--        <img src="{{ plan.image.url }}" class="card-img-top" alt="{{ plan.title }}">-->
-        <div class="card-body">
-          <h5 class="card-title"><a href="{% url 'plan_detail' plan.id %}">{{ plan.title }}</a></h5>
-            <p class="card-text">{{ is_member }}</p>
-            <p class="card-text">{{ plan.category.name }}</p>
-          <p class="card-text">{{ plan.memo }}</p>
-            <p class="card-text">{{ plan.time|date:"Y-m-d h:i A" }}</p>
-
-            {% if plan.owner == request.user %}
-            <a href="{% url 'plan_edit' plan.id  %}">수정</a>
-            <a href="{% url 'plan_delete' plan.id %}">삭제</a>
-            {% endif %}
-          <!-- 기타 필요한 내용 -->
         </div>
-      </div>
-    </div>
-    {% endfor %}
+        {% endfor %}
+        <!-- Pagination links for past plans -->
+        <div class="pagination justify-content-center">
+            <span class="step-links">
+                {% if past_plans.has_previous %}
+                    <a href="?past_page={{ past_plans.previous_page_number }}">previous</a>
+                {% endif %}
 
-    <!-- Pagination links for future plans -->
-<div class="pagination justify-content-center">
-    <span class="step-links">
-        {% if future_plans.has_previous %}
-            <a href="?future_page={{ future_plans.previous_page_number }}">previous</a>
-        {% endif %}
+            <span class="current">
+                Page {{ past_plans.number }} of {{ past_plans.paginator.num_pages }}.
+            </span>
 
-        <span class="current">
-            Page {{ future_plans.number }} of {{ future_plans.paginator.num_pages }}.
-        </span>
-
-        {% if future_plans.has_next %}
-            <a href="?future_page={{ future_plans.next_page_number }}">next</a>
-        {% endif %}
-    </span>
-</div>
-
-<div class="row">
-    <h3> 지난 약속 </h3>
-    {% for plan in past_plans %}
-    <div class="col-md-4">
-      <div class="card mb-4">
-        <div class="card-body">
-          <h5 class="card-title"><a href="{% url 'plan_detail' plan.id %}">{{ plan.title }}</a></h5>
-          <p class="card-text">{{ plan.memo }}</p>
-            <p class="card-text">{{ plan.time|date:"Y-m-d h:i A" }}</p>
-
-            {% if plan.owner == request.user %}
-            <a href="{% url 'plan_edit' plan.id  %}">수정</a>
-            <a href="{% url 'plan_delete' plan.id %}">삭제</a>
+            {% if past_plans.has_next %}
+                <a href="?past_page={{ past_plans.next_page_number }}">next</a>
             {% endif %}
-          <!-- 기타 필요한 내용 -->
+            </span>
         </div>
-      </div>
     </div>
-
-    {% endfor %}
-        <!-- Pagination links for future plans -->
-<div class="pagination justify-content-center">
-    <span class="step-links">
-        {% if past_plans.has_previous %}
-            <a href="?past_page={{ past_plans.previous_page_number }}">previous</a>
-        {% endif %}
-
-        <span class="current">
-            Page {{ past_plans.number }} of {{ past_plans.paginator.num_pages }}.
-        </span>
-
-        {% if past_plans.has_next %}
-            <a href="?past_page={{ past_plans.next_page_number }}">next</a>
-        {% endif %}
-    </span>
-</div>
-
   </div>
-
+</div>
 {% endblock %}
