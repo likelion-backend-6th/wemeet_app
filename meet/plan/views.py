@@ -12,6 +12,7 @@ from django.utils import timezone
 
 ######################## view ############################
 
+
 # 메인 화면 (약속 리스트)
 # url: /plan/
 # 노출 조건: 참여한 약속만 노출되며, 현재 시점 기준으로 다가올 약속과 지나간 약속 크게 두가지로 분류해서 노출
@@ -25,11 +26,13 @@ class PlanList(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
 
-        search_query = self.request.GET.get('search-plan', '')
+        search_query = self.request.GET.get("search-plan", "")
         if search_query:
             queryset = queryset.filter(
-                Q(title__icontains=search_query) |  # title 필드에서 대소문자 구분 없이 일치하는 것을 찾거나,
-                Q(memo__icontains=search_query)  # description 필드에서 대소문자 구분 없이 일치하는 것을 찾습니다.
+                Q(title__icontains=search_query)
+                | Q(  # title 필드에서 대소문자 구분 없이 일치하는 것을 찾거나,
+                    memo__icontains=search_query
+                )  # description 필드에서 대소문자 구분 없이 일치하는 것을 찾습니다.
             )
 
         return queryset
@@ -37,7 +40,7 @@ class PlanList(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         now_date = timezone.now().date()
-        context['search'] = self.request.GET.get('search-plan', '')
+        context["search"] = self.request.GET.get("search-plan", "")
 
         # 로그인 상태인 유저의 참여중 plan_id 리스트
         plan_ids = Group.objects.filter(user=self.request.user).values_list(
@@ -45,15 +48,15 @@ class PlanList(ListView):
         )
 
         future_plans_list = list(
-                self.object_list.filter(time__date__gte=now_date, id__in=plan_ids).order_by(
-                    "time"
-                )
+            self.object_list.filter(time__date__gte=now_date, id__in=plan_ids).order_by(
+                "time"
             )
+        )
         past_plans_list = list(
-                self.object_list.filter(time__date__lt=now_date, id__in=plan_ids).order_by(
-                    "-time"
-                )
+            self.object_list.filter(time__date__lt=now_date, id__in=plan_ids).order_by(
+                "-time"
             )
+        )
 
         # 카테고리 filtering
         context["categories"] = Category.objects.all()
