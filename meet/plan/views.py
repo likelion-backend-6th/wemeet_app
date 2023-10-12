@@ -2,7 +2,7 @@ import json
 from django.contrib.auth.decorators import login_required
 import requests
 from django.core.paginator import Paginator
-from django.db.models import Max
+from django.db.models import Max, Q
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView
 from .forms import PlanForm, CommentForm
@@ -17,33 +17,43 @@ from django.utils import timezone
 # 노출 조건: 참여한 약속만 노출되며, 현재 시점 기준으로 다가올 약속과 지나간 약속 크게 두가지로 분류해서 노출
 # 정렬 조건: 다가올 약속은 빠른 날짜순, 지나간 약속은 늦은 날짜 순 정렬
 # 검색 조건: 카테고리 필터 제공
-
-
 class PlanList(ListView):
     model = Plan
     context_object_name = "plans"
-    paginate_by = "3"
+    paginate_by = 6
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        search_query = self.request.GET.get('search-plan', '')
+        if search_query:
+            queryset = queryset.filter(
+                Q(title__icontains=search_query) |  # title 필드에서 대소문자 구분 없이 일치하는 것을 찾거나,
+                Q(memo__icontains=search_query)  # description 필드에서 대소문자 구분 없이 일치하는 것을 찾습니다.
+            )
+
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         now_date = timezone.now().date()
+        context['search'] = self.request.GET.get('search-plan', '')
 
         # 로그인 상태인 유저의 참여중 plan_id 리스트
         plan_ids = Group.objects.filter(user=self.request.user).values_list(
             "plan_id", flat=True
         )
 
-        # 지나간 약속, 다가올 약속 분리
         future_plans_list = list(
-            Plan.objects.filter(time__date__gte=now_date, id__in=plan_ids).order_by(
-                "time"
+                self.object_list.filter(time__date__gte=now_date, id__in=plan_ids).order_by(
+                    "time"
+                )
             )
-        )
         past_plans_list = list(
-            Plan.objects.filter(time__date__lt=now_date, id__in=plan_ids).order_by(
-                "-time"
+                self.object_list.filter(time__date__lt=now_date, id__in=plan_ids).order_by(
+                    "-time"
+                )
             )
-        )
 
         # 카테고리 filtering
         context["categories"] = Category.objects.all()
