@@ -57,9 +57,18 @@ jobs:
               id: version
               run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
 
-            - name: Build and push
+            - name: build-and-push
+              if: startsWith(github.ref, 'refs/heads')
               uses: docker/build-push-action@v4
               with:
                 context: meet
                 tags: ${{ env.IMAGE_TAG }},"${{ env.IMAGE }}:${{ steps.timestamp.outputs.timestamp }}"
+                push: true
+
+            - name: build-and-push
+              if: startsWith(github.ref, 'refs/tags')
+              uses: docker/build-push-action@v4
+              with:
+                context: meet
+                tags: ${{ env.IMAGE_TAG }},"${{ env.IMAGE }}:${{ steps.version.outputs.VERSION }}"
                 push: true
