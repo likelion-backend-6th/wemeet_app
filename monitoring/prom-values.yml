@@ -1,0 +1,23 @@
+prometheus:
+  prometheusSpec:
+    scrapeInterval: "10s"
+    evaluationInterval: "10s"
+    externalLabels:
+      monitor: "django-monitor"
+
+    ruleSelectorNilUsesHelmValues: false
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+    probeSelectorNilUsesHelmValues: false
+    scrapeConfigSelectorNilUsesHelmValues: false
+
+    additionalScrapeConfigs:
+      - job_name: "django"
+        static_configs:
+          - targets: ["stag-wemeet.default.svc.cluster.local"]
+
+  service:
+    type: LoadBalancer
+
+grafana:
+  enabled: false

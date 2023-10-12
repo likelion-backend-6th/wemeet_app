@@ -1,0 +1,15 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: stag-wemeet
+  # namespace: default
+  labels:
+    release: kube-stack-prometheus
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: wemeet
+  endpoints:
+    - port: http
+      path: /metrics
+      scheme: http
