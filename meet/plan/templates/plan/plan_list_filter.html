@@ -1,6 +1,6 @@
-<form method="GET" action="">
-  <select name="category">
-    <option value="">All categories</option>
+<form id="MyForm" method="GET" action="">
+  <select class="form-select form-select-sm" id="categorySelect" name="category" onchange="this.form.submit()">
+    <option value="">전체 카테고리 </option>
     {% for category in categories %}
       <option value="{{ category.id }}"
               {% if request.GET.category == category.id|stringformat:"s" %}selected{% endif %}>
@@ -8,5 +8,14 @@
       </option>
     {% endfor %}
   </select>
-  <input type="submit" value="Filter">
 </form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+  {% block domready %}
+     $('#categorySelect').change(function() {
+       $('#myForm').submit();
+   });
+  {% endblock %}
+</script>
