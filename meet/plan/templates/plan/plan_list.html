@@ -27,6 +27,14 @@
             <!-- Future plan list -->
             <div class='tab-pane fade show active' id='future' role='tabpanel'>
                 <div class="row">
+                         <div class="row">
+         <div class="col text-center">
+    <a href="?category=&tab=future">전체</a>
+    {% for category in categories %}
+        <a href="?category={{ category.id }}&tab=future">{{ category.name }}</a>
+    {% endfor %}
+         </div>
+    </div>
                 {% for plan in future_plans %}
                     <div class="col-sm-4">
                         <div class="card mb-4">
@@ -73,6 +81,15 @@
             <!-- Past Plans Tab -->
             <div class='tab-pane fade' id='past' role='tabpanel'>
                 <div class="row">
+                         <div class="row">
+         <div class="col text-center">
+    <a href="?category=&tab=past">전체</a>
+    {% for category in categories %}
+        <a href="?category={{ category.id }}&tab=past">{{ category.name }}</a>
+    {% endfor %}
+         </div>
+    </div>
+
                     {% for plan in past_plans %}
                     <div class="col-md-4">
                         <div class="card mb-4">
