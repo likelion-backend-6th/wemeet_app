@@ -5,7 +5,9 @@ prometheus:
     externalLabels:
       monitor: "django-monitor"
 
+    # PrometheusRules Helm release Labels가 아닌 PrometheusRules 사용
     ruleSelectorNilUsesHelmValues: false
+    # ServiceMonitor 리소스를 선택
     serviceMonitorSelectorNilUsesHelmValues: false
     podMonitorSelectorNilUsesHelmValues: false
     probeSelectorNilUsesHelmValues: false
