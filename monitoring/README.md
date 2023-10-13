@@ -1,20 +1,23 @@
-# Running a demo Prometheus
+# Running a Monitoring Tools
 
-To run a demo Prometheus, you'll need to follow these steps:
+### Prometheus
 
-* Have a Django application running and exporting its stats. The
-  provided `prometheus.yml` assumes the stats are exported at
-  `http://127.0.0.1:8000/metrics`.
-* Install Prometheus by cloning it somewhere, see the [installation
-  instructions](http://prometheus.io/docs/introduction/install/).
-  Let's assume you cloned it to `~/prometheus`.
-* Run prometheus like this:
-
-  ```shell
-  ~/prometheus/prometheus \
-    --config.file=prometheus.yml \
-    --web.console.templates consoles/ \
-    --web.console.libraries ~/prometheus/console_libraries/
+  ```
+  http://monitoring-stag-kube-pro-1b83e-19983720-00bcca4e5e57.kr.lb.naverncp.com:9090
   ```
 
-* Navigate to `http://localhost:9090`.
+
+### Grafana
+
+  ```
+  http://monitoring-stag-grafana-f1737-19985889-beaf85a59080.kr.lb.naverncp.com
+  ```
+
+  - ID : admin
+
+    PW : admin123!@#
+
+  
+  - django dashboard 사용
+
+### 개발
