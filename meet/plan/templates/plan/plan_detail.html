@@ -4,15 +4,35 @@
 {% block content %}
 <div class="container">
     <h1>{{plan.title}}</h1>
+    {% if plan.password and not is_member %}
+    <div class ='password-check'>
+    <h3>비밀약속 입니다.</h3>
+        <p>비밀번호를 입력해주세요. 비밀번호 일치 시 비밀약속방에 자동으로 참여됩니다.</p>
+    <div class="p-4">
+    <form id="password-form">
+        {% csrf_token %}
+        <div class="input-group input-group-dynamic input-group-append mb-4" id="password-field">
+            <label class="form-label" for="password">비밀번호</label>
+            <input type="text" class="form-control" name="password" id="password-input">
+            <button class='btn btn-primary' type="submit" id="submit">제출</button>
+        </div>
+    </form>
+        <div id="result_id"></div>
+    </div>
+        </div>
+    {% else %}
+    <div class="detail-info">
     <div class="row">
         <div class="col">
             <div>
                 <p>장소: {{plan.address}}</p>
-                <p>초대코드:http://localhost:8000/plan/{{plan.id}}</p>
                 <p>방장: {{ plan.owner }}</p>
                 <p>참여자: {% for g in group %}
                         {{g.user}}
                         {% endfor %}</p>
+                <label for="">초대링크</label>
+                <p id="url-to-copy">http://localhost:8000/plan/{{plan.id}}</p>
+                <button class="btn btn-success" id="copy-button">초대링크 복사하기</button>
                 {% if plan.owner == request.user %}
                 <a href="{% url 'plan_delete' plan.id %}">방장: 약속 삭제</a>
                 <a href="{% url 'plan_edit' plan.id %}">방장: 약속 수정</a>
@@ -53,7 +73,51 @@
 
        </div>
     </div>
+    </div>
 </div>
-
+{% endif %}
 
 {% endblock %}
+{% block include_js %}
+    {{ plan.password|json_script:"plan-pw"}}
+    {{ plan.id|json_script:"plan-id" }}
+{% endblock %}
+
+<script type="text/javascript">
+    {% block domready %}
+        $('#submit').click(function(event){
+            // event.preventDefault()
+
+            var planPW = JSON.parse(document.getElementById('plan-pw').textContent);
+            var planID = JSON.parse(document.getElementById('plan-id').textContent);
+            var inputPW = $("#password-input").val();
+            console.log(planPW, inputPW)
+
+            $.ajax({
+                    type: "POST",
+                    url: "/plan/check_password/",
+                    dataType: "json",
+                    data: {
+                        'plan_pw': planPW,
+                        'input_pw': inputPW,
+                        'plan_id': planID,
+                        'csrfmiddlewaretoken': '{{csrf_token}}',
+                    },
+                    success: function (response) {
+                        alert("비밀약속방에 참여했습니다.")
+                    },
+                    error: function () {
+                        alert("틀렸습니다.")
+                    },
+                });
+
+        });
+         $('#copy-button').click(function() {
+             var dummy = $('<input>').val($('#url-to-copy').text()).appendTo('body').select();
+             document.execCommand('copy');
+             dummy.remove();
+
+             alert("초대링크가 복사되었습니다.");
+         });
+        {% endblock %}
+</script>
