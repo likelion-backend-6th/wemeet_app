@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 import requests
 from django.core.paginator import Paginator
 from django.db.models import Max, Q
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView
 from .forms import PlanForm, CommentForm
@@ -105,7 +106,6 @@ class PlanDetail(DetailView):
         context["is_member"] = Group.objects.filter(
             plan=plan_id, user=self.request.user
         ).exists()
-
         # 댓글
         context["comment_form"] = CommentForm()
         return context
@@ -308,3 +308,16 @@ def comment_create(request, pk):
     else:
         form = CommentForm()
     return render(request, "plan/comment_form.html", {"form": form})
+
+
+def check_password(request):
+    if request.method == 'POST':
+        plan_id = request.POST.get('plan_id')
+        plan_pw = request.POST.get('plan_pw')
+        input_pw = request.POST.get('input_pw')
+
+        if plan_pw == input_pw:
+            group_create(request,plan_id)
+            return JsonResponse({'result_id': '비밀번호가 일치합니다.'})
+        else:
+            return JsonResponse({'error': '비밀번호가 일치하지 않습니다.'}, status=400)
