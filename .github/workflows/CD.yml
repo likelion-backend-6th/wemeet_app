@@ -1,40 +1,27 @@
 name: CD
 
 on:
-  push:
-    tags:
-      - "*.*.*"
+    push:
+        branches:
+            - 'master'
+
+env:
+    IMAGE: ${{ vars.NCR_REGISTRY }}/we-meet
+    IMAGE_TAG: ${{ vars.NCR_REGISTRY }}/we-meet:latest
 
 jobs:
-  deploy:
-    name: Deploy Image
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    deploy:
+        name: Deploy Image
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
 
-      - name: Download Artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: artifact
+            - name: Login to NCR
+              uses: docker/login-action@v2
+              with:
+                registry: ${{ vars.NCR_REGISTRY }}
+                username: ${{ secrets.NCR_ACCESS_KEY_ID }}
+                password: ${{ secrets.NCR_SECRET_KEY }}
 
-      - name: Set up Docker buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Login to NCR
-        uses: docker/login-action@v2
-        with:
-          registry: ${{ secrets.NCR_REGISTRY }}
-          username: ${{ secrets.NCR_ACCESS_KEY_ID }}
-          password: ${{ secrets.NCR_SECRET_KEY }}
-
-      - name: Get version
-        if: startsWith(github.ref, 'refs/tags')
-        id: version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> "$GITHUB_ENV"
-
-      - name: Deploy image (Tag)
-        if: startsWith(github.ref, 'refs/tags')
-        run: |
-          docker buildx build --file meet/Dockerfile --tag ${{ env.IMAGE_TAG }},"${{ env.IMAGE }}:${{ steps.version.outputs.VERSION }}" .
-          docker push ${{ env.IMAGE_TAG }},"${{ env.IMAGE }}:${{ steps.version.outputs.VERSION }}"
+            - name: Deploy image
+              run: docker push <span class="math-inline">\{\{ env\.IMAGE \}\}\:</span>{{ env.IMAGE_TAG }}
