@@ -15,9 +15,9 @@ def register(request):
             new_user.set_password(user_form.cleaned_data["password"])
             new_user.save()
 
-            new_user.backend = 'django.contrib.auth.backends.ModelBackend'
+            new_user.backend = "django.contrib.auth.backends.ModelBackend"
             login(request, new_user)
-            return redirect('plan')
+            return redirect("plan")
 
     else:
         user_form = UserRegistrationForm()
