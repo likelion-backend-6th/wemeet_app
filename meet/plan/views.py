@@ -311,13 +311,13 @@ def comment_create(request, pk):
 
 
 def check_password(request):
-    if request.method == 'POST':
-        plan_id = request.POST.get('plan_id')
-        plan_pw = request.POST.get('plan_pw')
-        input_pw = request.POST.get('input_pw')
+    if request.method == "POST":
+        plan_id = request.POST.get("plan_id")
+        plan_pw = request.POST.get("plan_pw")
+        input_pw = request.POST.get("input_pw")
 
         if plan_pw == input_pw:
-            group_create(request,plan_id)
-            return JsonResponse({'result_id': '비밀번호가 일치합니다.'})
+            group_create(request, plan_id)
+            return JsonResponse({"result_id": "비밀번호가 일치합니다."})
         else:
-            return JsonResponse({'error': '비밀번호가 일치하지 않습니다.'}, status=400)
+            return JsonResponse({"error": "비밀번호가 일치하지 않습니다."}, status=400)
