@@ -9,7 +9,7 @@ on:
 
 env:
   IMAGE: ${{ vars.NCR_REGISTRY }}/we-meet
-  IMAGE_TAG: ${{ vars.NCR_REGISTRY }}/we-meet:${{ github.run_number }}
+  IMAGE_TAG: ${{ vars.NCR_REGISTRY }}/we-meet:latest
 
 jobs:
 
@@ -47,7 +47,7 @@ jobs:
         uses: docker/build-push-action@v4     
         with:
           context: meet     
-          tags: ${{ env.IMAGE }}:${{ github.run_number }},${{ env.IMAGE }}:${{ steps.timestamp.outputs.timestamp }}
+          tags: ${{ env.IMAGE_TAG }},"${{ env.IMAGE }}:${{ steps.timestamp.outputs.timestamp }}"
           push: true  
       
       - name: Build and Push Image Tagged Version   
@@ -55,6 +55,6 @@ jobs:
         uses: docker/build-push-action@v4     
         with:
           context: meet     
-          tags: ${{ env.IMAGE }}:${{ github.run_number }},${{env.IMAGE}}:${{steps.version.outputs.VERSION}}    
+          tags: ${{ env.IMAGE_TAG }},"${{ env.IMAGE }}:${{ steps.version.outputs.VERSION }}"
           push: true  
       
