@@ -26,15 +26,27 @@ class PlanList(ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
+        now_date = timezone.now().date()
+        # 로그인 상태인 유저의 참여중 plan_id 리스트
+        plan_ids = Group.objects.filter(user=self.request.user).values_list(
+            "plan_id", flat=True
+        )
+        # 카테고리 filtering
+        category_id = self.request.GET.get("category")
+
+        if category_id:
+            queryset = queryset.filter(category=category_id)
 
         search_query = self.request.GET.get("search-plan", "")
         if search_query:
             queryset = queryset.filter(
                 Q(title__icontains=search_query)
-                | Q(  # title 필드에서 대소문자 구분 없이 일치하는 것을 찾거나,
-                    memo__icontains=search_query
-                )  # description 필드에서 대소문자 구분 없이 일치하는 것을 찾습니다.
+                | Q(memo__icontains=search_query),
+                time__gte=now_date,
+                id__in=plan_ids
             )
+        else:
+            queryset = queryset.filter(time__gte=now_date, id__in=plan_ids)
 
         return queryset
 
@@ -43,49 +55,11 @@ class PlanList(ListView):
         now_date = timezone.now().date()
         context["search"] = self.request.GET.get("search-plan", "")
 
-        # 로그인 상태인 유저의 참여중 plan_id 리스트
-        plan_ids = Group.objects.filter(user=self.request.user).values_list(
-            "plan_id", flat=True
-        )
-
-        future_plans_list = list(
-            self.object_list.filter(time__date__gte=now_date, id__in=plan_ids).order_by(
-                "time"
-            )
-        )
-        past_plans_list = list(
-            self.object_list.filter(time__date__lt=now_date, id__in=plan_ids).order_by(
-                "-time"
-            )
-        )
-
         # 카테고리 filtering
         context["categories"] = Category.objects.all()
-        category_id = self.request.GET.get("category")
+        # 카테고리 id 컨텍스트에 추가
+        context["category_id"] = self.request.GET.get("category")
 
-        if category_id:
-            future_plans_list = [
-                plan
-                for plan in future_plans_list
-                if plan.category.id == int(category_id)
-            ]
-            past_plans_list = [
-                plan for plan in past_plans_list if plan.category.id == int(category_id)
-            ]
-
-        # 페이지네이션
-        future_plans_paginator = Paginator(future_plans_list, self.paginate_by)
-        past_plans_paginator = Paginator(past_plans_list, self.paginate_by)
-
-        future_page_number = self.request.GET.get("future_page")
-        past_page_number = self.request.GET.get("past_page")
-
-        context["future_plans"] = future_plans_paginator.get_page(future_page_number)
-        context["past_plans"] = past_plans_paginator.get_page(past_page_number)
-
-        # 다가올 약속 d-day
-        for plan in context["future_plans"]:
-            plan.time_diff = now_date - plan.time.date()
 
         return context
 
