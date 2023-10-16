@@ -1,26 +1,48 @@
 {% extends "base.html" %}
 {% load socialaccount %}
+{% load static %}
 {% block title %}login{% endblock %}
 
 {% block content %}
-  <h1>Log-in</h1>
 
-  {% if form.errors %}
-    <p>아이디와 비밀번호가 일치하지 않습니다. 다시 시도해주세요</p>
-  {% else %}
-    <p>다음 폼을 사용하여 로그인하세요. 계정이 없다면 <a href="{% url 'accountapp:register' %}">회원가입</a> 해주세요</p>
-  {% endif %}
-
-  <div class="login-form">
-    <form action="{% url 'accountapp:login' %}" method="post">
-      {{ form.as_p }}
-      {% csrf_token %}
-      <input type="hidden" name="next" value="{{ next }}" />
-      <p><input type="submit" value="Log-in" /></p>
-<button type="button" onclick="location.href = '{% provider_login_url kakao %}'">
-    <img class = "kakao" src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" alt="" >
-</button>
-    </form>
-
+<div class="container my-auto">
+  <div class="row">
+    <div class="col-lg-4 col-md-8 col-12 mx-auto">
+      <div class="card z-index-0 fadeIn3 fadeInBottom">
+        <div class="card-body">
+          <h3 class="text-center">Login</h3>
+          <div>
+          {% if form.errors %}
+            <p>아이디와 비밀번호가 일치하지 않습니다. 다시 시도해주세요</p>
+          {% endif %}
+          </div>
+          <form role="form" class="text-start" action="{% url 'accountapp:login' %}" method="POST">
+          {% csrf_token %}
+            <div class="input-group input-group-outline my-3">
+              <label class="form-label">Username</label>
+              <input type="text" class="form-control" name="username">
+            </div>
+            <div class="input-group input-group-outline mb-3">
+              <label class="form-label">Password</label>
+              <input type="password" class="form-control" name="password">
+            </div>
+<!--<div class="form-check form-switch d-flex align-items-center mb-3">-->
+<!--<input class="form-check-input" type="checkbox" id="rememberMe" checked>-->
+<!--<label class="form-check-label mb-0 ms-3" for="rememberMe">Remember me</label>-->
+<!--</div>-->
+            <div class="text-center">
+              <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">로그인</button>
+            </div>
+            <button type="button" onclick="location.href = '{% provider_login_url kakao %}'">
+              <img class = "kakao" src="{% static 'assets/img/logos/kakao_login_small.png' %}" >
+            </button>
+            <p class="mt-4 text-sm text-center">
+            계정이 없다면 <a href="{% url 'accountapp:register' %}">회원가입</a> 해주세요.
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
+</div>
 {% endblock %}

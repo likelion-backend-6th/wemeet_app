@@ -2,22 +2,42 @@
 {% block title %} map {% endblock %}
 {% block content %}
 <div class="row">
-    <!--    참여자 위치 지도 뷰-->
-    <div class="col" id="map" style="width:500px;height:400px;"></div>
+    <h3>참여자 현재 위치</h3>
+    <div class="col">
+        <!--    참여자 위치 지도 뷰-->
+        <div  id="map" style="width:500px;height:400px;"></div>
+        <p>map by kakao map api</p>
+    </div>
 
     <!--    참여자 도착까지 남은 거리 & 시간-->
     <div class="col">
-    {% for r in result %}
-        <p>{{r.user}}</p>
-        <p>남은 거리: {{r.distance|floatformat:2}}km</p>
-        {% if r.distance <= 0.1 %}
-        (도착)
-        {% endif %}
-        <p>남은 시간: {{r.time|floatformat:2}}분 </p>
-    {% endfor %}
+        <div class="card">
+            <div class="table-responsive">
+                <table class="table align-items-center mb-0">
+                    <thead>
+                        <tr>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">참여자</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">남은 거리</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">남은 시간</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">도착 여부</th>
+                            <th class="text-secondary opacity-7"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for r in result %}
+                        <tr>
+                            <td>{{r.user}}</td>
+                            <td>{{r.distance|floatformat:2}}km</td>
+                            <td>{{r.time|floatformat:2}}분 </td>
+                            <td>{% if r.distance <= 0.1 %} 완료 {% endif %}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-</div>
-
+</div>5405
 {% include 'plan/kakao_api.html' %}
 <script>
         {% block domready %}
