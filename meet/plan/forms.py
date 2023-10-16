@@ -18,12 +18,13 @@ class PlanForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(PlanForm, self).__init__(*args, **kwargs)
-        self.fields['category'].initial = ''
-        self.fields['title'].initial = ''
-        self.fields['address'].initial = ''
-        self.fields['time'].initial = None  # 시간 필드의 경우 None을 사용합니다.
-        self.fields['memo'].initial = ''
-        self.fields['password'].initial = ''
+        self.fields["category"].initial = ""
+        self.fields["title"].initial = ""
+        self.fields["address"].initial = ""
+        self.fields["time"].initial = None  # 시간 필드의 경우 None을 사용합니다.
+        self.fields["memo"].initial = ""
+        self.fields["password"].initial = ""
+
 
 class CommentForm(forms.ModelForm):
     class Meta:
