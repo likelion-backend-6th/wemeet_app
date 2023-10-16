@@ -30,16 +30,13 @@
 <!--        <img src="{{ plan.image.url }}" class="card-img-top" alt="{{ plan.title }}">-->
                     <div class="card-body">
                         {% now "Y-m-d" as current_date %}
-
                         {% if plan.time|date:"Y-m-d" == current_date %}
                         <p style="color: #e91e63">Today</p>
-
-
                         {% endif %}
-                                <h5 class="card-title"><a href="{% url 'plan_detail' plan.id %}">{{ plan.title }}</a></h5>
-                                <p class="card-text">{{ is_member }}</p>
-                                <p class="card-text">{{ plan.memo }}</p>
-                                <p class="card-text">{{ plan.time|date:"Y-m-d h:i A" }}</p>
+                        <h5 class="card-title"><a href="{% url 'plan_detail' plan.id %}">{{ plan.title }}</a></h5>
+                        <p class="card-text">{{ is_member }}</p>
+                        <p class="card-text">{{ plan.memo }}</p>
+                        <p class="card-text">{{ plan.time|date:"Y-m-d h:i A" }}</p>
                     </div>
                     <hr class="dark horizontal my-0">
                     <div class="card-footer">
@@ -50,87 +47,21 @@
                         <a href="{% url 'group_delete' plan.id%}">나가기</a>
                         {% endif %}
                     </div>
-
                 </div>
             </div>
-
         {% endfor %}
-               <div class="pagination justify-content-center">
-        {% if page_obj.has_previous %}
-            <a href="?page={{page_obj.previous_page_number}}&search-plan={{search}}{% if category_id %}&category={{category_id}}{% endif %}">Prev</a>
-        {% endif %}
-        Page {{page_obj.number}} of {{page_obj.paginator.num_pages}}
-        {% if page_obj.has_next %}
-            <a href="?page={{page_obj.next_page_number}}&search-plan={{search}}{% if category_id %}&category={{category_id}}{% endif %}">Next</a>
-        {% endif %}
-    </div>
 
+            <div class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{page_obj.previous_page_number}}&search-plan={{search}}{% if category_id %}&category={{category_id}}{% endif %}">Prev</a>
+                {% endif %}
+                Page {{page_obj.number}} of {{page_obj.paginator.num_pages}}
+                {% if page_obj.has_next %}
+                    <a href="?page={{page_obj.next_page_number}}&search-plan={{search}}{% if category_id %}&category={{category_id}}{% endif %}">Next</a>
+                {% endif %}
+            </div>
         </div>
-
     </div>
 </div>
-<!--                &lt;!&ndash; Pagination links for future plans &ndash;&gt;-->
-<!--                <div class="pagination justify-content-center">-->
-<!--                    <span class="step-links">-->
-<!--                        {% if future_plans.has_previous %}-->
-<!--                        <a href="?future_page={{ future_plans.previous_page_number }}">previous</a>-->
-<!--                        {% endif %}-->
-
-<!--                    <span class="current">-->
-<!--                        Page {{ future_plans.number }} of {{ future_plans.paginator.num_pages }}.-->
-<!--                    </span>-->
-<!--                        {% if future_plans.has_next %}-->
-<!--                        <a href="?future_page={{ future_plans.next_page_number }}">next</a>-->
-<!--                        {% endif %}-->
-<!--                    </span>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            &lt;!&ndash; Past Plans Tab &ndash;&gt;-->
-<!--            <div class='tab-pane fade' id='past' role='tabpanel'>-->
-<!--                <div class="row">-->
-<!--                         <div class="row">-->
-<!--         <div class="col text-center">-->
-<!--    <a href="?category=&tab=past">전체</a>-->
-<!--    {% for category in categories %}-->
-<!--        <a href="?category={{ category.id }}&tab=past">{{ category.name }}</a>-->
-<!--    {% endfor %}-->
-<!--         </div>-->
-<!--    </div>-->
-
-<!--                    {% for plan in past_plans %}-->
-<!--                    <div class="col-md-4">-->
-<!--                        <div class="card mb-4">-->
-<!--                            <div class="card-body">-->
-<!--                                <h5 class="card-title"><a href="{% url 'plan_detail' plan.id %}">{{ plan.title }}</a></h5>-->
-<!--                                <p class="card-text">{{ plan.memo }}</p>-->
-<!--                                <p class="card-text">{{ plan.time|date:"Y-m-d h:i A" }}</p>-->
-<!--                            </div>-->
-<!--                            <hr class="dark horizontal my-0">-->
-<!--                            {% if plan.owner == request.user %}-->
-<!--                            <div class="card-footer">-->
-<!--                                <a href="{% url 'plan_edit' plan.id  %}">수정</a>-->
-<!--                                <a href="{% url 'plan_delete' plan.id %}">삭제</a>-->
-<!--                            </div>-->
-<!--                            {% endif %}-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    {% endfor %}-->
-<!--                     &lt;!&ndash; Pagination links for past plans &ndash;&gt;-->
-<!--                    <div class="pagination justify-content-center">-->
-<!--                        <span class="step-links">-->
-<!--                            {% if past_plans.has_previous %}-->
-<!--                            <a href="?past_page={{ past_plans.previous_page_number }}">previous</a>-->
-<!--                            {% endif %}-->
-<!--                        <span class="current">-->
-<!--                            Page {{ past_plans.number }} of {{ past_plans.paginator.num_pages }}.-->
-<!--                        </span>-->
-<!--                        {% if past_plans.has_next %}-->
-<!--                            <a href="?past_page={{ past_plans.next_page_number }}">next</a>-->
-<!--                        {% endif %}-->
-<!--                        </span>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
 {% endblock %}
 
