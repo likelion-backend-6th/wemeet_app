@@ -1,6 +1,8 @@
 {% load bootstrap4 %}
 <form method="POST" action="{% url 'comment_create' plan.id %}">
     {% csrf_token %}
-    {% bootstrap_form comment_form %}
-    <input class="btn btn-primary btn-block"  type="submit" value = "작성"/>
+    <div class="input-group input-group-dynamic">
+      <textarea class="form-control" name="message" rows="3" placeholder="참여자들에게 전달해 줄 사항을 남겨주세요." spellcheck="false"></textarea>
+    </div>
+    <input class="btn btn-light w-100"  type="submit" value = "작성"/>
 </form>

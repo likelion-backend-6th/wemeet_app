@@ -3,76 +3,97 @@
 {% block title %} plan {% endblock %}
 {% block content %}
 <div class="container">
-    <h1>{{plan.title}}</h1>
     {% if plan.password and not is_member %}
     <div class ='password-check'>
     <h3>비밀약속 입니다.</h3>
         <p>비밀번호를 입력해주세요. 비밀번호 일치 시 비밀약속방에 자동으로 참여됩니다.</p>
-    <div class="p-4">
-    <form id="password-form">
-        {% csrf_token %}
-        <div class="input-group input-group-dynamic input-group-append mb-4" id="password-field">
-            <label class="form-label" for="password">비밀번호</label>
-            <input type="text" class="form-control" name="password" id="password-input">
-            <button class='btn btn-primary' type="submit" id="submit">제출</button>
+        <div class="p-4">
+            <form id="password-form">
+            {% csrf_token %}
+            <div class="input-group input-group-dynamic input-group-append mb-4" id="password-field">
+                <label class="form-label" for="password">비밀번호</label>
+                <input type="text" class="form-control" name="password" id="password-input">
+                <button class='btn btn-primary' type="submit" id="submit">제출</button>
+            </div>
+            </form>
         </div>
-    </form>
-        <div id="result_id"></div>
     </div>
-        </div>
     {% else %}
-    <div class="detail-info">
     <div class="row">
         <div class="col">
-            <div>
-                <p>장소: {{plan.address}}</p>
-                <p>방장: {{ plan.owner }}</p>
-                <p>참여자: {% for g in group %}
-                        {{g.user}}
-                        {% endfor %}</p>
-                <label for="">초대링크</label>
-                <p id="url-to-copy">http://localhost:8000/plan/{{plan.id}}</p>
-                <button class="btn btn-success" id="copy-button">초대링크 복사하기</button>
-                {% if plan.owner == request.user %}
-                <a href="{% url 'plan_delete' plan.id %}">방장: 약속 삭제</a>
-                <a href="{% url 'plan_edit' plan.id %}">방장: 약속 수정</a>
-                {% elif is_member %}
-                <p>참여중</p>
-                <a href="{% url 'group_delete' plan.id %}">나가기</a>
-                {% else %}
-                <a href="{% url 'group_create' plan.id %}">참여하기</a>
-                {% endif %}
-                <a href="{% url 'plan_map' plan.id %}">참여자 위치보기</a>
+            <div class="nav">
+                <h3 class="align-self-start">{{plan.title}}</h3>
+                    <p class="align-self-end text-right">
+                    {% if plan.owner == request.user %}
+                    <a href="{% url 'plan_delete' plan.id %}">삭제</a>
+                    <a href="{% url 'plan_edit' plan.id %}">수정</a>
+                    {% elif is_member %}
+                    <p>참여중</p>
+                    <a href="{% url 'group_delete' plan.id %}">나가기</a>
+                    {% else %}
+                    <a href="{% url 'group_create' plan.id %}">참여하기</a>
+                    {% endif %}
+                    </p>
             </div>
-            <div>
+            <div class="card">
+                <div class="table-responsive">
+                    <table class="table align-items-center mb-0">
+                        <tbody>
+                            <tr>
+                                <th>장소</th>
+                                <td>{{plan.address}}</td>
+                            </tr>
+                            <tr>
+                                <th>메모</th>
+                                <td>{{plan.memo}}</td>
+                            </tr>
+                            <tr>
+                                <th>방장</th>
+                                <td>{{plan.owner}}</td>
+                            </tr>
+                            <tr>
+                                <th>참여자</th>
+                                <td>{% for g in group %}
+                                    {{g.user}}
+                                    {% endfor %}
+                                <a class='btn btn-success btn-sm' href="{% url 'plan_map' plan.id %}">참여자 위치보기</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>초대링크</th>
+                                <td><p id="url-to-copy" >http://localhost:8000/plan/{{plan.id}}</p>
+                                <button class="btn btn-success btn-sm" id="copy-button">복사하기</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div> <!--table responsive -->
+            </div> <!-- card -->
+            <div class="mt-4">
                 <h3> 참여자 댓글 </h3>
-
-                {% for comment in plan.comment_set.all %}
                 <div>
-                    <strong>{{ comment.user }}</strong> {{ comment.message }}
-                    <small class="text-muted">{{ comment.created_at|naturaltime }}</small>
+                    {% for comment in plan.comment_set.all %}
+                    <p class="list-group-item">
+                        <strong>{{ comment.user }}</strong> {{ comment.message }}
+                        <small class="text-muted">{{ comment.created_at|naturaltime }}</small>
+                    </p>
+                    {% endfor %}
                 </div>
-
-                {% endfor %}
                 <div>
                     {% include 'plan/comment_form.html' %}
                 </div>
 
-            </div>
-
-
+            </div> <!-- mt4-->
         </div>
         <div class="col">
-
             <div>
+                <h3> 약속 장소 </h3>
                 <!-- kakao map -->
                 {% if plan.latitude %}
                     {% include 'plan/kakaomap.html' %}
                 {% endif %}
             </div>
-
        </div>
-    </div>
     </div>
 </div>
 {% endif %}
