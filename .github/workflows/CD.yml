@@ -42,18 +42,19 @@ jobs:
         id : version   
         run : echo "VERSION=${GITHUB_REF#refs/tags/}" >> "$GITHUB_ENV"  
 
-      - name: Build and Push Image Tagged Timestamp
-        if: startsWith(github.ref, 'refs/heads')
-        uses: docker/build-push-action@v4
+      - name: Build and Push Image Tagged Timestamp   
+        if: startsWith(github.ref, 'refs/heads')   
+        uses: docker/build-push-action@v4     
         with:
-          context: meet
-          tags: ${{ env.IMAGE_TAG }},${{ env.IMAGE }}:${{ steps.timestamp.outputs.timestamp }}
-          push: true
+          context: meet     
+          tags: ${{ env.IMAGE }}:${{ github.run_number }},${{ env.IMAGE }}:${{ steps.timestamp.outputs.timestamp }}
+          push: true  
       
-      - name: Build and Push Image Tagged Version
-        if: startswith(github.ref, 'refs/tags')
-        uses: docker/build-push-action@v4
+      - name: Build and Push Image Tagged Version   
+        if: startswith(github.ref, 'refs/tags')   
+        uses: docker/build-push-action@v4     
         with:
-          context: meet
-          tags: ${{ env.IMAGE_TAG }},${{ env.IMAGE }}:${{ steps.version.outputs.VERSION }}
-          push: true
+          context: meet     
+          tags: ${{ env.IMAGE }}:${{ github.run_number }},${{env.IMAGE}}:${{steps.version.outputs.VERSION}}    
+          push: true  
+      
