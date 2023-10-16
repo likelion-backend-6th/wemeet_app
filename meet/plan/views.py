@@ -40,10 +40,9 @@ class PlanList(ListView):
         search_query = self.request.GET.get("search-plan", "")
         if search_query:
             queryset = queryset.filter(
-                Q(title__icontains=search_query)
-                | Q(memo__icontains=search_query),
+                Q(title__icontains=search_query) | Q(memo__icontains=search_query),
                 time__gte=now_date,
-                id__in=plan_ids
+                id__in=plan_ids,
             )
         else:
             queryset = queryset.filter(time__gte=now_date, id__in=plan_ids)
@@ -59,7 +58,6 @@ class PlanList(ListView):
         context["categories"] = Category.objects.all()
         # 카테고리 id 컨텍스트에 추가
         context["category_id"] = self.request.GET.get("category")
-
 
         return context
 
