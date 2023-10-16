@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 import os
 from pathlib import Path
+from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -64,6 +65,9 @@ INSTALLED_APPS += [
     "allauth.socialaccount",
     "allauth.socialaccount.providers.kakao",
     "django_prometheus",
+    "django_celery_beat",
+    "django_celery_results",
+    "django_redis",
 ]
 
 MIDDLEWARE = [
@@ -191,3 +195,31 @@ AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
     "social_core.backends.kakao.KakaoOAuth2",
 )
+
+# Email
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "csy5501@gmail.com"
+EMAIL_HOST_PASSWORD = "oeky nigm hlys rpvk"
+
+CELERY_BROKER_URL = "redis://localhost:6379/0"
+CELERY_RESULT_BACKEND = "django-db"
+CELERY_TIMEZONE = "Asia/Seoul"
+CELERY_BEAT_SCHEDULE = {
+    "send_reminder_email": {
+        "task": "meet.plan.tasks.send_reminder_email",
+        "schedule": crontab(hour=20, minute=23),  # 매일 12시에 실행
+    },
+}
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://localhost:6379/0",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    }
+}
