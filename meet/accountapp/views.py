@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
@@ -13,21 +14,23 @@ def register(request):
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data["password"])
             new_user.save()
-            return render(
-                request, "accountapp/register_done.html", {"new_user": new_user}
-            )
+
+            new_user.backend = 'django.contrib.auth.backends.ModelBackend'
+            login(request, new_user)
+            return redirect('plan')
+
     else:
         user_form = UserRegistrationForm()
     return render(request, "accountapp/register.html", {"user_form": user_form})
 
 
-@login_required()
+@login_required
 def logged_out(request):
     logout(request)
     return redirect("accountapp:dashboard")
 
 
-@login_required()
+@login_required
 def dashboard(request):
     return render(request, "accountapp/dashboard.html", {"section": "dashboard"})
 
