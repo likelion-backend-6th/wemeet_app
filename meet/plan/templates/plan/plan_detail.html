@@ -4,17 +4,17 @@
 {% block content %}
 <div class="container">
     {% if plan.password and not is_member %}
-    <div class ='password-check'>
-    <h3>비밀약속 입니다.</h3>
+    <div class='password-check'>
+        <h3>비밀약속 입니다.</h3>
         <p>비밀번호를 입력해주세요. 비밀번호 일치 시 비밀약속방에 자동으로 참여됩니다.</p>
         <div class="p-4">
             <form id="password-form">
-            {% csrf_token %}
-            <div class="input-group input-group-dynamic input-group-append mb-4" id="password-field">
-                <label class="form-label" for="password">비밀번호</label>
-                <input type="text" class="form-control" name="password" id="password-input">
-                <button class='btn btn-primary' type="submit" id="submit">제출</button>
-            </div>
+                {% csrf_token %}
+                <div class="input-group input-group-dynamic input-group-append mb-4" id="password-field">
+                    <label class="form-label" for="password">비밀번호</label>
+                    <input type="text" class="form-control" name="password" id="password-input">
+                    <button class='btn btn-primary' type="submit" id="submit">제출</button>
+                </div>
             </form>
         </div>
     </div>
@@ -23,17 +23,17 @@
         <div class="col">
             <div class="nav">
                 <h3 class="align-self-start">{{plan.title}}</h3>
-                    <p class="align-self-end text-right">
+                <p class="align-self-end text-right">
                     {% if plan.owner == request.user %}
                     <a href="{% url 'plan_delete' plan.id %}">삭제</a>
                     <a href="{% url 'plan_edit' plan.id %}">수정</a>
                     {% elif is_member %}
-                    <p>참여중</p>
-                    <a href="{% url 'group_delete' plan.id %}">나가기</a>
-                    {% else %}
-                    <a href="{% url 'group_create' plan.id %}">참여하기</a>
-                    {% endif %}
-                    </p>
+                <p>참여중</p>
+                <a href="{% url 'group_delete' plan.id %}">나가기</a>
+                {% else %}
+                <a href="{% url 'group_create' plan.id %}">참여하기</a>
+                {% endif %}
+                </p>
             </div>
             <div class="card">
                 <div class="table-responsive">
@@ -56,13 +56,14 @@
                                 <td>{% for g in group %}
                                     {{g.user}}
                                     {% endfor %}
-                                <a class='btn btn-success btn-sm' href="{% url 'plan_map' plan.id %}">참여자 위치보기</a>
+                                    <a class='btn btn-success btn-sm' href="{% url 'plan_map' plan.id %}">참여자 위치보기</a>
                                 </td>
                             </tr>
                             <tr>
                                 <th>초대링크</th>
-                                <td><p id="url-to-copy" >http://localhost:8000/plan/{{plan.id}}</p>
-                                <button class="btn btn-success btn-sm" id="copy-button">복사하기</button>
+                                <td>
+                                    <p id="url-to-copy">http://localhost:8000/plan/{{plan.id}}</p>
+                                    <button class="btn btn-success btn-sm" id="copy-button">복사하기</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -90,55 +91,58 @@
                 <h3> 약속 장소 </h3>
                 <!-- kakao map -->
                 {% if plan.latitude %}
-                    {% include 'plan/kakaomap.html' %}
+                {% include 'plan/kakaomap.html' %}
+                {% include 'plan/kakaomap.html' %}
                 {% endif %}
             </div>
-       </div>
+        </div>
     </div>
+</div>
+</div>
 </div>
 {% endif %}
 
 {% endblock %}
 {% block include_js %}
-    {{ plan.password|json_script:"plan-pw"}}
-    {{ plan.id|json_script:"plan-id" }}
+{{ plan.password|json_script:"plan-pw"}}
+{{ plan.id|json_script:"plan-id" }}
 {% endblock %}
 
 <script type="text/javascript">
     {% block domready %}
-        $('#submit').click(function(event){
-            // event.preventDefault()
+    $('#submit').click(function (event) {
+        // event.preventDefault()
 
-            var planPW = JSON.parse(document.getElementById('plan-pw').textContent);
-            var planID = JSON.parse(document.getElementById('plan-id').textContent);
-            var inputPW = $("#password-input").val();
-            console.log(planPW, inputPW)
+        var planPW = JSON.parse(document.getElementById('plan-pw').textContent);
+        var planID = JSON.parse(document.getElementById('plan-id').textContent);
+        var inputPW = $("#password-input").val();
+        console.log(planPW, inputPW)
 
-            $.ajax({
-                    type: "POST",
-                    url: "/plan/check_password/",
-                    dataType: "json",
-                    data: {
-                        'plan_pw': planPW,
-                        'input_pw': inputPW,
-                        'plan_id': planID,
-                        'csrfmiddlewaretoken': '{{csrf_token}}',
-                    },
-                    success: function (response) {
-                        alert("비밀약속방에 참여했습니다.")
-                    },
-                    error: function () {
-                        alert("틀렸습니다.")
-                    },
-                });
-
+        $.ajax({
+            type: "POST",
+            url: "/plan/check_password/",
+            dataType: "json",
+            data: {
+                'plan_pw': planPW,
+                'input_pw': inputPW,
+                'plan_id': planID,
+                'csrfmiddlewaretoken': '{{csrf_token}}',
+            },
+            success: function (response) {
+                alert("비밀약속방에 참여했습니다.")
+            },
+            error: function () {
+                alert("틀렸습니다.")
+            },
         });
-         $('#copy-button').click(function() {
-             var dummy = $('<input>').val($('#url-to-copy').text()).appendTo('body').select();
-             document.execCommand('copy');
-             dummy.remove();
 
-             alert("초대링크가 복사되었습니다.");
-         });
-        {% endblock %}
+    });
+    $('#copy-button').click(function () {
+        var dummy = $('<input>').val($('#url-to-copy').text()).appendTo('body').select();
+        document.execCommand('copy');
+        dummy.remove();
+
+        alert("초대링크가 복사되었습니다.");
+    });
+    {% endblock %}
 </script>
