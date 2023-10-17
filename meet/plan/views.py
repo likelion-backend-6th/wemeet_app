@@ -1,11 +1,13 @@
 import json
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 import requests
 from django.core.paginator import Paginator
 from django.db.models import Max, Q
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView
+from .tasks import send_reminder_email
 from .forms import PlanForm, CommentForm
 from .models import Plan, Group, Category
 from accountapp.models import UserLocation
@@ -178,6 +180,20 @@ def group_delete(request, pk):
         group.delete()
 
     return redirect("plan")
+
+
+# 메일 발송
+# url : /plan/<uuid:pk>/mail
+@login_required
+def plan_mail(request, pk):
+    plan = get_object_or_404(Plan, pk=pk)
+    if plan.owner == request.user:
+        send_reminder_email.delay(plan.id)
+        messages.success(request, "알림 메세지가 전송되었습니다.")
+    else:
+        messages.error(request, "메세지를 보내지 못했습니다.")
+
+    return redirect("plan_detail", pk)
 
 
 # 참여자 위치

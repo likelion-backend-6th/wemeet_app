@@ -9,9 +9,9 @@ from .models import Group
 
 
 @shared_task
-def send_reminder_email():
+def send_reminder_email(plan_id):
     tomorrow = datetime.datetime.now().date() + datetime.timedelta(days=1)
-    groups = Group.objects.filter(plan__time__date=tomorrow)
+    groups = Group.objects.filter(plan__time__date=tomorrow, plan__id=plan_id)
 
     for group in groups:
         local_time = group.plan.time.astimezone(timezone.get_default_timezone())
@@ -23,7 +23,7 @@ def send_reminder_email():
             "<br>"
             f"<p>{group.plan.title} 모임 알림 입니다.</p>"
             "<br>"
-            f"<내일 <strong>{formatted_time}</strong>까지 모임에 참석해주시기 바랍니다.</p>"
+            f"내일 <strong>{formatted_time}</strong>까지 모임에 참석해주시기 바랍니다.</p>"
             f"<p>장소는 <strong>{group.plan.address}</strong> 입니다.</p>"
             "<br>"
             f'<a href="https://www.google.com/maps/search/?api=1&query={group.plan.latitude},{group.plan.longitude}" target="_blank">장소 확인하기</a>'

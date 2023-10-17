@@ -21,4 +21,5 @@ urlpatterns = [
     path("<uuid:pk>/group/delete", views.group_delete, name="group_delete"),
     path("<uuid:pk>/comment/create", views.comment_create, name="comment_create"),
     path("<uuid:pk>/map", views.plan_map, name="plan_map"),
+    path("<uuid:pk>/mail", views.plan_mail, name="plan_mail"),
 ]
