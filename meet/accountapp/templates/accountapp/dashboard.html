@@ -13,9 +13,8 @@
             {% else %}
                 반갑습니다, {{ request.user.username }}님
             {% endif %}
+            </h3>
+                <p><a href="{% url 'accountapp:password_reset' %}">비밀번호 재설정</a></p>
         {% endif %}
-<div class="col">
-    {{user}}
 </div>
-
 {% endblock %}
