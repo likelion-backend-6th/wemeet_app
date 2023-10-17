@@ -202,7 +202,7 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "csy5501@gmail.com"
-EMAIL_HOST_PASSWORD = "xxxx xxxx xxxx xxxx"
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "xxxx xxxx xxxx xxxx")
 
 CELERY_BROKER_URL = "redis://localhost:6379/0"
 CELERY_RESULT_BACKEND = "django-db"
