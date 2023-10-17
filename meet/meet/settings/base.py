@@ -204,7 +204,10 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "csy5501@gmail.com"
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "xxxx xxxx xxxx xxxx")
 
-CELERY_BROKER_URL = "redis://localhost:6379/0"
+REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
+REDIS_PORT = int(os.getenv("REDIS_PORT", "6379"))
+
+CELERY_BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
 CELERY_RESULT_BACKEND = "django-db"
 CELERY_TIMEZONE = "Asia/Seoul"
 CELERY_BEAT_SCHEDULE = {
@@ -217,7 +220,7 @@ CELERY_BEAT_SCHEDULE = {
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://localhost:6379/0",
+        "LOCATION": f"redis://{REDIS_HOST}:{REDIS_PORT}/0",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         },
