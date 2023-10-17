@@ -20,7 +20,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 # 노출 조건: 참여한 약속만 노출되며, 현재 시점 기준으로 다가올 약속과 지나간 약속 크게 두가지로 분류해서 노출
 # 정렬 조건: 다가올 약속은 빠른 날짜순, 지나간 약속은 늦은 날짜 순 정렬
 # 검색 조건: 카테고리 필터 제공
-class PlanList(LoginRequiredMixin,ListView):
+class PlanList(LoginRequiredMixin, ListView):
     model = Plan
     context_object_name = "plans"
     paginate_by = 6
@@ -48,7 +48,7 @@ class PlanList(LoginRequiredMixin,ListView):
         else:
             queryset = queryset.filter(time__gte=now_date, id__in=plan_ids)
 
-        queryset = queryset.annotate(participant_count=Count('group')).order_by('time')
+        queryset = queryset.annotate(participant_count=Count("group")).order_by("time")
 
         return queryset
 
@@ -283,6 +283,7 @@ def comment_create(request, pk):
     else:
         form = CommentForm()
     return render(request, "plan/comment_form.html", {"form": form})
+
 
 @login_required
 def check_password(request):
