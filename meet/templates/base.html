@@ -43,39 +43,39 @@
     </button>
     <div class="collapse navbar-collapse" id="navigation">
       <ul class="navbar-nav navbar-nav-hover mx-auto">
-        <li class="nav-item px-3">
-          <a class="nav-link">
-            MyPages
-          </a>
-        </li>
+<!--        <li class="nav-item px-3">-->
+<!--          <a class="nav-link">-->
+<!--            MyPages-->
+<!--          </a>-->
+<!--        </li>-->
 
-        <li class="nav-item px-3">
-          <a class="nav-link">
-            MyPages
-          </a>
-        </li>
+<!--        <li class="nav-item px-3">-->
+<!--          <a class="nav-link">-->
+<!--            MyPages-->
+<!--          </a>-->
+<!--        </li>-->
 
-        <li class="nav-item px-3">
-          <a class="nav-link">
-            MyPages
-          </a>
-        </li>
+<!--        <li class="nav-item px-3">-->
+<!--          <a class="nav-link">-->
+<!--            MyPages-->
+<!--          </a>-->
+<!--        </li>-->
 
-        <li class="nav-item px-3">
-          <a class="nav-link ">
-            MyPages
-          </a>
-        </li>
+<!--        <li class="nav-item px-3">-->
+<!--          <a class="nav-link ">-->
+<!--            MyPages-->
+<!--          </a>-->
+<!--        </li>-->
       </ul>
 
     <div>
         {% if request.user.is_authenticated %}
         {{request.user|title}}님,
-        <a href="{% url 'accountapp:dashboard' %}">마이페이지</a> |
-    <a href="{% url 'accountapp:logged_out' %}">로그아웃</a>
+        <a href="{% url 'accountapp:dashboard' %}">My Page</a> |
+    <a href="{% url 'accountapp:logged_out' %}">Logout</a>
     {% else %}
 
-    <a href="{% url 'accountapp:login' %}">로그인</a>
+    <a href="{% url 'accountapp:login' %}">Login</a>
     {% endif %}
     </div>
 <!--      <ul class="navbar-nav ms-auto">-->

@@ -1,10 +1,15 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.db.models import Count
+from django.db.models.functions import TruncMonth
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.utils import timezone
+
 from .forms import LoginForm, UserRegistrationForm
 from .models import UserLocation
+from plan.models import Plan,Group
 
 
 def register(request):
@@ -32,7 +37,25 @@ def logged_out(request):
 
 @login_required
 def dashboard(request):
-    return render(request, "accountapp/dashboard.html", {"section": "dashboard"})
+    now_date = timezone.now().date()
+    # 참여중 약속 수
+    plan_ids = Group.objects.filter(user=request.user).values_list(
+        "plan_id", flat=True
+    )
+
+    plans = Plan.objects.filter(id__in=plan_ids)\
+        .annotate(month=TruncMonth('time'))\
+        .values('month')\
+        .annotate(count=Count('id'))\
+        .order_by('month')
+
+    # 지나간 약속
+    past_plans = Plan.objects.filter(id__in=plan_ids, time__lt=now_date).order_by('time')
+
+    return render(request, "accountapp/dashboard.html", {"section": "dashboard",
+                                                         "plans":plans,
+                                                         "past_plans":past_plans})
+
 
 
 def update_location(request):
