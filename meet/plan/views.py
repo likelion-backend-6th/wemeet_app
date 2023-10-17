@@ -10,6 +10,7 @@ from .forms import PlanForm, CommentForm
 from .models import Plan, Group, Category
 from accountapp.models import UserLocation
 from django.utils import timezone
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 ######################## view ############################
 
@@ -19,7 +20,7 @@ from django.utils import timezone
 # 노출 조건: 참여한 약속만 노출되며, 현재 시점 기준으로 다가올 약속과 지나간 약속 크게 두가지로 분류해서 노출
 # 정렬 조건: 다가올 약속은 빠른 날짜순, 지나간 약속은 늦은 날짜 순 정렬
 # 검색 조건: 카테고리 필터 제공
-class PlanList(ListView):
+class PlanList(LoginRequiredMixin,ListView):
     model = Plan
     context_object_name = "plans"
     paginate_by = 6
@@ -67,7 +68,7 @@ class PlanList(ListView):
 # 상세 화면 (약속 상세)
 # url: /plan/<uuid:pk>/
 # 노출 항목: 약속 명, 약속 장소, 초대 코드, 방장, 참여자, 댓글
-class PlanDetail(DetailView):
+class PlanDetail(LoginRequiredMixin, DetailView):
     model = Plan
     context_object_name = "plan"
 
@@ -283,7 +284,7 @@ def comment_create(request, pk):
         form = CommentForm()
     return render(request, "plan/comment_form.html", {"form": form})
 
-
+@login_required
 def check_password(request):
     if request.method == "POST":
         plan_id = request.POST.get("plan_id")
