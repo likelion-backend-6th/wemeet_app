@@ -36,6 +36,18 @@
                 </p>
             </div>
             <div class="card">
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert 
+                        {% if message.tags == 'success' %}alert-success
+                        {% elif message.tags == 'error' %}alert-danger{% endif %}" role="alert">
+                    <strong>
+                        {% if message.tags == 'success' %}Success!
+                        {% elif message.tags == 'error' %}Danger!{% endif %}
+                    </strong> {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
                 <div class="table-responsive">
                     <table class="table align-items-center mb-0">
                         <tbody>
@@ -49,19 +61,29 @@
                             </tr>
                             <tr>
                                 <th>방장</th>
-                                <td>{{plan.owner}}</td>
+                                <td
+                                    style="display: flex; justify-content: space-between; align-items: center; padding-top: 10px; padding-bottom: 10px;">
+                                    <span>{{plan.owner}}</span>
+                                    {% if request.user == plan.owner %}
+                                    <a class='btn btn-success btn-sm' href="{% url 'plan_mail' plan.id %}">알림 메일 보내기</a>
+                                    {% endif %}
+                                </td>
                             </tr>
                             <tr>
                                 <th>참여자</th>
-                                <td>{% for g in group %}
-                                    {{g.user}}
-                                    {% endfor %}
+                                <td
+                                    style="display: flex; justify-content: space-between; align-items: center; padding-top: 10px; padding-bottom: 10px;">
+                                    <span>
+                                        {% for g in group %}
+                                        {{g.user}}
+                                        {% endfor %}</span>
                                     <a class='btn btn-success btn-sm' href="{% url 'plan_map' plan.id %}">참여자 위치보기</a>
                                 </td>
                             </tr>
                             <tr>
                                 <th>초대링크</th>
-                                <td>
+                                <td
+                                    style="display: flex; justify-content: space-between; align-items: center; padding-top: 10px; padding-bottom: 10px;">
                                     <p id="url-to-copy">http://localhost:8000/plan/{{plan.id}}</p>
                                     <button class="btn btn-success btn-sm" id="copy-button">복사하기</button>
                                 </td>
