@@ -33,6 +33,44 @@
 <div class="card mt-4">
     <div class="card-body">
         <div class="card-title">
+            <h5> 다가오는 약속 </h5>
+        </div>
+        <div class="table-responsive">
+            <table class="table align-items-center mb-0">
+                <thead>
+                    <tr>
+                        <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-9">약속 종류</th>
+                        <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-9">약속 이름</th>
+                        <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-9">약속 일자</th>
+                        <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-9">약속 주소</th>
+                        <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-9">남은 시간</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in upcoming_plans %}
+                        <tr>
+                            <td class="text-xs font-weight-bold mb-0">{{ p.category }}</td>
+                            <td class="text-xs font-weight-bold mb-0">
+                                <a href="{% url 'plan_detail' p.id %}">{{ p.title }}</a>
+                            </td>
+                            <td class="text-xs font-weight-bold mb-0">{{ p.time|date:"Y-m-d h A" }}</td>
+                            <td class="text-xs font-weight-bold mb-0">{{ p.address }}</td>
+                            <td class="text-xs font-weight-bold mb-0">
+                                {% with remaining_time=now_date|timesince:p.time %}
+                                {{ remaining_time }}
+                                {% endwith %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-body">
+        <div class="card-title">
             <h5> 지나간 약속 </h5>
         </div>
         <div class="table-responsive">
@@ -40,8 +78,9 @@
                 <thead>
                     <tr>
                         <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-9">약속 종류</th>
-                        <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-9">약속 명</th>
+                        <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-9">약속 이름</th>
                         <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-9">약속 일자</th>
+                        <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-9">약속 주소</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -50,6 +89,7 @@
                         <td class="text-xs font-weight-bold mb-0">{{p.category}}</td>
                         <td class="text-xs font-weight-bold mb-0"><a href="{% url 'plan_detail' p.id %}">{{p.title}}</a></td>
                         <td class="text-xs font-weight-bold mb-0">{{p.time|date:"Y-m-d h A"}}</td>
+                        <td class="text-xs font-weight-bold mb-0">{{p.address}}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

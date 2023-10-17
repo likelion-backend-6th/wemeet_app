@@ -44,7 +44,7 @@ def logged_out(request):
 
 @login_required
 def dashboard(request):
-    now_date = timezone.now().date()
+    now_date = timezone.now()
     # 참여중 약속 수
     plan_ids = Group.objects.filter(user=request.user).values_list("plan_id", flat=True)
 
@@ -57,14 +57,15 @@ def dashboard(request):
     )
 
     # 지나간 약속
-    past_plans = Plan.objects.filter(id__in=plan_ids, time__lt=now_date).order_by(
-        "time"
-    )
+    past_plans = Plan.objects.filter(id__in=plan_ids, time__lt=now_date).order_by("time")
+
+    #다가오는 약속
+    upcoming_plans = Plan.objects.filter(id__in=plan_ids, time__gt=now_date).order_by("time")
 
     return render(
         request,
         "accountapp/dashboard.html",
-        {"section": "dashboard", "plans": plans, "past_plans": past_plans},
+        {"section": "dashboard", "plans": plans, "past_plans": past_plans, 'upcoming_plans': upcoming_plans,'now_date': now_date},
     )
 
 
