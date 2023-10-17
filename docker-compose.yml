@@ -4,6 +4,7 @@ services:
   web:
     depends_on:
       - db
+      - celery-beat
     container_name: meet-app
     build:
       context: meet
@@ -29,6 +30,10 @@ services:
       - "meet_data:/var/lib/postgresql/data"
     env_file:
       - ./.envs/local/db
+
+  celery-beat:
+    image: web
+    command: celery -A we-meet beat
 
   prometheus:
     container_name: meet-prom
