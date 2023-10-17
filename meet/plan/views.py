@@ -2,7 +2,7 @@ import json
 from django.contrib.auth.decorators import login_required
 import requests
 from django.core.paginator import Paginator
-from django.db.models import Max, Q
+from django.db.models import Max, Q, Count
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView
@@ -49,6 +49,8 @@ class PlanList(LoginRequiredMixin,ListView):
         else:
             queryset = queryset.filter(time__gte=now_date, id__in=plan_ids)
 
+        queryset = queryset.annotate(participant_count=Count('group')).order_by('time')
+
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -60,7 +62,6 @@ class PlanList(LoginRequiredMixin,ListView):
         context["categories"] = Category.objects.all()
         # 카테고리 id 컨텍스트에 추가
         context["category_id"] = self.request.GET.get("category")
-
 
         return context
 

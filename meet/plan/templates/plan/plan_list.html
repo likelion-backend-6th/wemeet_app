@@ -34,9 +34,9 @@
                         <p style="color: #e91e63">Today</p>
                         {% endif %}
                         <h5 class="card-title"><a href="{% url 'plan_detail' plan.id %}">{{ plan.title }}</a></h5>
-                        <p class="card-text">{{ is_member }}</p>
                         <p class="card-text">{{ plan.memo }}</p>
-                        <p class="card-text">{{ plan.time|date:"Y-m-d h:i A" }}</p>
+                        <p class="card-text"> 참여자 수: {{ plan.participant_count }}</p>
+                        <p class="card-text"> 약속 일자: {{ plan.time|date:"Y-m-d h A" }}</p>
                     </div>
                     <hr class="dark horizontal my-0">
                     <div class="card-footer">
