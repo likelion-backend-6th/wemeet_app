@@ -13,9 +13,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . ${APP_HOME}
 
-RUN pip install django-celery-beat
-RUN pip install django-celery
-
 COPY ./scripts/start /start
 RUN sed -i 's/\r$//g' /start
 RUN chmod +x /start
