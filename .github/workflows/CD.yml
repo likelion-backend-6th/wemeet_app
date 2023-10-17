@@ -33,7 +33,6 @@ jobs:
           password : ${{ secrets.NCR_SECRET_KEY }}  
 
       - name: Get current timestamp
-        if: startsWith(github.ref, 'refs/heads')
         id: timestamp    
         run: echo "timestamp=$(date '+%s')" >> "$GITHUB_ENV"   
 
