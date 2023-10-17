@@ -5,16 +5,56 @@
 {% endblock %}
 
 {% block content %}
-<div class="row">
-        {% if request.user.is_authenticated %}
-            <h3>
-            {% if kakao_nickname %}
-                반갑습니다, {{ kakao_nickname }}님
-            {% else %}
-                반갑습니다, {{ request.user.username }}님
-            {% endif %}
-            </h3>
-                <p><a href="{% url 'accountapp:password_reset' %}">비밀번호 재설정</a></p>
-        {% endif %}
+<div class="card">
+    <div class="card-body">
+        <div class="card-title">
+            <h5> 월 별 참여 약속 </h5>
+        </div>
+        <div class="table-responsive">
+            <table class="table align-items-center mb-0">
+                <thead>
+                    <tr>
+                        <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-9">기준 일자</th>
+                        <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-9">약속 갯수 </th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for plan in plans %}
+                <tr>
+                    <td class="text-xs font-weight-bold mb-0">{{plan.month|date:"Y-m"}}</td>
+                    <td class="text-xs font-weight-bold mb-0">{{plan.count}}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="card mt-4">
+    <div class="card-body">
+        <div class="card-title">
+            <h5> 지나간 약속 </h5>
+        </div>
+        <div class="table-responsive">
+            <table class="table align-items-center mb-0">
+                <thead>
+                    <tr>
+                        <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-9">약속 종류</th>
+                        <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-9">약속 명</th>
+                        <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-9">약속 일자</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in past_plans%}
+                    <tr>
+                        <td class="text-xs font-weight-bold mb-0">{{p.category}}</td>
+                        <td class="text-xs font-weight-bold mb-0"><a href="{% url 'plan_detail' p.id %}">{{p.title}}</a></td>
+                        <td class="text-xs font-weight-bold mb-0">{{p.time|date:"Y-m-d h A"}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock %}
