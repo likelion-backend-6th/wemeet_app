@@ -45,10 +45,14 @@
                             </div>
                         </div>
                         <hr class="dark horizontal my-0">
-                        <h5 class="card-title mt-4"><a href="{% url 'plan_detail' plan.id %}">{{ plan.title }}</a></h5>
+                        <h5 class="card-title mt-4"><a href="{% url 'plan_detail' plan.id %}">
+                            {% if plan.owner == request.user %}
+                            <i class="fa-solid fa-crown" style="color: #e91e63;"></i>
+                            {% endif %}
+                            {{ plan.title }}</a></h5>
                         <p class="card-text">{{ plan.memo }}</p>
-                        <p class="card-text"> 참여자 수: {{ plan.participant_count }}</p>
-                        <p class="card-text"> 약속 일자: {{ plan.time|date:"Y-m-d h A" }}</p>
+                        <p class="card-text"> <i class="fa-solid fa-users"></i> 참여 인원: {{ plan.participant_count }} 명</p>
+                        <p class="card-text"> <i class="fa-regular fa-calendar-check"></i> {{ plan.time|date:"Y-m-d h A" }}</p>
                     </div>
                 </div>
             </div>
