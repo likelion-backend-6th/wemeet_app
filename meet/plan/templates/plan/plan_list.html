@@ -2,19 +2,9 @@
 {% block title %} plan {% endblock %}
 {% block content %}
 <div class="row">
-    <div class="col col-lg-2">
-        <a class="btn btn-primary w-100" href="{% url 'plan_create' %}">약속 만들기</a>
-            <div class="input-group input-group-dynamic mb-4">
-                <!-- 검색 폼 -->
-                <form action="" method="GET">
-                    <span class="input-group-text" type="submit" id="basic-addon1">검색</span>
-                    <input type="text" class="form-control" placeholder="약속명 또는 메모" name="search-plan" value="{{ search }}" aria-describedby="basic-addon1">
-                </form>
-            </div>
-    </div>
-
     <div class="col">
         <h3>나의 다가오는 약속</h3>
+        <hr class="dark horizontal my-0">
         <div class="row">
             <div class="col text-center">
                 <a href="?">전체</a>
@@ -22,30 +12,39 @@
                 <a href="?category={{ category.id }}">{{ category.name }}</a>
                 {% endfor %}
             </div>
+            <hr class="dark horizontal my-0">
         </div>
-        <div class="row">
+        <div class="row mt-4">
         {% for plan in plans %}
             <div class="col-sm-4">
                 <div class="card mb-4">
-<!--        <img src="{{ plan.image.url }}" class="card-img-top" alt="{{ plan.title }}">-->
                     <div class="card-body">
-                        {% now "Y-m-d" as current_date %}
-                        {% if plan.time|date:"Y-m-d" == current_date %}
-                        <p style="color: #e91e63">Today</p>
-                        {% endif %}
-                        <h5 class="card-title"><a href="{% url 'plan_detail' plan.id %}">{{ plan.title }}</a></h5>
+                        <div class="row">
+                            <div class="col">
+                                {% now "Y-m-d" as current_date %}
+                                <i class="fa-solid fa-hourglass-start"></i>
+                                {% if plan.time|date:"Y-m-d" == current_date %}
+                                    <strong style="color: #e91e63">Today</strong>
+                                {% else %}
+                                    {% with remaining_time=now_date|timesince:plan.time %}
+                                    {{ remaining_time }} 뒤
+                                    {% endwith %}
+                                {% endif %}
+                            </div>
+                            <div class="col col-lg-3">
+                            {% if plan.owner == request.user %}
+                                <a href="{% url 'plan_edit' plan.id  %}"><i class="fa-regular fa-pen-to-square"></i></a>
+                                <a href="{% url 'plan_delete' plan.id %}"><i class="fa-regular fa-trash-can"></i></a>
+                            {% else %}
+                                <a href="{% url 'group_delete' plan.id%}"><i class="fa-regular fa-share-from-square"></i></a>
+                            {% endif %}
+                            </div>
+                        </div>
+                        <hr class="dark horizontal my-0">
+                        <h5 class="card-title mt-4"><a href="{% url 'plan_detail' plan.id %}">{{ plan.title }}</a></h5>
                         <p class="card-text">{{ plan.memo }}</p>
                         <p class="card-text"> 참여자 수: {{ plan.participant_count }}</p>
                         <p class="card-text"> 약속 일자: {{ plan.time|date:"Y-m-d h A" }}</p>
-                    </div>
-                    <hr class="dark horizontal my-0">
-                    <div class="card-footer">
-                        {% if plan.owner == request.user %}
-                                <a href="{% url 'plan_edit' plan.id  %}">수정</a>
-                                <a href="{% url 'plan_delete' plan.id %}">삭제</a>
-                        {% else %}
-                        <a href="{% url 'group_delete' plan.id%}">나가기</a>
-                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -61,6 +60,16 @@
                 {% endif %}
             </div>
         </div>
+    </div>
+    <div class="col col-lg-2">
+        <a class="btn btn-primary w-100" href="{% url 'plan_create' %}">약속 만들기</a>
+            <div class="input-group input-group-dynamic mb-4">
+                <!-- 검색 폼 -->
+                <form action="" method="GET">
+                    <span class="input-group-text" type="submit" id="basic-addon1">검색</span>
+                    <input type="text" class="form-control" placeholder="약속명 또는 메모" name="search-plan" value="{{ search }}" aria-describedby="basic-addon1">
+                </form>
+            </div>
     </div>
 </div>
 {% endblock %}

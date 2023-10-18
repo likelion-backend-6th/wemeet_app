@@ -56,7 +56,7 @@ class PlanList(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        now_date = timezone.now().date()
+        context["now_date"] = timezone.now()
         context["search"] = self.request.GET.get("search-plan", "")
 
         # 카테고리 filtering
