@@ -4,4 +4,5 @@ metadata:
   name: {{ include "wemeet.fullname" . }}
 data:
   DB_HOST: {{ include "wemeet.db.fullname" . }}
+  REDIS_HOST: {{ include "wemeet.redis.fullname" . }}
   DJANGO_SETTINGS_MODULE: {{ .Values.configMap.django.DJANGO_SETTINGS_MODULE }}

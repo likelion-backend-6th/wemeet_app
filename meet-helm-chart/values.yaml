@@ -21,7 +21,9 @@ DbService:
   type: ClusterIP
   port: 5432
 
-containerPort: 8000
+container:
+  bePort: 8000
+  redisPort: 6379
 
 configMap:
   django:
@@ -35,3 +37,4 @@ secret:
     POSTGRES_PORT: "5432"
   django:
     DJANGO_SECRET_KEY: django-insecure-%1q)6f3d!g4i!siz-t9!)d@z=*5q_@5k%hz9jpt%2+$re+v+vk
+    EMAIL_HOST_PASSWORD: "xxxx xxxx xxxx xxxx"

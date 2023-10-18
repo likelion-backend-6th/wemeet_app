@@ -33,7 +33,7 @@ spec:
                 name: {{ include "wemeet.db.fullname" . }}
           ports:
             - name: http
-              containerPort: {{ .Values.containerPort }}
+              containerPort: {{ .Values.container.bePort }}
               protocol: TCP
           livenessProbe:
             httpGet:
@@ -45,3 +45,25 @@ spec:
               path: /health/
               port: http
             initialDelaySeconds: 15
+        
+        - name: celery-worker
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: ["celery","-A","meet","worker", "--loglevel=info"]
+          envFrom:
+            - configMapRef:
+                name: {{ include "wemeet.fullname" . }}
+            - secretRef:
+                name: {{ include "wemeet.fullname" . }}
+            - secretRef:
+                name: {{ include "wemeet.db.fullname" . }}
+
+        - name: celery-beat
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: ["celery","-A","meet","beat", "--loglevel=info"]
+          envFrom:
+            - configMapRef:
+                name: {{ include "wemeet.fullname" . }}
+            - secretRef:
+                name: {{ include "wemeet.fullname" . }}
+            - secretRef:
+                name: {{ include "wemeet.db.fullname" . }}

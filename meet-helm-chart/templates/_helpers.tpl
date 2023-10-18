@@ -24,6 +24,33 @@
 {{- end }}
 {{- end }}
 
+{{- define "wemeet.redis.fullname" -}}
+{{- $name := .Chart.Name }}
+{{- if contains $name .Release.Name }}
+{{- printf "%s-%s" "redis" .Release.Name | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-%s-%s" "redis" .Release.Name $name | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
+
+{{- define "wemeet.worker.fullname" -}}
+{{- $name := .Chart.Name }}
+{{- if contains $name .Release.Name }}
+{{- printf "%s-%s" "worker" .Release.Name | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-%s-%s" "worker" .Release.Name $name | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
+
+{{- define "wemeet.beat.fullname" -}}
+{{- $name := .Chart.Name }}
+{{- if contains $name .Release.Name }}
+{{- printf "%s-%s" "beat" .Release.Name | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-%s-%s" "beat" .Release.Name $name | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
+
 {{- define "wemeet.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
