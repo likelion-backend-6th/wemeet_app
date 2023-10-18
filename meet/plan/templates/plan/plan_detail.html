@@ -22,11 +22,12 @@
     <div class="row">
         <div class="col">
             <div class="nav">
-                <h3 class="align-self-start">{{plan.title}}</h3>
+                <h3 class="align-self-start col">{{plan.title}}</h3>
                 <p class="align-self-end text-right">
                     {% if plan.owner == request.user %}
-                    <a href="{% url 'plan_delete' plan.id %}">삭제</a>
-                    <a href="{% url 'plan_edit' plan.id %}">수정</a>
+                    <a href="{% url 'plan_edit' plan.id  %}"><i class="fa-regular fa-pen-to-square"></i></a>
+                    <a href="{% url 'plan_delete' plan.id %}"><i class="fa-regular fa-trash-can"></i></a>
+                </p>
                     {% elif is_member %}
                 <p>참여중</p>
                 <a href="{% url 'group_delete' plan.id %}">나가기</a>

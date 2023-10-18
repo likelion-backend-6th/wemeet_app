@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block title %} New Plan {% endblock %}
+{% block content %}
+<script src="https://ssl.daumcdn.net/dmaps/map_js_init/postcode.v2.js"></script>
+<div class="p-4">
+    <p style="color:#e91e63;"> * 날짜와 장소는 변경할 수 없습니다. </p>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="input-group input-group-static mb-4">
+            <label for="category" class="ms-0">종류</label>
+            <select class="form-control" name="category">
+            {% for choice in form.category.field.choices %}
+                <option value="{{ choice.0 }}" {% if form.category.value == choice.0 %}selected{% endif %}>
+                {{ choice.1 }}
+                </option>
+            {% endfor %}
+            </select>
+        </div>
+        <label class="form-label" for="title">제목</label>
+        <div class="input-group input-group-dynamic mb-4">
+
+            <input type="text" class="form-control" name="title" value="{{ form.title.value|default:'' }}">
+        </div>
+<!--        <div class="input-group input-group-dynamic input-group-append mb-4">-->
+<!--            <label class="form-label" for="address">주소</label>-->
+<!--            <input type="text" class="form-control" name="address" value="{{ form.address.value|default:'' }}">-->
+<!--             <button type="button" class="btn btn-primary btn-sm"-->
+<!--                        onclick="openHomeSearch()">-->
+<!--                    <span class="icon text-white">-->
+<!--                        <i class="fas fa-flag"></i>-->
+<!--                    </span>-->
+<!--                    <span class="text">주소 검색</span>-->
+<!--             </button>-->
+<!--        </div>-->
+<!--        <div class="input-group input-group-static my-3">-->
+<!--        <label for="time">날짜</label>-->
+<!--        <input type="datetime-local" class="form-control" name="time" value="{{ form.time.value }}">-->
+<!--        </div>-->
+        <label class="form-label">메모</label>
+        <div class="input-group input-group-outline my-3">
+
+            <input type="text" class="form-control" name="memo" value="{{form.memo.value}}">
+        </div>
+
+        {% if form.password.value %}
+        <label class="form-label" for="password">비밀번호 (빈칸으로 비워두면 공개방으로 전환됩니다.) </label>
+        <div class="input-group input-group-static mb-4" id="password-field" >
+            <input type="text" class="form-control" name="password" id="password-input" value="{{form.password.value}}">
+        </div>
+        {% else %}
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="password-checkbox">
+            <label class="custom-control-label" for="check">비밀방으로 변경</label>
+        </div>
+        <div class="input-group input-group-static mb-4" id="password-field"  style="display: none;">
+            <label class="form-label" for="password">비밀번호</label>
+            <input type="text" class="form-control" name="password" id="password-input">
+        </div>
+        {% endif %}
+        <div class="form-group text-left">
+            <button class="btn btn-primary w-100" type="submit">약속 수정하기</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    // 비밀번호 생성 체크박스 이벤트 처리
+    const passwordCheckbox = document.getElementById('password-checkbox');
+    const passwordField = document.getElementById('password-field');
+    const passwordInput = document.getElementById('password-input');
+
+    passwordCheckbox.addEventListener('change', function () {
+        if (passwordCheckbox.checked) {
+            passwordField.style.display = 'block';
+            passwordInput.required = true;
+        } else {
+            passwordField.style.display = 'none';
+            passwordInput.required = false;
+        }
+    });
+</script>
+{% endblock %}

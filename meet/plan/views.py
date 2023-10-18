@@ -8,7 +8,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView
 from .tasks import send_reminder_email
-from .forms import PlanForm, CommentForm
+from .forms import PlanForm, CommentForm, PlanUpdateForm
 from .models import Plan, Group, Category
 from accountapp.models import UserLocation
 from django.utils import timezone
@@ -136,14 +136,14 @@ def plan_edit(request, pk):
         return redirect("plan")
 
     if request.method == "POST":
-        form = PlanForm(request.POST, instance=plan)
+        form = PlanUpdateForm(request.POST, instance=plan)
         if form.is_valid():
             form.save()
             return redirect("plan")
     else:
-        form = PlanForm(instance=plan)
+        form = PlanUpdateForm(instance=plan)
 
-    return render(request, "plan/plan_form.html", {"form": form})
+    return render(request, "plan/plan_update_form.html", {"form": form})
 
 
 # 약속 삭제
