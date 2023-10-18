@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "wemeet.redis.fullname" . }}
+  labels:
+    {{- include "wemeet.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "wemeet.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "wemeet.selectorLabels" . | nindent 8 }}
+    spec:
+      containers :
+        - name : {{ include "wemeet.redis.fullname" . }}
+          image: redis
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.container.redisPort }}
