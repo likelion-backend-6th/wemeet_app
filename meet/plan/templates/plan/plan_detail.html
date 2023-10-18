@@ -53,15 +53,19 @@
                     <table class="table align-items-center mb-0">
                         <tbody>
                             <tr>
-                                <th>장소</th>
+                                <th><i class="fa-solid fa-map-location-dot"></i> 장소</th>
                                 <td>{{plan.address}}</td>
                             </tr>
                             <tr>
-                                <th>메모</th>
+                                <th><i class="fa-regular fa-calendar-check"></i> 시간  </th>
+                                <td>{{plan.time}}</td>
+                            </tr>
+                            <tr>
+                                <th><i class="fa-regular fa-note-sticky"></i> 메모</th>
                                 <td>{{plan.memo}}</td>
                             </tr>
                             <tr>
-                                <th>방장</th>
+                                <th><i class="fa-solid fa-crown"></i> 방장</th>
                                 <td
                                     style="display: flex; justify-content: space-between; align-items: center; padding-top: 10px; padding-bottom: 10px;">
                                     <span>{{plan.owner}}</span>
@@ -71,7 +75,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th>참여자</th>
+                                <th><i class="fa-solid fa-users"></i>  참여자</th>
                                 <td
                                     style="display: flex; justify-content: space-between; align-items: center; padding-top: 10px; padding-bottom: 10px;">
                                     <span>
@@ -82,11 +86,11 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th>초대링크</th>
+                                <th><i class="fa-regular fa-envelope"></i> 초대링크</th>
                                 <td
                                     style="display: flex; justify-content: space-between; align-items: center; padding-top: 10px; padding-bottom: 10px;">
                                     <p id="url-to-copy">http://localhost:8000/plan/{{plan.id}}</p>
-                                    <button class="btn btn-success btn-sm" id="copy-button">복사하기</button>
+                                    <a href="" id="copy-button"><i class="fa-regular fa-copy"></i></a>
                                 </td>
                             </tr>
                         </tbody>
