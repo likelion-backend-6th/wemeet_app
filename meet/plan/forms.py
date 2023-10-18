@@ -32,8 +32,10 @@ class CommentForm(forms.ModelForm):
             "message": forms.Textarea(attrs={"rows": 2}),
         }
 
+
 class PlanUpdateForm(forms.ModelForm):
     category = forms.ModelChoiceField(queryset=Category.objects.all())
+
     class Meta:
         model = Plan
-        fields = ["title", "category", "memo",'password']
+        fields = ["title", "category", "memo", "password"]
