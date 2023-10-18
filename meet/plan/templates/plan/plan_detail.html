@@ -94,12 +94,12 @@
                 </div> <!--table responsive -->
             </div> <!-- card -->
             <div class="mt-4">
-                <h3> 참여자 댓글 </h3>
+                <h3> 참여자 댓글 <small style="color: #e91e63">{{comment_cnt}}</small></h3>
                 <div>
                     {% for comment in plan.comment_set.all %}
                     <p class="list-group-item">
                         <strong>{{ comment.user }}</strong> {{ comment.message }}
-                        <small class="text-muted">{{ comment.created_at|naturaltime }}</small>
+                        <small style="color: #e91e63">{{ comment.created_at|naturaltime }}</small>
                     </p>
                     {% endfor %}
                 </div>

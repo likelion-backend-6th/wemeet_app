@@ -9,7 +9,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView
 from .tasks import send_reminder_email
 from .forms import PlanForm, CommentForm, PlanUpdateForm
-from .models import Plan, Group, Category
+from .models import Plan, Group, Category, Comment
 from accountapp.models import UserLocation
 from django.utils import timezone
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -85,6 +85,7 @@ class PlanDetail(LoginRequiredMixin, DetailView):
         ).exists()
         # 댓글
         context["comment_form"] = CommentForm()
+        context["comment_cnt"] = Comment.objects.filter(plan=plan_id).count()
         return context
 
 
