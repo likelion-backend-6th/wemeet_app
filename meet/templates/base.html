@@ -13,14 +13,16 @@
   <!-- Fonts -->
   <link
     href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Nanum+Gothic+Coding&family=Noto+Sans+Korean"
-    rel="stylesheet"><!-- Icons -->
-
+    rel="stylesheet">
+  <!-- Icons -->
+  <script src="https://kit.fontawesome.com/5db9a2284d.js" crossorigin="anonymous"></script>
   <link href="{% static 'css/nucleo-icons.css' %}" rel="stylesheet">
   <link href="{% static 'css/nucleo-svg.css' %}" rel="stylesheet" />
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
   <!-- Theme CSS -->
   <link type="text/css" href="{% static 'css/material-kit.min.css' %}" rel="stylesheet">
   <!-- api -->
+
   <script
     src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=e8wHh2tya84M88aReEpXCa5XTQf3xgo01aZG39k5"></script>
   <title>{% block title %} {% endblock %}</title>
@@ -34,6 +36,10 @@
     body {
       font-family: 'Nanum Gothic Coding', monospace;
     }
+
+    .selected {
+    color: #e91e63;
+  }
   </style>
 </head>
 
