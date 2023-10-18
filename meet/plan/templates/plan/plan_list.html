@@ -9,7 +9,11 @@
             <div class="col text-center">
                 <a href="?">전체</a>
                 {% for category in categories %}
-                <a href="?category={{ category.id }}">{{ category.name }}</a>
+                    {% if category.id|stringformat:"s" == category_id %}
+                    <a href="?category={{ category.id }}" class="selected">{{ category.name }}</a>
+                    {% else %}
+                    <a href="?category={{ category.id }}">{{ category.name }}</a>
+                    {% endif %}
                 {% endfor %}
             </div>
             <hr class="dark horizontal my-0">
