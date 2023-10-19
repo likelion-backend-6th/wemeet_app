@@ -136,7 +136,6 @@ def password_reset_request(request):
 @login_required
 def user_edit(request):
     user = request.user
-    form = UserEditForm(instance=user)
     if request.method == "POST":
         form = UserEditForm(request.POST, instance=user)
         if form.is_valid():

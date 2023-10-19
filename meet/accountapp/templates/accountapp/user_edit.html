@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container">
     <h3>회원정보 수정</h3>
-    <form action="POST">
+    <form method="POST">
         {% csrf_token %}
         <label class="form-label" for="username">이름</label>
         <div class="input-group input-group-dynamic mb-4">

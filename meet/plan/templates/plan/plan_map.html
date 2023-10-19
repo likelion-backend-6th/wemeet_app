@@ -18,18 +18,17 @@
                         <tr>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">참여자</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">남은 거리</th>
-                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">남은 시간</th>
-                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">도착 여부</th>
-                            <th class="text-secondary opacity-7"></th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">남은 시간</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">도착 여부</th>
                         </tr>
                     </thead>
                     <tbody>
                     {% for r in result %}
                         <tr>
-                            <td>{{r.user}}</td>
-                            <td>{{r.distance|floatformat:2}}km</td>
-                            <td>{{r.time|floatformat:2}}분 </td>
-                            <td>{% if r.distance <= 0.1 %} 완료 {% endif %}</td>
+                            <td class="text-xs text-secondary mb-0">{{r.user}}</td>
+                            <td class="text-xs text-secondary mb-0">{{r.distance|floatformat:2}}km</td>
+                            <td class="text-xs text-secondary mb-0">{{r.time|floatformat:2}}분 </td>
+                            <td class="text-xs text-secondary mb-0">{% if r.distance <= 0.1 %} 도착 완료  {% else %} 오는중 {% endif %}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
