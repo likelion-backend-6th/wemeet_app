@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load humanize bootstrap4 %}
+{% load static %}
 {% block title %} plan {% endblock %}
 {% block content %}
 <div class="container">
@@ -102,6 +103,15 @@
                 <div>
                     {% for comment in plan.comment_set.all %}
                     <p class="list-group-item">
+                        {%if comment.user.profile.photo.url %}
+                        <a href="#" class="avatar avatar-sm rounded-circle">
+                            <img alt="Image placeholder" src="{{comment.user.profile.photo.url}}">
+                        </a>
+                        {% else %}
+                        <a href="#" class="avatar avatar-sm rounded-circle">
+                            <img alt="Image placeholder" src="{% static 'assets/img/random.png' %}">
+                        </a>
+                        {% endif %}
                         <strong>{{ comment.user }}</strong> {{ comment.message }}
                         <small style="color: #e91e63">{{ comment.created_at|naturaltime }}</small>
                     </p>
