@@ -98,9 +98,4 @@
     </div>
 </div>
 <hr>
-<div class="row" style="text-align: right;">
-    {% if request.user.is_authenticated %}
-        <h4><a href="{% url 'accountapp:password_reset' %}">비밀번호 재설정</a></h4>
-    {% endif %}
-</div>
 {% endblock %}
