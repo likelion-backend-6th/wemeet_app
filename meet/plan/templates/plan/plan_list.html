@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %} plan {% endblock %}
 {% block content %}
 <div class="row">
@@ -52,8 +53,20 @@
                             {% endif %}
                             {{ plan.title }}</a></h5>
                         <p class="card-text">{{ plan.memo }}</p>
-                        <p class="card-text"> <i class="fa-solid fa-users"></i> 참여 인원: {{ plan.participant_count }} 명</p>
                         <p class="card-text"> <i class="fa-regular fa-calendar-check"></i> {{ plan.time|date:"Y-m-d h A" }}</p>
+                        <p class="card-text"> <i class="fa-solid fa-users"></i> 참여 인원: {{ plan.participant_count }} 명</p>
+                        <!--프로필 이미지-->
+                        {% for group in plan.group_set.all %}
+                            {%if group.user.profile.photo.url %}
+                            <a href="#" class="avatar avatar-sm rounded-circle">
+                                <img alt="Image placeholder" src="{{group.user.profile.photo.url}}">
+                            </a>
+                            {% else %}
+                            <a href="#" class="avatar avatar-sm rounded-circle">
+                                <img alt="Image placeholder" src="{% static 'assets/img/random.png' %}">
+                            </a>
+                            {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -75,7 +88,7 @@
             <div class="input-group input-group-dynamic mb-4">
                 <!-- 검색 폼 -->
                 <form action="" method="GET">
-                    <span class="input-group-text" type="submit" id="basic-addon1">검색</span>
+                    <span class="input-group-text" type="submit" id="basic-addon1"><i class="fas fa-search" aria-hidden="true"></i></span>
                     <input type="text" class="form-control" placeholder="약속명 또는 메모" name="search-plan" value="{{ search }}" aria-describedby="basic-addon1">
                 </form>
             </div>

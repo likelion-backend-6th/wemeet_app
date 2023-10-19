@@ -54,7 +54,11 @@ urlpatterns = [
     path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
+
 prometheus_urlpatterns = [
     path("", include("django_prometheus.urls")),
 ]
 urlpatterns += prometheus_urlpatterns
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

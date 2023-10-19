@@ -1,21 +1,22 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail, BadHeaderError
 from django.db.models import Q
 from django.db.models import Count
 from django.db.models.functions import TruncMonth
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.utils import timezone
 
-from .forms import LoginForm, UserRegistrationForm, UserEditForm
-from .models import UserLocation
+from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileCreateForm
+from .models import UserLocation, Profile
 from plan.models import Plan, Group
 
 
@@ -140,8 +141,36 @@ def user_edit(request):
         form = UserEditForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
+            redirect('accountapp:my_page')
 
     else:
         form = UserEditForm(instance=user)
 
     return render(request, "accountapp/user_edit.html", {"form": form})
+
+
+@login_required
+def profile_create_or_edit(request):
+    user = request.user
+    if request.method == "POST":
+        form = ProfileCreateForm(request.POST, request.FILES)
+        if form.is_valid():
+            profile, created = Profile.objects.get_or_create(user=request.user)
+            profile.photo = form.cleaned_data['photo']
+            profile.message = form.cleaned_data['message']
+
+            profile.save()
+            redirect('accountapp:my_page')
+
+
+    else:
+        form = ProfileCreateForm(instance=user)
+
+    return render(request, "accountapp/profile_edit.html", {"form": form})
+
+@login_required
+def my_page(request):
+    user = request.user
+    profile = Profile.objects.get(user=user)
+    return render(request, "accountapp/my_page.html", {"user":user,
+                                                       'profile':profile})

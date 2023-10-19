@@ -12,3 +12,8 @@ class UserLocation(ExportModelOperationsMixin("location"), models.Model):
 
     def __str__(self):
         return f"{self.user.username}의 위치정보"
+
+class Profile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    photo = models.ImageField(blank=True,null=True, upload_to = 'uploads/%Y/%m/%d/')
+    message = models.CharField(max_length=250, blank=True, null=True)

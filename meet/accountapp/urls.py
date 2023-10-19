@@ -35,5 +35,7 @@ urlpatterns = [
     path("register/", views.register, name="register"),
     path("logged_out/", views.logged_out, name="logged_out"),
     path("update_location/", views.update_location, name="update_location"),
-    path("edit/", views.user_edit, name="user_edit"),
+    path("edit/user/", views.user_edit, name="user_edit"),
+    path("edit/profile/", views.profile_create_or_edit, name="profile_edit"),
+    path("my_page/", views.my_page, name="my_page"),
 ]
