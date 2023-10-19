@@ -132,16 +132,17 @@ def password_reset_request(request):
         context={"password_reset_form": password_reset_form},
     )
 
+
 @login_required
 def user_edit(request):
     user = request.user
     form = UserEditForm(instance=user)
-    if request.method == 'POST':
-        form = UserEditForm(request.POST, instance= user )
+    if request.method == "POST":
+        form = UserEditForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
 
     else:
         form = UserEditForm(instance=user)
 
-    return render(request, 'accountapp/user_edit.html',{"form":form})
+    return render(request, "accountapp/user_edit.html", {"form": form})

@@ -21,7 +21,8 @@ class UserRegistrationForm(forms.ModelForm):
             raise forms.ValidationError("Passwords don't match.")
         return cd["password2"]
 
+
 class UserEditForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username','email']
+        fields = ["username", "email"]
