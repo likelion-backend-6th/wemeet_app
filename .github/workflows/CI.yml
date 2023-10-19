@@ -75,12 +75,13 @@ jobs:
               tags: ${{ env.IMAGE }},"${{ env.IMAGE }}:${{ steps.version.outputs.VERSION }}"
               push: true  
 
-          # commit 메세에서 Tag 생성
+          # commit 에서 Tag 생성
           - name: Getting Version from commit Msg
             run: echo "##[set-output name=version;]$(echo '${{ github.event.head_commit.message }}' | egrep -o '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')"
             id: extract_version_name      
        
           - name: Create a Release
+            if: steps.extract_version_name.outputs.version != ''
             uses: actions/create-release@v1
             env: 
               GITHUB_TOKEN: ${{ secrets.PAT }}
