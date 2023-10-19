@@ -210,9 +210,9 @@ CELERY_BROKER_URL = f"redis://{REDIS_HOST}:6379/0"
 CELERY_RESULT_BACKEND = "django-db"
 CELERY_TIMEZONE = "Asia/Seoul"
 CELERY_BEAT_SCHEDULE = {
-    "send_reminder_email": {
-        "task": "meet.plan.tasks.send_reminder_email",
-        "schedule": crontab(hour=12),  # 매일 12시에 실행
+    "send_reminder_email_at_10am": {
+        "task": "meet.plan.tasks.send_reminder_email_auto",
+        "schedule": crontab(hour=10, minute=0),  # 오전 10시
     },
 }
 
