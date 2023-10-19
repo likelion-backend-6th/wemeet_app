@@ -77,12 +77,22 @@
             </a>
             <div class="dropdown-menu ms-n3 dropdown-menu-animation dropdown-md p-3 border-radius-lg mt-0 mt-lg-3" aria-labelledby="dropdownMenuPages5">
               <div class="d-none d-lg-block">
-                <a href="{% url 'accountapp:dashboard' %}" class="dropdown-item border-radius-md">
-                  <span>활동요약</span>
+                <a href="{% url 'accountapp:dashboard' %}">
+                  <h6  class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1">
+                  활동 요약
+                  </h6>
                 </a>
-                <a href="{% url 'accountapp:user_edit' %}" class="dropdown-item border-radius-md">
-                  <span>회원정보</span>
+                <a href="{% url 'accountapp:my_page' %}">
+                  <h6  class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1">
+                  내 정보
+                  </h6>
                 </a>
+                  <a href="{% url 'accountapp:user_edit' %}" class="dropdown-item border-radius-md">
+                    <span>계정 수정 </span>
+                  </a>
+                  <a href="{% url 'accountapp:profile_edit' %}" class="dropdown-item border-radius-md">
+                    <span>프로필 수정 </span>
+                  </a>
               </div>
             </div>
           </li>

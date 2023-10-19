@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %} 회원정보 {% endblock %}
+{% block content %}
+<div class="container">
+    <h3>프로필 수정</h3>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+         <label class="form-label" for="photo">사진</label>
+         <div class="input-group input-group-static mb-4">
+        <input type="file" class="form-control" name="photo" accept="image/*">
+    </div>
+        <label class="form-label" for="message">한마디</label>
+        <div class="input-group input-group-dynamic mb-4">
+            <input type="text" class="form-control" name="message" value="{{ form.message.value|default:''}}">
+        </div>
+        <input class="btn btn-primary" type="submit" value="수정">
+    </form>
+</div>
+{% endblock %}

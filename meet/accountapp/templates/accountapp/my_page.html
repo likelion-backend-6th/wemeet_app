@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}
+내 정보
+{% endblock %}
+
+{% block content %}
+<div class="row py-5">
+        <div class="col-lg-7 col-md-7 z-index-2 position-relative px-md-2 px-sm-5 mx-auto">
+                <a href="#" class="avatar avatar-xl rounded-circle">
+                        <img alt="Image placeholder" src="{{ profile.photo.url }}">
+                </a>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h3 class="mb-0">{{user.username}}</h3>
+                </div>
+                <p class="text-lg mb-0">
+                <strong>이메일 주소 </strong>{{ user.email }}
+                </p>
+                <p class="text-lg mb-0">
+                <strong>나의 한마디 </strong>{{profile.message}}
+                </p>
+        </div>
+</div>
+
+{% endblock %}
