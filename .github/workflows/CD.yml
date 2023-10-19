@@ -16,7 +16,7 @@ jobs:
       - name: Checkout Helm repository
         uses: actions/checkout@v3
         with:
-          repository: wemeet/meet
+          repository: likelion-backend-6th/wemeet_app
           ref: develop
           token: ${{ secrets.PAT }}
       
@@ -34,5 +34,5 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          repository: wemeet/meet
+          repository: likelion-backend-6th/wemeet_app
           branch: develop
