@@ -9,7 +9,7 @@ class UserLocationAdmin(admin.ModelAdmin):
     list_filter = ["created_at"]
     search_fields = ["user"]
 
+
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ["user","message","photo"]
-
+    list_display = ["user", "message", "photo"]

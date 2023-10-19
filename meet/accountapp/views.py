@@ -141,7 +141,7 @@ def user_edit(request):
         form = UserEditForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
-            redirect('accountapp:my_page')
+            redirect("accountapp:my_page")
 
     else:
         form = UserEditForm(instance=user)
@@ -156,21 +156,22 @@ def profile_create_or_edit(request):
         form = ProfileCreateForm(request.POST, request.FILES)
         if form.is_valid():
             profile, created = Profile.objects.get_or_create(user=request.user)
-            profile.photo = form.cleaned_data['photo']
-            profile.message = form.cleaned_data['message']
+            profile.photo = form.cleaned_data["photo"]
+            profile.message = form.cleaned_data["message"]
 
             profile.save()
-            redirect('accountapp:my_page')
-
+            redirect("accountapp:my_page")
 
     else:
         form = ProfileCreateForm(instance=user)
 
     return render(request, "accountapp/profile_edit.html", {"form": form})
 
+
 @login_required
 def my_page(request):
     user = request.user
     profile = Profile.objects.get(user=user)
-    return render(request, "accountapp/my_page.html", {"user":user,
-                                                       'profile':profile})
+    return render(
+        request, "accountapp/my_page.html", {"user": user, "profile": profile}
+    )

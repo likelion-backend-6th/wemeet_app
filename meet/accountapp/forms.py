@@ -28,6 +28,7 @@ class UserEditForm(forms.ModelForm):
         model = User
         fields = ["username", "email"]
 
+
 class ProfileCreateForm(forms.ModelForm):
     class Meta:
         model = Profile
