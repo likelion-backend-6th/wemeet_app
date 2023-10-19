@@ -212,7 +212,7 @@ CELERY_TIMEZONE = "Asia/Seoul"
 CELERY_BEAT_SCHEDULE = {
     "send_reminder_email_at_10am": {
         "task": "meet.plan.tasks.send_reminder_email_auto",
-        "schedule": crontab(hour=10, minute=0),  # 오전 10시
+        "schedule": crontab(hour=6, minute=0),  # 오전 06시
     },
 }
 
