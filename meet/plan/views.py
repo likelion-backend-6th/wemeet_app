@@ -43,17 +43,17 @@ class PlanList(LoginRequiredMixin, ListView):
 
         # 날짜 filtering
         date_filter = self.request.GET.get("date_filter")
-        if date_filter == 'today': # date = now
+        if date_filter == "today":  # date = now
             queryset = queryset.filter(time__date=now_date)
-        elif date_filter == 'this_week': # now+1 <= date <= now+7
+        elif date_filter == "this_week":  # now+1 <= date <= now+7
             start_of_week = now_date + timedelta(days=1)
             end_of_week = start_of_week + timedelta(days=6)
             queryset = queryset.filter(time__date__range=[start_of_week, end_of_week])
-        elif date_filter == 'this_month': # now+8 <= date <= now+30
+        elif date_filter == "this_month":  # now+8 <= date <= now+30
             start_of_week = now_date + timedelta(days=8)
             end_of_week = start_of_week + timedelta(days=22)
             queryset = queryset.filter(time__date__range=[start_of_week, end_of_week])
-        elif date_filter == 'other_day': # now+31 <= date
+        elif date_filter == "other_day":  # now+31 <= date
             start_of_week = now_date + timedelta(days=31)
             queryset = queryset.filter(time__date__gte=start_of_week)
 
