@@ -1,4 +1,6 @@
 import json
+from datetime import timedelta
+
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 import requests
@@ -19,9 +21,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 # 메인 화면 (약속 리스트)
 # url: /plan/
-# 노출 조건: 참여한 약속만 노출되며, 현재 시점 기준으로 다가올 약속과 지나간 약속 크게 두가지로 분류해서 노출
-# 정렬 조건: 다가올 약속은 빠른 날짜순, 지나간 약속은 늦은 날짜 순 정렬
-# 검색 조건: 카테고리 필터 제공
+# 노출 조건: 참여한 약속만 노출되며, 현재 시점 기준으로 다가올 약속 (지나간 약속은 마이페이지 내 제공)
+# 정렬 조건: 빠른 날짜순
+# 검색 조건: 카테고리 필터, 날짜 필터, 검색어
 class PlanList(LoginRequiredMixin, ListView):
     model = Plan
     context_object_name = "plans"
@@ -36,10 +38,26 @@ class PlanList(LoginRequiredMixin, ListView):
         )
         # 카테고리 filtering
         category_id = self.request.GET.get("category")
-
         if category_id:
             queryset = queryset.filter(category=category_id)
 
+        # 날짜 filtering
+        date_filter = self.request.GET.get("date_filter")
+        if date_filter == 'today': # date = now
+            queryset = queryset.filter(time__date=now_date)
+        elif date_filter == 'this_week': # now+1 <= date <= now+7
+            start_of_week = now_date + timedelta(days=1)
+            end_of_week = start_of_week + timedelta(days=6)
+            queryset = queryset.filter(time__date__range=[start_of_week, end_of_week])
+        elif date_filter == 'this_month': # now+8 <= date <= now+30
+            start_of_week = now_date + timedelta(days=8)
+            end_of_week = start_of_week + timedelta(days=22)
+            queryset = queryset.filter(time__date__range=[start_of_week, end_of_week])
+        elif date_filter == 'other_day': # now+31 <= date
+            start_of_week = now_date + timedelta(days=31)
+            queryset = queryset.filter(time__date__gte=start_of_week)
+
+        # 검색어 filter
         search_query = self.request.GET.get("search-plan", "")
         if search_query:
             queryset = queryset.filter(
@@ -50,7 +68,12 @@ class PlanList(LoginRequiredMixin, ListView):
         else:
             queryset = queryset.filter(time__gte=now_date, id__in=plan_ids)
 
+        # 플랜 별 참여자 수
         queryset = queryset.annotate(participant_count=Count("group")).order_by("time")
+
+        # 플랜 별 남은 일 수
+        for plan in queryset:
+            plan.time_difference = timezone.now().date() - plan.time.date()
 
         return queryset
 

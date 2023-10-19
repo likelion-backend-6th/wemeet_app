@@ -24,15 +24,16 @@
                 <div class="card mb-4">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col">
+                            <div class="col" >
                                 {% now "Y-m-d" as current_date %}
-                                <i class="fa-solid fa-hourglass-start"></i>
                                 {% if plan.time|date:"Y-m-d" == current_date %}
-                                    <strong style="color: #e91e63">Today</strong>
+                                    <strong class="today"><i class="fa-solid fa-hourglass-start"></i> Today</strong>
+                                {% elif plan.time_difference.days > -8 %}
+                                    <strong class="thisweek"> <i class="fa-solid fa-hourglass-start"></i> {{ plan.time_difference.days }} day</strong>
+                                {% elif plan.time_difference.days > -31 %}
+                                    <strong class="thismonth"> <i class="fa-solid fa-hourglass-start"></i> {{ plan.time_difference.days }} day</strong>
                                 {% else %}
-                                    {% with remaining_time=now_date|timesince:plan.time %}
-                                    {{ remaining_time }} 뒤
-                                    {% endwith %}
+                                    <strong class="otherday"> <i class="fa-solid fa-hourglass-start"></i> {{ plan.time_difference.days }} day</strong>
                                 {% endif %}
                             </div>
                             <div class="col col-lg-3">
@@ -78,6 +79,13 @@
                     <input type="text" class="form-control" placeholder="약속명 또는 메모" name="search-plan" value="{{ search }}" aria-describedby="basic-addon1">
                 </form>
             </div>
+        <div>
+            <a href="?"><i class="fa-solid fa-hourglass-start"></i> 전체</a><br>
+            <a href="?date_filter=today" class="today"><i class="fa-solid fa-hourglass-start"></i> Today</a><br>
+            <a href="?date_filter=this_week"class="thisweek"><i class="fa-solid fa-hourglass-start"></i> 7일 이내 </a><br>
+            <a href="?date_filter=this_month"class="thismonth"><i class="fa-solid fa-hourglass-start"></i> 30일 이내 </a><br>
+            <a href="?date_filter=other_day" class="otherday"><i class="fa-solid fa-hourglass-start"></i> 30일 이후 </a>
+        </div>
     </div>
 </div>
 {% endblock %}
