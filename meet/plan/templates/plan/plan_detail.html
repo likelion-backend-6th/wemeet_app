@@ -29,7 +29,7 @@
                     <a href="{% url 'plan_edit' plan.id  %}"><i class="fa-regular fa-pen-to-square"></i></a>
                     <a href="{% url 'plan_delete' plan.id %}"><i class="fa-regular fa-trash-can"></i></a>
                 </p>
-                    {% elif is_member %}
+                {% elif is_member %}
                 <p>참여중</p>
                 <a href="{% url 'group_delete' plan.id %}">나가기</a>
                 {% else %}
@@ -58,7 +58,7 @@
                                 <td>{{plan.address}}</td>
                             </tr>
                             <tr>
-                                <th><i class="fa-regular fa-calendar-check"></i> 시간  </th>
+                                <th><i class="fa-regular fa-calendar-check"></i> 시간 </th>
                                 <td>{{plan.time}}</td>
                             </tr>
                             <tr>
@@ -71,12 +71,13 @@
                                     style="display: flex; justify-content: space-between; align-items: center; padding-top: 10px; padding-bottom: 10px;">
                                     <span>{{plan.owner}}</span>
                                     {% if request.user == plan.owner %}
-                                    <a class='btn btn-success btn-sm' href="{% url 'plan_mail' plan.id %}">알림 메일 보내기</a>
+                                    <a class='btn btn-success btn-sm' href="{% url 'plan_mail' plan.id %}"
+                                        onclick="return confirmReminder()">알림 메일 보내기</a>
                                     {% endif %}
                                 </td>
                             </tr>
                             <tr>
-                                <th><i class="fa-solid fa-users"></i>  참여자</th>
+                                <th><i class="fa-solid fa-users"></i> 참여자</th>
                                 <td
                                     style="display: flex; justify-content: space-between; align-items: center; padding-top: 10px; padding-bottom: 10px;">
                                     <span>
@@ -143,6 +144,12 @@
 {% block include_js %}
 {{ plan.password|json_script:"plan-pw"}}
 {{ plan.id|json_script:"plan-id" }}
+<script>
+    function confirmReminder() {
+        var confirmed = confirm("이 메일은 약속 전날 오전 06시에 자동 발신됩니다. 그래도 보내시겠습니까?");
+        return confirmed;
+    }
+</script>
 {% endblock %}
 
 <script type="text/javascript">
