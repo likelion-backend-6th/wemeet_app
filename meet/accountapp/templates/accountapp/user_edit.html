@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %} 회원정보 {% endblock %}
+{% block content %}
+<div class="container">
+    <h3>회원정보 수정</h3>
+    <form action="POST">
+        {% csrf_token %}
+        <label class="form-label" for="username">이름</label>
+        <div class="input-group input-group-dynamic mb-4">
+            <input type="text" class="form-control" name="username" value="{{ form.username.value }}">
+        </div>
+        <label class="form-label" for="email">이메일 주소</label>
+        <div class="input-group input-group-dynamic mb-4">
+            <input type="text" class="form-control" name="email" value="{{ form.username.email }}">
+        </div>
+        <input class="btn btn-primary" type="submit" value="수정">
+    </form>
+</div>
+<div class="row" style="text-align: right;">
+    {% if request.user.is_authenticated %}
+        <h5><a href="{% url 'accountapp:password_reset' %}">비밀번호 재설정 ></a></h5>
+    {% endif %}
+</div>
+{% endblock %}

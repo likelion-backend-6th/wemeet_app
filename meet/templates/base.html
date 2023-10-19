@@ -57,41 +57,37 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navigation">
-        <ul class="navbar-nav navbar-nav-hover mx-auto">
-          <!--        <li class="nav-item px-3">-->
-          <!--          <a class="nav-link">-->
-          <!--            MyPages-->
-          <!--          </a>-->
-          <!--        </li>-->
-
-          <!--        <li class="nav-item px-3">-->
-          <!--          <a class="nav-link">-->
-          <!--            MyPages-->
-          <!--          </a>-->
-          <!--        </li>-->
-
-          <!--        <li class="nav-item px-3">-->
-          <!--          <a class="nav-link">-->
-          <!--            MyPages-->
-          <!--          </a>-->
-          <!--        </li>-->
-
-          <!--        <li class="nav-item px-3">-->
-          <!--          <a class="nav-link ">-->
-          <!--            MyPages-->
-          <!--          </a>-->
-          <!--        </li>-->
+        <ul class="navbar-nav navbar-nav-hover ms-auto">
+          <li class="nav-item dropdown dropdown-hover mx-2 ms-lg-5">
+            <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuPages5" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="material-icons opacity-6 me-2 text-md">MyPage</i>
+                <i class="fa-solid fa-angle-down"></i>
+            </a>
+            <div class="dropdown-menu ms-n3 dropdown-menu-animation dropdown-md p-3 border-radius-lg mt-0 mt-lg-3" aria-labelledby="dropdownMenuPages5">
+              <div class="d-none d-lg-block">
+                <a href="{% url 'accountapp:dashboard' %}" class="dropdown-item border-radius-md">
+                  <span>활동요약</span>
+                </a>
+                <a href="{% url 'accountapp:user_edit' %}" class="dropdown-item border-radius-md">
+                  <span>회원정보</span>
+                </a>
+              </div>
+            </div>
+          </li>
         </ul>
+      </div>
+      <div>
 
-        <div>
-          {% if request.user.is_authenticated %}
-          {{request.user|title}}님,
-          <a href="{% url 'accountapp:dashboard' %}">My Page</a> |
-          <a href="{% url 'accountapp:logged_out' %}">Logout</a>
-          {% else %}
-
-          <a href="{% url 'accountapp:login' %}">Login</a>
-          {% endif %}
+          <ul class="navbar-nav navbar-nav-hover ms-auto">
+            <li>
+              {% if request.user.is_authenticated %}
+              {{request.user|title}}님,
+              <a href="{% url 'accountapp:logged_out' %}">Logout</a>
+                {% else %}
+                  <a href="{% url 'accountapp:login' %}">Login</a>
+                {% endif %}
+            </li>
+          </ul>
         </div>
         <!--      <ul class="navbar-nav ms-auto">-->
         <!--        <button class="btn bg-gradient-primary mb-0">Buy Now</button>-->
