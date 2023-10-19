@@ -52,12 +52,10 @@ def send_reminder_email_auto(plan_id):  # auto
     groups = Group.objects.filter(plan__time__date=tomorrow, plan__id=plan_id)
     users = [group.user.username for group in groups]
     formatted_users = ", ".join(users)
-    date = "내일"
 
     for group in groups:
         local_time = group.plan.time.astimezone(timezone.get_default_timezone())
         formatted_time = local_time.strftime("%H:%M")
-        date = group.plan.time.strftime("%m월 %d일")
 
         subject = f"{group.plan.title} 모임 알림"
         message_html_template = (
