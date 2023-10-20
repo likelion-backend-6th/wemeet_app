@@ -288,15 +288,24 @@ def plan_map(request, pk):
             response = requests.post(url, json=payload, headers=headers)
             data = response.json()
 
-            user_info["user"] = item.user.username
-            user_info["distance"] = (
-                data["metaData"]["plan"]["itineraries"][0]["totalDistance"] / 1000
-            )
-            user_info["time"] = (
-                data["metaData"]["plan"]["itineraries"][0]["totalTime"] / 60
-            )
 
-            user_result.append(user_info)
+            if data.get('result', {}).get('status') == 11:
+                # 출발지와 도착지가 같거나 가까움
+                user_info["user"] = item.user.username
+                user_info["distance"] = 0
+                user_info["time"] = 0
+                user_result.append(user_info)
+
+            else:
+                user_info["user"] = item.user.username
+                user_info["distance"] = (
+                    data["metaData"]["plan"]["itineraries"][0]["totalDistance"] / 1000
+                )
+                user_info["time"] = (
+                    data["metaData"]["plan"]["itineraries"][0]["totalTime"] / 60
+                )
+
+                user_result.append(user_info)
 
     return render(
         request,
