@@ -128,23 +128,23 @@ def plan_create(request):
                 address=plan.address
             )
             headers = {"Authorization": "KakaoAK " + "33e22754a9930e9cb1e0ab6f691bd8d0"}
-            response = json.loads(str(requests.get(url, headers=headers).text))
-            geodata = (
-                response.json()
-                if isinstance(response, requests.models.Response)
-                else response
-            )
-            # print(geodata)
-            if geodata:
+            response = requests.get(url, headers=headers)
+            if response.status_code == 200:
+                geodata = response.json()
+            else:
+                geodata = None
+
+            if geodata and geodata["documents"]:
                 plan.latitude = geodata["documents"][0]["y"]
                 plan.longitude = geodata["documents"][0]["x"]
-            plan.latitude=0
-            plan.longitude=0
+            else:
+                plan.latitude = 0
+                plan.longitude = 0
             plan.save()
 
             # 약속 생성자 group에 추가
             group_create(request, plan.id)
-            return render("plan")
+            return redirect("plan_detail", plan.id)
 
     else:
         form = PlanForm()
