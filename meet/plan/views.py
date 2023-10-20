@@ -273,8 +273,6 @@ def plan_map(request, pk):
             user_info["time"] = 0
             user_result.append(user_info)
 
-
-
         else:
             payload = {
                 "startX": item.longitude,
