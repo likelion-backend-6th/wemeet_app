@@ -22,13 +22,11 @@ jobs:
       
       - name: Update manifest and push to repository
         run: |
-          # replace the image tag in Chart.yaml (apiVersion)
           sed -ie 's/appVersion: ".*"/appVersion: "'${{ github.event.release.tag_name }}'"/g' meet-helm-chart/Chart.yaml
-      
-          # commit user
+
           git config --local user.name 'Git Actions[bot]'
           git config --local user.email 'csy5501@gmail.com'
-          git commit -a -m "new version tag & num : ${{ github.run_number }}"
+          git commit -a -m "new version tag : ${{ github.event.release.tag_name }} & num : ${{ github.run_number }}"
       
       - name: Push changes
         uses: ad-m/github-push-action@master
