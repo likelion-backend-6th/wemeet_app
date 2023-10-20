@@ -26,7 +26,7 @@ jobs:
 
           git config --local user.name 'Git Actions[bot]'
           git config --local user.email 'csy5501@gmail.com'
-          git commit -a -m "new version tag : ${{ github.event.release.tag_name }} & num : ${{ github.run_number }} [skip ci]"
+          git commit -a -m "new version tag : ${{ github.event.release.tag_name }} & num : ${{ github.run_number }} [skip actions]"
       
       - name: Push changes
         uses: ad-m/github-push-action@master
