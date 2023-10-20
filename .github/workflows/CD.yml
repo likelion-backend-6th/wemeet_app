@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: likelion-backend-6th/wemeet_app
-          ref: version
+          ref: develop
           token: ${{ secrets.PAT }}
       
       - name: Update manifest and push to repository
@@ -26,7 +26,7 @@ jobs:
 
           git config --local user.name 'Git Actions[bot]'
           git config --local user.email 'csy5501@gmail.com'
-          git commit -a -m "UPDATE: the image with ${{ github.run_number }} tag >> ${{ github.event.release.tag_name }} []"
+          git commit -a -m "UPDATE: the image with ${{ github.run_number }} tag >> ${{ github.event.release.tag_name }} [skip ci]"
       
       - name: Push changes
         uses: ad-m/github-push-action@master

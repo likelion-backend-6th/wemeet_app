@@ -4,7 +4,7 @@ on:
     pull_request:
     push:
         branches:
-            - 'version'
+            - 'develop'
 
 env:
     IMAGE: ${{ vars.NCR_REGISTRY }}/we-meet
