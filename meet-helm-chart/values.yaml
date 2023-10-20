@@ -2,8 +2,8 @@ replicaCount: 1
 
 image:
   repository: lion-cr01.kr.ncr.ntruss.com/we-meet
-  pullPolicy: Always
-  tag: "latest"
+  pullPolicy: IfNotPresent
+  tag: ""
 
 imagePullSecrets:
   - name: regcred
