@@ -286,8 +286,7 @@ def plan_map(request, pk):
             response = requests.post(url, json=payload, headers=headers)
             data = response.json()
 
-
-            if data.get('result', {}).get('status') == 11:
+            if data.get("result", {}).get("status") == 11:
                 # 출발지와 도착지가 같거나 가까움
                 user_info["user"] = item.user.username
                 user_info["distance"] = 0
