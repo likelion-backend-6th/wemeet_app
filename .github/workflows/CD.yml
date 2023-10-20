@@ -20,17 +20,17 @@ jobs:
           ref: develop
           token: ${{ secrets.PAT }}
       
-      - name: Update manifest and push to repository
-        run: |
-          sed -ie 's/appVersion: ".*"/appVersion: "'${{ github.event.release.tag_name }}'"/g' meet-helm-chart/Chart.yaml
+      # - name: Update manifest and push to repository
+      #   run: |
+      #     sed -ie 's/appVersion: ".*"/appVersion: "'${{ github.event.release.tag_name }}'"/g' meet-helm-chart/Chart.yaml
 
-          git config --local user.name 'Git Actions[bot]'
-          git config --local user.email 'csy5501@gmail.com'
-          git commit -a -m "UPDATE: change ${{ github.run_number }} tag to ${{ github.event.release.tag_name }}"
+      #     git config --local user.name 'Git Actions[bot]'
+      #     git config --local user.email 'csy5501@gmail.com'
+      #     git commit -a -m "UPDATE: the image with ${{ github.run_number }} tag >> ${{ github.event.release.tag_name }}"
       
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          repository: likelion-backend-6th/wemeet_app
-          branch: version
+      # - name: Push changes
+      #   uses: ad-m/github-push-action@master
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     repository: likelion-backend-6th/wemeet_app
+      #     branch: version

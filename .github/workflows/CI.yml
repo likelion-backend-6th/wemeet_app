@@ -10,6 +10,7 @@ on:
 
 env:
     IMAGE: ${{ vars.NCR_REGISTRY }}/we-meet
+    IMAGE_TAG: ${{ vars.NCR_REGISTRY }}/we-meet:latest
 
 jobs:
     lint:
