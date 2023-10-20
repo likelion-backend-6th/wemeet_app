@@ -6,7 +6,7 @@ from django.contrib import messages
 import requests
 from django.core.paginator import Paginator
 from django.db.models import Max, Q, Count
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView
 from .tasks import send_reminder_email
@@ -138,12 +138,13 @@ def plan_create(request):
             if geodata:
                 plan.latitude = geodata["documents"][0]["y"]
                 plan.longitude = geodata["documents"][0]["x"]
-
+            plan.latitude=0
+            plan.longitude=0
             plan.save()
 
             # 약속 생성자 group에 추가
             group_create(request, plan.id)
-            return redirect("plan")
+            return render("plan")
 
     else:
         form = PlanForm()
@@ -271,6 +272,8 @@ def plan_map(request, pk):
             user_info["distance"] = 0
             user_info["time"] = 0
             user_result.append(user_info)
+
+
 
         else:
             payload = {
