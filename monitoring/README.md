@@ -16,8 +16,3 @@
   - ID : admin
 
     PW : admin123!@#
-
-  
-  - django dashboard 사용
-
-### 개발
