@@ -64,15 +64,6 @@ jobs:
             if: startsWith(github.ref, 'refs/tags')
             id: version   
             run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"  
-          
-          # # Git Tag 생성 시 실행
-          # - name: Build and Push Image Tagged Version   
-          #   if: startswith(github.ref, 'refs/tags')   
-          #   uses: docker/build-push-action@v4     
-          #   with:
-          #     context: meet     
-          #     tags: ${{ env.IMAGE }}:${{ steps.version.outputs.VERSION }}
-          #     push: true  
 
           # commit 에서 Tag 생성
           - name: Getting Version from commit Msg
