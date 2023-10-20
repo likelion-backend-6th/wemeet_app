@@ -16,6 +16,3 @@
   - ID : admin
 
     PW : admin123!@#
-
-
-### 개발
