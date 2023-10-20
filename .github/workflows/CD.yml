@@ -26,11 +26,11 @@ jobs:
 
           git config --local user.name 'Git Actions[bot]'
           git config --local user.email 'csy5501@gmail.com'
-          git commit -a -m "new version tag : ${{ github.event.release.tag_name }} & num : ${{ github.run_number }} [skip actions]"
+          git commit -a -m "new version tag : ${{ github.event.release.tag_name }} & num : ${{ github.run_number }}"
       
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          repository: likelion-backend-6th/wemeet_app
-          branch: develop
+      # - name: Push changes
+      #   uses: ad-m/github-push-action@master
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     repository: likelion-backend-6th/wemeet_app
+      #     branch: develop
