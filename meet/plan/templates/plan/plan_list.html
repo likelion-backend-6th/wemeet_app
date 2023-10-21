@@ -10,96 +10,118 @@
             <div class="col text-center">
                 <a href="?">전체</a>
                 {% for category in categories %}
-                    {% if category.id|stringformat:"s" == category_id %}
-                    <a href="?category={{ category.id }}" class="selected">{{ category.name }}</a>
-                    {% else %}
-                    <a href="?category={{ category.id }}">{{ category.name }}</a>
-                    {% endif %}
+                {% if category.name != '기타' %}
+                {% if category.id|stringformat:"s" == category_id %}
+                <a href="?category={{ category.id }}" class="selected">{{ category.name }}</a>
+                {% else %}
+                <a href="?category={{ category.id }}">{{ category.name }}</a>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+                <!-- 기타 category is placed last -->
+                {% for category in categories %}
+                {% if category.name == '기타' %}
+                {% if category.id|stringformat:"s" == category_id %}
+                <a href="?category={{ category.id }}" class="selected">{{ category.name }}</a>
+                {% else %}
+                <a href="?category={{ category.id }}">{{ category.name }}</a>
+                {% endif %}
+                {% endif %}
                 {% endfor %}
             </div>
             <hr class="dark horizontal my-0">
         </div>
         <div class="row mt-4">
-        {% for plan in plans %}
+            {% for plan in plans %}
             <div class="col-sm-4">
                 <div class="card mb-4">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col" >
+                            <div class="col">
                                 {% now "Y-m-d" as current_date %}
                                 {% if plan.time|date:"Y-m-d" == current_date %}
-                                    <strong class="today"><i class="fa-solid fa-hourglass-start"></i> Today</strong>
+                                <strong class="today"><i class="fa-solid fa-hourglass-start"></i> Today</strong>
                                 {% elif plan.time_difference.days > -8 %}
-                                    <strong class="thisweek"> <i class="fa-solid fa-hourglass-start"></i> {{ plan.time_difference.days }} day</strong>
+                                <strong class="thisweek"> <i class="fa-solid fa-hourglass-start"></i> {{
+                                    plan.time_difference.days }} day</strong>
                                 {% elif plan.time_difference.days > -31 %}
-                                    <strong class="thismonth"> <i class="fa-solid fa-hourglass-start"></i> {{ plan.time_difference.days }} day</strong>
+                                <strong class="thismonth"> <i class="fa-solid fa-hourglass-start"></i> {{
+                                    plan.time_difference.days }} day</strong>
                                 {% else %}
-                                    <strong class="otherday"> <i class="fa-solid fa-hourglass-start"></i> {{ plan.time_difference.days }} day</strong>
+                                <strong class="otherday"> <i class="fa-solid fa-hourglass-start"></i> {{
+                                    plan.time_difference.days }} day</strong>
                                 {% endif %}
                             </div>
                             <div class="col col-lg-3">
-                            {% if plan.owner == request.user %}
+                                {% if plan.owner == request.user %}
                                 <a href="{% url 'plan_edit' plan.id  %}"><i class="fa-regular fa-pen-to-square"></i></a>
                                 <a href="{% url 'plan_delete' plan.id %}"><i class="fa-regular fa-trash-can"></i></a>
-                            {% else %}
-                                <a href="{% url 'group_delete' plan.id%}"><i class="fa-regular fa-share-from-square"></i></a>
-                            {% endif %}
+                                {% else %}
+                                <a href="{% url 'group_delete' plan.id%}"><i
+                                        class="fa-regular fa-share-from-square"></i></a>
+                                {% endif %}
                             </div>
                         </div>
                         <hr class="dark horizontal my-0">
                         <h5 class="card-title mt-4"><a href="{% url 'plan_detail' plan.id %}">
-                            {% if plan.owner == request.user %}
-                            <i class="fa-solid fa-crown" style="color: #e91e63;"></i>
-                            {% endif %}
-                            {{ plan.title }}</a></h5>
+                                {% if plan.owner == request.user %}
+                                <i class="fa-solid fa-crown" style="color: #e91e63;"></i>
+                                {% endif %}
+                                {{ plan.title }}</a></h5>
                         <p class="card-text">{{ plan.memo }}</p>
-                        <p class="card-text"> <i class="fa-regular fa-calendar-check"></i> {{ plan.time|date:"Y-m-d h A" }}</p>
-                        <p class="card-text"> <i class="fa-solid fa-users"></i> 참여 인원: {{ plan.participant_count }} 명</p>
+                        <p class="card-text"> <i class="fa-regular fa-calendar-check"></i> {{ plan.time|date:"Y-m-d h A"
+                            }}</p>
+                        <p class="card-text"> <i class="fa-solid fa-users"></i> 참여 인원: {{ plan.participant_count }} 명
+                        </p>
                         <!--프로필 이미지-->
                         {% for group in plan.group_set.all %}
-                            {%if group.user.profile.photo.url %}
-                            <a href="#" class="avatar avatar-sm rounded-circle">
-                                <img alt="Image placeholder" src="{{group.user.profile.photo.url}}">
-                            </a>
-                            {% else %}
-                            <a href="#" class="avatar avatar-sm rounded-circle">
-                                <img alt="Image placeholder" src="{% static 'assets/img/random.png' %}">
-                            </a>
-                            {% endif %}
+                        {%if group.user.profile.photo.url %}
+                        <a href="#" class="avatar avatar-sm rounded-circle">
+                            <img alt="Image placeholder" src="{{group.user.profile.photo.url}}">
+                        </a>
+                        {% else %}
+                        <a href="#" class="avatar avatar-sm rounded-circle">
+                            <img alt="Image placeholder" src="{% static 'assets/img/random.png' %}">
+                        </a>
+                        {% endif %}
                         {% endfor %}
                     </div>
                 </div>
             </div>
-        {% endfor %}
+            {% endfor %}
 
             <div class="pagination justify-content-center">
                 {% if page_obj.has_previous %}
-                    <a href="?page={{page_obj.previous_page_number}}&search-plan={{search}}{% if category_id %}&category={{category_id}}{% endif %}">Prev</a>
+                <a
+                    href="?page={{page_obj.previous_page_number}}&search-plan={{search}}{% if category_id %}&category={{category_id}}{% endif %}">Prev</a>
                 {% endif %}
                 Page {{page_obj.number}} of {{page_obj.paginator.num_pages}}
                 {% if page_obj.has_next %}
-                    <a href="?page={{page_obj.next_page_number}}&search-plan={{search}}{% if category_id %}&category={{category_id}}{% endif %}">Next</a>
+                <a
+                    href="?page={{page_obj.next_page_number}}&search-plan={{search}}{% if category_id %}&category={{category_id}}{% endif %}">Next</a>
                 {% endif %}
             </div>
         </div>
     </div>
     <div class="col col-lg-2">
         <a class="btn btn-primary w-100" href="{% url 'plan_create' %}">약속 만들기</a>
-            <div class="input-group input-group-dynamic mb-4">
-                <!-- 검색 폼 -->
-                <form action="" method="GET">
-                    <span class="input-group-text" type="submit" id="basic-addon1"><i class="fas fa-search" aria-hidden="true"></i></span>
-                    <input type="text" class="form-control" placeholder="약속명 또는 메모" name="search-plan" value="{{ search }}" aria-describedby="basic-addon1">
-                </form>
-            </div>
+        <div class="input-group input-group-dynamic mb-4">
+            <!-- 검색 폼 -->
+            <form action="" method="GET">
+                <span class="input-group-text" type="submit" id="basic-addon1"><i class="fas fa-search"
+                        aria-hidden="true"></i></span>
+                <input type="text" class="form-control" placeholder="약속명 또는 메모" name="search-plan" value="{{ search }}"
+                    aria-describedby="basic-addon1">
+            </form>
+        </div>
         <div>
             <a href="?"><i class="fa-solid fa-hourglass-start"></i> 전체</a><br>
             <a href="?date_filter=today" class="today"><i class="fa-solid fa-hourglass-start"></i> Today</a><br>
-            <a href="?date_filter=this_week"class="thisweek"><i class="fa-solid fa-hourglass-start"></i> 7일 이내 </a><br>
-            <a href="?date_filter=this_month"class="thismonth"><i class="fa-solid fa-hourglass-start"></i> 30일 이내 </a><br>
+            <a href="?date_filter=this_week" class="thisweek"><i class="fa-solid fa-hourglass-start"></i> 7일 이내 </a><br>
+            <a href="?date_filter=this_month" class="thismonth"><i class="fa-solid fa-hourglass-start"></i> 30일 이내
+            </a><br>
             <a href="?date_filter=other_day" class="otherday"><i class="fa-solid fa-hourglass-start"></i> 30일 이후 </a>
         </div>
     </div>
 </div>
 {% endblock %}
-
