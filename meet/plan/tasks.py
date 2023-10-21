@@ -31,7 +31,7 @@ def send_reminder_email(plan_id):
                 "<br>"
                 f"참여자는 <strong>{formatted_users}</strong> 입니다."
                 "<br>"
-                f"이 메일은 {group.plan.owner} 가 직접 발송하였습니다."
+                f"이 메일은 {group.plan.owner} 님이 직접 발송하였습니다."
                 "<br>"
                 "<br>"
                 f'<a href="https://map.kakao.com/link/map/약속장소,{group.plan.latitude},{group.plan.longitude}">장소 확인하기</a>'
