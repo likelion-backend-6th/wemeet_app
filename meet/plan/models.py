@@ -27,7 +27,7 @@ class Plan(ExportModelOperationsMixin("plan"), models.Model):
     address = models.CharField(max_length=200)
     latitude = models.CharField(blank=True, null=True, max_length=50)
     longitude = models.CharField(blank=True, null=True, max_length=50)
-    memo = models.TextField()
+    memo = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     category = models.ForeignKey(
