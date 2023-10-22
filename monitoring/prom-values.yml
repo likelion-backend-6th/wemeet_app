@@ -16,7 +16,7 @@ prometheus:
     additionalScrapeConfigs:
       - job_name: "django"
         static_configs:
-          - targets: ["stag-wemeet.default.svc.cluster.local"]
+          - targets: ["app-wemeet.default.svc.cluster.local"]
 
   service:
     type: LoadBalancer

@@ -3,7 +3,7 @@
 ### Prometheus
 
   ```
-  http://monitoring-stag-kube-pro-1b83e-19983720-00bcca4e5e57.kr.lb.naverncp.com:9090
+  http://monitoring-app-kube-prom-430b3-20152808-f1941ad7e249.kr.lb.naverncp.com:9090
   ```
 
 
