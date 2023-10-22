@@ -8,11 +8,11 @@
         <div class="input-group input-group-static mb-4">
             <label for="category" class="ms-0">종류</label>
             <select class="form-control" name="category">
-            {% for choice in form.category.field.choices %}
-                <option value="{{ choice.0 }}" {% if form.category.value == choice.0 %}selected{% endif %}>
-                {{ choice.1 }}
+                {% for choice in form.category.field.choices %}
+                <option value="{{ choice.0 }}" {% if form.category.value==choice.0 %}selected{% endif %}>
+                    {{ choice.1 }}
                 </option>
-            {% endfor %}
+                {% endfor %}
             </select>
         </div>
         <div class="input-group input-group-dynamic mb-4">
@@ -22,17 +22,16 @@
         <div class="input-group input-group-dynamic input-group-append mb-4">
             <label class="form-label" for="address">주소</label>
             <input type="text" class="form-control" name="address" value="{{ form.address.value|default:'' }}">
-             <button type="button" class="btn btn-primary btn-sm"
-                        onclick="openHomeSearch()">
-                    <span class="icon text-white">
-                        <i class="fas fa-flag"></i>
-                    </span>
-                    <span class="text">주소 검색</span>
-             </button>
+            <button type="button" class="btn btn-primary btn-sm" onclick="openHomeSearch()">
+                <span class="icon text-white">
+                    <i class="fas fa-flag"></i>
+                </span>
+                <span class="text">주소 검색</span>
+            </button>
         </div>
         <div class="input-group input-group-static my-3">
-        <label for="time">날짜</label>
-        <input type="datetime-local" class="form-control" name="time" value="{{ form.time.value }}">
+            <label for="time">날짜</label>
+            <input type="datetime-local" class="form-control" name="time" value="{{ form.time.value }}">
         </div>
         <div class="input-group input-group-outline my-3">
             <label class="form-label">메모</label>
@@ -42,7 +41,7 @@
             <input class="form-check-input" type="checkbox" value="" id="password-checkbox">
             <label class="custom-control-label" for="check">비밀방 생성</label>
         </div>
-        <div class="input-group input-group-static mb-4" id="password-field"  style="display: none;">
+        <div class="input-group input-group-static mb-4" id="password-field" style="display: none;">
             <label class="form-label" for="password">비밀번호</label>
             <input type="text" class="form-control" name="password" id="password-input">
         </div>

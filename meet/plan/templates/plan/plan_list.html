@@ -42,14 +42,14 @@
                                 {% if plan.time|date:"Y-m-d" == current_date %}
                                 <strong class="today"><i class="fa-solid fa-hourglass-start"></i> Today</strong>
                                 {% elif plan.time_difference.days > -8 %}
-                                <strong class="thisweek"> <i class="fa-solid fa-hourglass-start"></i> {{
-                                    plan.time_difference.days }} day</strong>
+                                <strong class="thisweek"> <i class="fa-solid fa-hourglass-start"></i>
+                                    {{ plan.time_difference.days }} day</strong>
                                 {% elif plan.time_difference.days > -31 %}
-                                <strong class="thismonth"> <i class="fa-solid fa-hourglass-start"></i> {{
-                                    plan.time_difference.days }} day</strong>
+                                <strong class="thismonth"> <i class="fa-solid fa-hourglass-start"></i>
+                                    {{ plan.time_difference.days }} day</strong>
                                 {% else %}
-                                <strong class="otherday"> <i class="fa-solid fa-hourglass-start"></i> {{
-                                    plan.time_difference.days }} day</strong>
+                                <strong class="otherday"> <i class="fa-solid fa-hourglass-start"></i>
+                                    {{ plan.time_difference.days }} day</strong>
                                 {% endif %}
                             </div>
                             <div class="col col-lg-3">
