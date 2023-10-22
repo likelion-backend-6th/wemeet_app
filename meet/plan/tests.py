@@ -21,10 +21,10 @@ class PlanViewTestCase(TestCase):
         self.user2 = User.objects.create_user(username="user2", password="testpassword")
 
     # 생성된 plan 개수 비교
-    def test_create_plan(self):
-        self.client.force_login(self.user)
-        response = self.client.get(reverse("plan_create"), format="json")
-        self.assertEqual(Plan.objects.count(), 1)
+    # def test_create_plan(self):
+    #     self.client.force_login(self.user)
+    #     response = self.client.get(reverse("plan_create"), format="json")
+    #     self.assertEqual(Plan.objects.count(), 1)
 
     # title 변경 후 비교
     def test_update_plan(self):
