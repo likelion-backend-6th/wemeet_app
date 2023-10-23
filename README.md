@@ -1,20 +1,27 @@
 # 💻WeMeet App
-위치기반으로 약속 참여자들의 현황을 파악해서 성공적인 만남을 도와주는 프로젝트
+약속 참여자들의 위치현황을 파악해서 성공적인 만남을 도와주는 프로젝트
+
+## ✨배포주소
+http://default-app-wemeet-d8af9-20143429-9c5e3fc9d15b.kr.lb.naverncp.com/plan
 
 <br>
 
-## 🎲프로젝트 소개
+## 🎲프로젝트 소개(수정필요)
 - 프로젝트명: Wemeet
+  
 - 개발 기간: 2023.09.25 ~ 2023.10.24
+  
 - 팀원: 최하나, 안주현, 강영구, 조성열
-- 기능:
+  
+- 기능: 회원가입 후 약속방을 생성하면 유저를 초대할 수 있는 초대코드를 초대하고싶은 유저에게 전할하면 약속방 참여와 함께 참여자들의 위치와 도착지점과의 거리도 알 수 있습니다. 알 수 있습니다. 약속 하루전 알람 이메일발송이 자동으로 보내집니다. 
+
 
 <br>
 
 ## 🔍기술스택
 
 ### ✔️Frond-end
-<img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"><img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"><img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white"><img src="https://img.shields.io/badge/bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white">
+<img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"><img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"><img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"><img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white"><img src="https://img.shields.io/badge/bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white">
 
 
 ### ✔️Back-end
@@ -22,7 +29,7 @@
 
 
 ### ✔️Infra 
-<img src="https://img.shields.io/badge/Naver Cloud Platform-03C75A?style=for-the-badge&logo=Naver Cloud Platform&logoColor=white"><img src="https://img.shields.io/badge/Terraform-844FBA?style=for-the-badge&logo=Terraform&logoColor=white"><img src="https://img.shields.io/badge/Kubernetes-EF7B4D?style=for-the-badge&logo=Kubernetes&logoColor=white"><img src="https://img.shields.io/badge/ArgoCD-326CE5?style=for-the-badge&logo=ArgoCD&logoColor=white"><img src="https://img.shields.io/badge/Helm-0F1689?style=for-the-badge&logo=Helm&logoColor=white">
+<img src="https://img.shields.io/badge/Naver Cloud Platform-03C75A?style=for-the-badge&logo=Naver Cloud Platform&logoColor=white"><img src="https://img.shields.io/badge/Terraform-844FBA?style=for-the-badge&logo=Terraform&logoColor=white"><img src="https://img.shields.io/badge/Kubernetes-EF7B4D?style=for-the-badge&logo=Kubernetes&logoColor=white"><img src="https://img.shields.io/badge/ArgoCD-326CE5?style=for-the-badge&logo=Argo&logoColor=white"><img src="https://img.shields.io/badge/Helm-0F1689?style=for-the-badge&logo=Helm&logoColor=white">
 
 ### ✔️Monitoring
 <img src="https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=Grafana&logoColor=white"><img src="https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=Prometheus&logoColor=white">
