@@ -100,4 +100,4 @@
 
 ## ERD
 
-![ERD](https://github.com/Ex-ez/Django_development/assets/68387118/e8989840-b6ce-4107-94b7-208f79184899)
+![ERD](https://github.com/Ex-ez/Django_development/assets/68387118/3bb946b9-9b75-40f6-99e8-80c8433190cc)
