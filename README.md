@@ -1,13 +1,13 @@
 # WeMeet App
 
-### 작업 방법
+## 작업 방법
     
     git checkout <본인 개인 branch>
     git merge develop
 
 - `본인 branch` 에 작업을 한 후 develop로 merge 한다. 그리고 develop branch 에서 잘 작동할 경우에만 main으로 merge & request를 날린다.
 
-### 개발 환경 설졍
+## 개발 환경 설졍
 
 - Local
 
@@ -35,8 +35,9 @@
 
     Grafana
 
+<br>
 
-### 주요 설치 패키지
+## 주요 설치 패키지
 
 
 |                이름                 |    버전    |
@@ -61,6 +62,42 @@
 |          **redis**                |  4.6.0   |
 |          **Pillow**               |  10.1.0  |
 
+<br>
+
+## 주요 URL
+
+### About User
+
+|     기능     |          요청            |     URL     |
+|-------------|--------------------------|-------------|
+| **로그인**              |       POST         | /account/login |
+| **로그아웃**            |       POST         | /account/logged_out   |
+| **회원가입**            |       POST         | /account/register    |
+| **현재 위치 업데이트**   |      POST          | /account/update_location    |
+| **마이페이지**          |       GET          | /account/my_page    |
+| **내 활동 요약**        |       GET          | /account/dashboard    |
+| **계정 정보 수정**      |       POST         | /account/edit/user    |
+| **프로필 수정**         |       POST         | /account/edit/profile    |
 
 
+### About Plan
 
+|     기능     |          요청            |     URL     |
+|-------------|--------------------------|-------------|
+| **약속 리스트**           |       GET         | /plan/ |
+| **약속 생성**             |  POST     | /plan/create   |
+| **약속 조회**             |  GET      | /plan/<pk>/    |
+| **약속 수정**             |  POST     | /plan/<pk>/edit  |
+| **약속 삭제**             |   POST    | /plan/<pk>/delete |
+| **참여자 위치보기**        |   GET     | /plan/<pk>/map  |
+| **참여자에게 메일발송**     |  POST    | /plan/<pk>/mail   |
+| **약속 참여(그룹 생성)**    |  POST    | /plan/<pk>/group  |
+| **약속 나가기(그룹 삭제)**  |  POST    | /plan/<pk>/group/delete  |
+| **댓글 생성**              |  POST    | /plan/<pk>/comment/create  |
+| **비밀방 비밀번호 체크**    |  POST    | /plan/check_password/    |
+
+<br>
+
+## ERD
+
+![ERD](https://github.com/Ex-ez/Django_development/assets/68387118/e8989840-b6ce-4107-94b7-208f79184899)
