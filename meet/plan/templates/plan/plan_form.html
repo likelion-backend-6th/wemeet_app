@@ -9,7 +9,7 @@
             <label for="category" class="ms-0">종류</label>
             <select class="form-control" name="category">
                 {% for choice in form.category.field.choices %}
-                <option value="{{ choice.0 }}" {% if form.category.value==choice.0 %}selected{% endif %}>
+                <option value="{{ choice.0 }}" {% if form.category.value == choice.0 %}selected{% endif %}>
                     {{ choice.1 }}
                 </option>
                 {% endfor %}
