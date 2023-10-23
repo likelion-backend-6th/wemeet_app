@@ -59,7 +59,7 @@
 |       **django-celery-beat**      |  2.5.0   |
 |         **django-redis**          |  5.4.0   |
 |          **redis**                |  4.6.0   |
-|          **Pillow**               |  10.0.0  |
+|          **Pillow**               |  10.1.0  |
 
 
 
