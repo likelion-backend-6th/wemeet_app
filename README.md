@@ -29,7 +29,7 @@ http://default-app-wemeet-d8af9-20143429-9c5e3fc9d15b.kr.lb.naverncp.com/plan
 
 
 ### ✔️Infra 
-<img src="https://img.shields.io/badge/Naver Cloud Platform-03C75A?style=for-the-badge&logo=Naver Cloud Platform&logoColor=white"><img src="https://img.shields.io/badge/Terraform-844FBA?style=for-the-badge&logo=Terraform&logoColor=white"><img src="https://img.shields.io/badge/Kubernetes-EF7B4D?style=for-the-badge&logo=Kubernetes&logoColor=white"><img src="https://img.shields.io/badge/ArgoCD-326CE5?style=for-the-badge&logo=Argo&logoColor=white"><img src="https://img.shields.io/badge/Helm-0F1689?style=for-the-badge&logo=Helm&logoColor=white">
+<img src="https://img.shields.io/badge/Naver Cloud Platform-03C75A?style=for-the-badge&logo=Naver&logoColor=white"><img src="https://img.shields.io/badge/Terraform-844FBA?style=for-the-badge&logo=Terraform&logoColor=white"><img src="https://img.shields.io/badge/Kubernetes-EF7B4D?style=for-the-badge&logo=Kubernetes&logoColor=white"><img src="https://img.shields.io/badge/ArgoCD-326CE5?style=for-the-badge&logo=Argo&logoColor=white"><img src="https://img.shields.io/badge/Helm-0F1689?style=for-the-badge&logo=Helm&logoColor=white">
 
 ### ✔️Monitoring
 <img src="https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=Grafana&logoColor=white"><img src="https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=Prometheus&logoColor=white">
