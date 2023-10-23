@@ -1,43 +1,40 @@
-# WeMeet App
-
-## 작업 방법
-    
-    git checkout <본인 개인 branch>
-    git merge develop
-
-- `본인 branch` 에 작업을 한 후 develop로 merge 한다. 그리고 develop branch 에서 잘 작동할 경우에만 main으로 merge & request를 날린다.
-
-## 개발 환경 설졍
-
-- Local
-
-    ```
-    python manage.py runserver localhost:8000
-    ```
-    에서 기능을 구현 및 테스트 진행
-
-- Staging
-
-    Prod 환경으로 넘어가기 전 테스트를 진행
-    
-    버전과 관련된 오류 체크 및 파일 경로 체크
-
-- Prodcution
-
-    ```
-    http://default-stag-wemeet-fc448-19977705-a3810fad5f77.kr.lb.naverncp.com
-    ```
-
-    
-- Monitoring
-
-    Prometheus 
-
-    Grafana
+# 💻WeMeet App
+위치기반으로 약속 참여자들의 현황을 파악해서 성공적인 만남을 도와주는 프로젝트
 
 <br>
 
-## 주요 설치 패키지
+## 🎲프로젝트 소개
+- 프로젝트명: Wemeet
+- 개발 기간: 2023.09.25 ~ 2023.10.24
+- 팀원: 최하나, 안주현, 강영구, 조성열
+- 기능:
+
+<br>
+
+## 🔍기술스택
+
+### ✔️Frond-end
+<img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"><img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"><img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white"><img src="https://img.shields.io/badge/bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white">
+
+
+### ✔️Back-end
+<img src="https://img.shields.io/badge/django-092E20?style=for-the-badge&logo=django&logoColor=white"><img src="https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white"><img src="https://img.shields.io/badge/redis-DC382D?style=for-the-badge&logo=redis&logoColor=white"><img src="https://img.shields.io/badge/Celery-37814A?style=for-the-badge&logo=Celery&logoColor=white"><img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=PostgreSQL&logoColor=white">
+
+
+### ✔️Infra 
+<img src="https://img.shields.io/badge/Naver Cloud Platform-03C75A?style=for-the-badge&logo=Naver Cloud Platform&logoColor=white"><img src="https://img.shields.io/badge/Terraform-844FBA?style=for-the-badge&logo=Terraform&logoColor=white"><img src="https://img.shields.io/badge/Kubernetes-EF7B4D?style=for-the-badge&logo=Kubernetes&logoColor=white"><img src="https://img.shields.io/badge/ArgoCD-326CE5?style=for-the-badge&logo=ArgoCD&logoColor=white"><img src="https://img.shields.io/badge/Helm-0F1689?style=for-the-badge&logo=Helm&logoColor=white">
+
+### ✔️Monitoring
+<img src="https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=Grafana&logoColor=white"><img src="https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=Prometheus&logoColor=white">
+
+### ✔️management
+<img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"><img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"><img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=Notion&logoColor=white"><img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=Discord&logoColor=white">
+
+##⚙
+
+<br>
+
+## 🛠주요 설치 패키지
 
 
 |                이름                 |    버전    |
@@ -101,3 +98,38 @@
 ## ERD
 
 ![ERD](https://github.com/Ex-ez/Django_development/assets/68387118/3bb946b9-9b75-40f6-99e8-80c8433190cc)
+
+## 작업 방법
+    
+    git checkout <본인 개인 branch>
+    git merge develop
+
+- `본인 branch` 에 작업을 한 후 develop로 merge 한다. 그리고 develop branch 에서 잘 작동할 경우에만 main으로 merge & request를 날린다.
+
+## ⚙개발 환경 설정
+
+- Local
+
+    ```
+    python manage.py runserver localhost:8000
+    ```
+    에서 기능을 구현 및 테스트 진행
+
+- Staging
+
+    Prod 환경으로 넘어가기 전 테스트를 진행
+    
+    버전과 관련된 오류 체크 및 파일 경로 체크
+
+- Prodcution
+
+    ```
+    http://default-app-wemeet-d8af9-20143429-9c5e3fc9d15b.kr.lb.naverncp.com/plan
+    ```
+
+    
+- Monitoring
+
+    Prometheus 
+
+    Grafana
