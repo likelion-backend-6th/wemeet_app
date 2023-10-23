@@ -36,16 +36,30 @@
     Grafana
 
 
-### 버전
+### 주요 설치 패키지
 
 
-| 버전 | | 
-| :---:   | :--- | 
-| PostgreSQL | 13-alpine  |
-| Django | 4.2.5 |
-| Celery | 5.3.4 | 
-| Redis | 7.2.1 | 
-| Kubernetes | 1.25.8 | 
+|                이름                 |    버전    |
+|:---------------------------------:|:--------:|
+|            **python**             |  3.9.13  |
+|            **Django**             |  4.2.5   |
+|          **PostgreSQL**           | 13-alpine|
+|           **gunicorn**            |  21.2.0  |
+|        **psycopg2-binary**        |  2.9.7   |
+|      **djangorestframework**      |  3.14.0  |
+| **djangorestframework-simplejwt** |  5.3.0   |
+|      **drf-nested-routers**       |  0.93.4  |
+|          **drf-yasg**             |  0.26.4  |
+|      **django-bootstrap4**        |   23.2   |
+|    **social-auth-app-django**     |   5.3.0  |
+|       **django-allauthr**         |   23.2   |
+|      **django-prometheus**        |  2.3.1   |
+|          **celery**               |  5.3.4   |
+|     **django-celery-results**     |  2.5.1   |
+|       **django-celery-beat**      |  2.5.0   |
+|         **django-redis**          |  5.4.0   |
+|          **redis**                |  4.6.0   |
+|          **Pillow**               |  10.0.0  |
 
 
 
