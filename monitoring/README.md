@@ -16,3 +16,5 @@
   - ID : admin
 
     PW : admin123!@#
+
+  - Dashboard ID : 9528
