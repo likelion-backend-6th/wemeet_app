@@ -37,8 +37,6 @@ http://default-app-wemeet-d8af9-20143429-9c5e3fc9d15b.kr.lb.naverncp.com/plan
 ### ✔️management
 <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"><img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"><img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=Notion&logoColor=white"><img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=Discord&logoColor=white">
 
-##⚙
-
 <br>
 
 ## 🛠주요 설치 패키지
