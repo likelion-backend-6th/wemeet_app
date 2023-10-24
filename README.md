@@ -6,7 +6,7 @@ http://default-app-wemeet-d8af9-20143429-9c5e3fc9d15b.kr.lb.naverncp.com/plan
 
 <br>
 
-## 🎲프로젝트 소개(수정필요)
+## 🎲프로젝트 소개
 - 프로젝트명: Wemeet
   
 - 개발 기간: 2023.09.25 ~ 2023.10.24
@@ -15,6 +15,18 @@ http://default-app-wemeet-d8af9-20143429-9c5e3fc9d15b.kr.lb.naverncp.com/plan
   
 - 기능: 회원가입 후 약속방을 생성하면 유저를 초대할 수 있는 초대코드를 초대하고싶은 유저에게 전할하면 약속방 참여와 함께 참여자들의 위치와 도착지점과의 거리도 알 수 있습니다. 알 수 있습니다. 약속 하루전 알람 이메일발송이 자동으로 보내집니다. 
 
+<br>
+
+## 🧩서비스 주요화면
+
+### 🏠Main Home
+<img width="1140" alt="2023-10-20_4 50 15" src="https://github.com/Ex-ez/Django_development/assets/68387118/dd69d6cf-75ad-42a0-8e8d-bce39b333f45">
+
+### ⏰약속방
+<img width="1315" alt="2023-10-20_5 01 56" src="https://github.com/Ex-ez/Django_development/assets/68387118/9f0df7f6-2131-44be-bb89-6207a6663c9c">
+
+### 🗺참여자 위치보기
+<img width="736" alt="2023-10-20_5 19 46" src="https://github.com/Ex-ez/Django_development/assets/68387118/f7332b0f-3d17-423d-824e-e4fe925cde2a">
 
 <br>
 
@@ -31,13 +43,22 @@ http://default-app-wemeet-d8af9-20143429-9c5e3fc9d15b.kr.lb.naverncp.com/plan
 ### ✔️Infra 
 <img src="https://img.shields.io/badge/Naver Cloud Platform-03C75A?style=for-the-badge&logo=Naver&logoColor=white"><img src="https://img.shields.io/badge/Terraform-844FBA?style=for-the-badge&logo=Terraform&logoColor=white"><img src="https://img.shields.io/badge/Kubernetes-EF7B4D?style=for-the-badge&logo=Kubernetes&logoColor=white"><img src="https://img.shields.io/badge/ArgoCD-326CE5?style=for-the-badge&logo=Argo&logoColor=white"><img src="https://img.shields.io/badge/Helm-0F1689?style=for-the-badge&logo=Helm&logoColor=white">
 
-### ✔️Monitoring
-<img src="https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=Grafana&logoColor=white"><img src="https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=Prometheus&logoColor=white">
-
 ### ✔️management
 <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"><img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"><img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=Notion&logoColor=white"><img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=Discord&logoColor=white">
 
+### ✔️Monitoring
+<img src="https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=Grafana&logoColor=white"><img src="https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=Prometheus&logoColor=white">
+
+
+### 🎞ArgoCD
+<img width="956" alt="Screenshot_2023-10-24_at_11 38 21" src="https://github.com/Ex-ez/Django_development/assets/68387118/d70386ea-61f9-4fab-ab5c-2408d16096a1">
+
+### 📊Grafana 
+<img width="1567" alt="Screenshot_2023-10-24_at_11 39 42" src="https://github.com/Ex-ez/Django_development/assets/68387118/89ddc168-28d5-4523-bda1-e4b18c07fda1">
+
 <br>
+
+
 
 ## 🛠주요 설치 패키지
 
@@ -66,7 +87,9 @@ http://default-app-wemeet-d8af9-20143429-9c5e3fc9d15b.kr.lb.naverncp.com/plan
 
 <br>
 
-## 주요 URL
+
+
+## 📃주요 URL
 
 ### About User
 
@@ -100,11 +123,11 @@ http://default-app-wemeet-d8af9-20143429-9c5e3fc9d15b.kr.lb.naverncp.com/plan
 
 <br>
 
-## ERD
+## 🪁ERD
 
 ![ERD](https://github.com/Ex-ez/Django_development/assets/68387118/3bb946b9-9b75-40f6-99e8-80c8433190cc)
 
-## 작업 방법
+## 🔧작업 방법
     
     git checkout <본인 개인 branch>
     git merge develop
